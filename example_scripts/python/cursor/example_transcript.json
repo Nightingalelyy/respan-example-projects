@@ -1,0 +1,91 @@
+[
+  {
+    "description": "User submits a prompt - beforeSubmitPrompt hook fires",
+    "hook_event_name": "beforeSubmitPrompt",
+    "conversation_id": "abc123-def456",
+    "generation_id": "gen789",
+    "model": "claude-sonnet-4",
+    "cursor_version": "0.42.0",
+    "prompt": "Can you create a Python function to calculate fibonacci numbers?",
+    "attachments": []
+  },
+  {
+    "description": "Agent thinks - afterAgentThought hook fires (thinking block 1)",
+    "hook_event_name": "afterAgentThought",
+    "conversation_id": "abc123-def456",
+    "generation_id": "gen789",
+    "model": "claude-sonnet-4",
+    "cursor_version": "0.42.0",
+    "text": "I need to create a Python function for fibonacci. I'll write it to a file and then test it.",
+    "duration_ms": 450
+  },
+  {
+    "description": "Agent edits a file - afterFileEdit hook fires",
+    "hook_event_name": "afterFileEdit",
+    "conversation_id": "abc123-def456",
+    "generation_id": "gen789",
+    "model": "claude-sonnet-4",
+    "cursor_version": "0.42.0",
+    "file_path": "/Users/example/fibonacci.py",
+    "edits": [
+      {
+        "oldText": "",
+        "newText": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\nfor i in range(10):\n    print(f\"F({i}) = {fibonacci(i)}\")",
+        "startLine": 1,
+        "endLine": 1
+      }
+    ]
+  },
+  {
+    "description": "Agent thinks again - afterAgentThought hook fires (thinking block 2)",
+    "hook_event_name": "afterAgentThought",
+    "conversation_id": "abc123-def456",
+    "generation_id": "gen789",
+    "model": "claude-sonnet-4",
+    "cursor_version": "0.42.0",
+    "text": "Now I'll run the Python file to show the output.",
+    "duration_ms": 320
+  },
+  {
+    "description": "Agent runs shell command - afterShellExecution hook fires",
+    "hook_event_name": "afterShellExecution",
+    "conversation_id": "abc123-def456",
+    "generation_id": "gen789",
+    "model": "claude-sonnet-4",
+    "cursor_version": "0.42.0",
+    "command": "python fibonacci.py",
+    "output": "F(0) = 0\nF(1) = 1\nF(2) = 1\nF(3) = 2\nF(4) = 3\nF(5) = 5\nF(6) = 8\nF(7) = 13\nF(8) = 21\nF(9) = 34",
+    "duration": 156
+  },
+  {
+    "description": "Agent uses MCP tool (example) - afterMCPExecution hook fires",
+    "hook_event_name": "afterMCPExecution",
+    "conversation_id": "abc123-def456",
+    "generation_id": "gen789",
+    "model": "claude-sonnet-4",
+    "cursor_version": "0.42.0",
+    "tool_name": "search_codebase",
+    "tool_input": "{\"query\": \"fibonacci implementations\"}",
+    "result_json": "{\"results\": [\"fibonacci.py\"]}",
+    "duration": 234
+  },
+  {
+    "description": "Agent finishes responding - afterAgentResponse hook fires (sends root span)",
+    "hook_event_name": "afterAgentResponse",
+    "conversation_id": "abc123-def456",
+    "generation_id": "gen789",
+    "model": "claude-sonnet-4",
+    "cursor_version": "0.42.0",
+    "text": "I've created a fibonacci function in fibonacci.py and tested it. The output shows the first 10 fibonacci numbers correctly."
+  },
+  {
+    "description": "Agent stops - stop hook fires (cleanup)",
+    "hook_event_name": "stop",
+    "conversation_id": "abc123-def456",
+    "generation_id": "gen789",
+    "model": "claude-sonnet-4",
+    "cursor_version": "0.42.0",
+    "status": "completed",
+    "loop_count": 1
+  }
+]
