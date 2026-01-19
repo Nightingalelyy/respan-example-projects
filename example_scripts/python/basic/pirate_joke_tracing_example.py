@@ -31,7 +31,7 @@ def store_joke(joke: str):
 def create_joke():
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": "Tell me a joke about opentelemetry"}],
+        messages=[{"role": "system", "content": "You are a joke generator. You are given a topic and you need to generate a joke about it."}, {"role": "user", "content": "Tell me a joke about opentelemetry"}],
         temperature=0.5,
         max_tokens=100,
         frequency_penalty=0.5,
