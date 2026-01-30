@@ -6,6 +6,7 @@ example_scripts/.env
 
 # Node.js dependencies
 node_modules/
+typescript/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
