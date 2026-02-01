@@ -18,7 +18,48 @@ interface TraceLog {
   span_parent_id?: string | null;
   start_time?: string;
   timestamp?: string;
+  log_type?: string;
+  span_name?: string;
+  span_path?: string;
   [key: string]: unknown;
+}
+
+/**
+ * Infer KeywordsAI `log_type` for a span log.
+ *
+ * The ingest API/UI may default missing/unknown types to "chat", which makes this
+ * example misleading. We infer a reasonable type from common fields so the
+ * example produces a mix of span types (chat / generation / task / tool).
+ */
+export function inferLogType(log: TraceLog): string {
+  const spanName = String(log.span_name ?? "");
+  const spanPath = String(log.span_path ?? "");
+
+  // Heuristic: treat "store_*" steps as tools (e.g. saving to a DB/vector store).
+  if (
+    spanName.endsWith(".task") &&
+    (spanName.includes("store") || spanPath.includes(".store"))
+  ) {
+    return "tool";
+  }
+
+  // Workflow / task spans
+  if (spanName.endsWith(".task") || spanName.endsWith(".workflow")) {
+    return "task";
+  }
+
+  // Provider chat spans
+  if (spanName.includes(".chat")) {
+    return "chat";
+  }
+
+  // Non-chat model calls (embeddings, etc.)
+  if (spanName.includes("openai.") || spanName.includes(".embeddings")) {
+    return "generation";
+  }
+
+  // Fallback
+  return "generation";
 }
 
 /**
@@ -174,6 +215,12 @@ export function generateTraceData(
   for (const log of logList) {
     // Create a shallow copy to avoid modifying the original
     const processedLog: TraceLog = { ...log };
+
+    // Ensure log_type exists so the UI renders correct span types.
+    // (If the sample log already includes log_type, keep it as-is.)
+    if (!processedLog.log_type) {
+      processedLog.log_type = inferLogType(processedLog);
+    }
 
     // Update trace_unique_id (same for all spans in this trace)
     if (processedLog.trace_unique_id !== undefined) {

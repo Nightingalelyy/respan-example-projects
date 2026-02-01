@@ -40,6 +40,14 @@ const traceLogsData = JSON.parse(readFileSync(traceLogsPath, "utf-8"));
 // Process the logs with current timestamp
 const processedLogs = generateTraceData(traceLogsData, new Date());
 
+// Quick sanity check: show the distribution of span types this payload will render as.
+const logTypeCounts = processedLogs.reduce<Record<string, number>>((acc, log) => {
+  const key = String((log as any).log_type ?? "missing");
+  acc[key] = (acc[key] ?? 0) + 1;
+  return acc;
+}, {});
+console.log("log_type counts:", logTypeCounts);
+
 // Send to KeywordsAI traces endpoint
 const baseUrl = process.env.KEYWORDSAI_BASE_URL;
 const apiKey = process.env.KEYWORDSAI_API_KEY;
@@ -51,15 +59,20 @@ if (!baseUrl || !apiKey) {
   process.exit(1);
 }
 
-const response = await fetch(`${baseUrl}/v1/traces/ingest`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${apiKey}`,
-  },
-  body: JSON.stringify(processedLogs),
-});
+try {
+  const response = await fetch(`${baseUrl}/v1/traces/ingest`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify(processedLogs),
+  });
 
-console.log(
-  `Status: ${response.status}, Trace ID: ${processedLogs[0]?.trace_unique_id}`
-);
+  console.log(
+    `Status: ${response.status}, Trace ID: ${processedLogs[0]?.trace_unique_id}`
+  );
+} catch (error) {
+  console.error("Failed to send logs to KeywordsAI:", error);
+  process.exit(1);
+}
