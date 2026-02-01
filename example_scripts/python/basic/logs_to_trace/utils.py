@@ -15,6 +15,37 @@ from datetime import datetime, timezone
 from typing import List, Dict, Any
 
 
+def infer_log_type(log: Dict[str, Any]) -> str:
+    """
+    Infer KeywordsAI `log_type` for a span log.
+
+    The ingest API defaults missing/unknown types to "chat" in the UI, which makes
+    this example misleading. We infer a reasonable type from common fields so the
+    example produces a mix of span types (chat / generation / task / tool).
+    """
+    span_name = str(log.get("span_name") or "")
+    span_path = str(log.get("span_path") or "")
+
+    # Heuristic: treat "store_*" steps as tools (e.g. saving to a DB/vector store).
+    if span_name.endswith(".task") and ("store" in span_name or ".store" in span_path):
+        return "tool"
+
+    # Workflow / task spans
+    if span_name.endswith(".task") or span_name.endswith(".workflow"):
+        return "task"
+
+    # Provider spans
+    if ".chat" in span_name:
+        return "chat"
+
+    # Non-chat model calls (embeddings, etc.)
+    if "openai." in span_name or ".embeddings" in span_name:
+        return "generation"
+
+    # Fallback
+    return "generation"
+
+
 def deterministic_string_mapper(original_string: str, seed: str) -> str:
     """
     Create a deterministic mapping that preserves the original string length.
@@ -168,6 +199,11 @@ def generate_trace_data(
     for log in log_list:
         # Create a shallow copy to avoid modifying the original
         processed_log = log.copy()
+
+        # Ensure log_type exists so the UI renders correct span types.
+        # (If the sample log already includes log_type, keep it as-is.)
+        if not processed_log.get("log_type"):
+            processed_log["log_type"] = infer_log_type(processed_log)
 
         # Update trace_unique_id (same for all spans in this trace)
         if "trace_unique_id" in processed_log:

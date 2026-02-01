@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from dotenv import load_dotenv
 from utils import generate_trace_data
 from pathlib import Path
+from collections import Counter
 
 load_dotenv(override=True)
 parent_dir = Path(__file__).parent.resolve()
@@ -35,6 +36,11 @@ file_name = parent_dir / "trace_logs.json"
 processed_logs = generate_trace_data(
     json.load(open(file_name)), datetime.now(timezone.utc)
 )
+
+# Quick sanity check: show the distribution of span types this payload will render as.
+log_type_counts = Counter([log.get("log_type", "missing") for log in processed_logs])
+print(f"log_type counts: {dict(log_type_counts)}")
+
 response = requests.post(
     f"{os.getenv('KEYWORDSAI_BASE_URL')}/v1/traces/ingest",
     json=processed_logs,
