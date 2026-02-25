@@ -21,12 +21,9 @@ import asyncio
 import os
 
 import pytest
-from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, SystemMessage, query
+from claude_agent_sdk import ClaudeAgentOptions, ResultMessage
 
 from respan_exporter_anthropic_agents import RespanAnthropicAgentsExporter
-from respan_exporter_anthropic_agents.utils import (
-    extract_session_id_from_system_message,
-)
 
 API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("KEYWORDSAI_API_KEY")
 BASE_URL = os.getenv("RESPAN_BASE_URL") or os.getenv("KEYWORDSAI_BASE_URL")
@@ -42,32 +39,21 @@ exporter = RespanAnthropicAgentsExporter(
 async def test_hello_world():
     """Ask Claude a simple question and export the trace."""
 
-    # Attach exporter hooks to SDK options
-    options = exporter.with_options(
-        options=ClaudeAgentOptions(
-            permission_mode="bypassPermissions",
-            max_turns=1,
-        )
+    options = ClaudeAgentOptions(
+        permission_mode="bypassPermissions",
+        max_turns=1,
     )
 
-    session_id = None
     result_message = None
 
-    async for message in query(prompt="What is 2 + 2? Reply in one word.", options=options):
-        # Track session ID
-        if isinstance(message, SystemMessage):
-            session_id = extract_session_id_from_system_message(
-                system_message=message
-            )
+    # exporter.query() wraps the SDK query — handles hooks, prompt
+    # tracking, and message export automatically.
+    async for message in exporter.query(prompt="What is 2 + 2? Reply in one word.", options=options):
         if isinstance(message, ResultMessage):
-            session_id = message.session_id
             result_message = message
 
-        # Export each message to Respan
-        await exporter.track_message(message=message, session_id=session_id)
-
     print(f"\nResult: {result_message.subtype if result_message else 'none'}")
-    print(f"Session: {session_id}")
+    print(f"Session: {exporter._last_session_id}")
     print(f"\nView trace at: https://platform.keywordsai.co/traces")
 
 

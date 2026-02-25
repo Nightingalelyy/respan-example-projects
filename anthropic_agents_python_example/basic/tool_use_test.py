@@ -22,12 +22,9 @@ import asyncio
 import os
 
 import pytest
-from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, SystemMessage, query
+from claude_agent_sdk import ClaudeAgentOptions, ResultMessage
 
 from respan_exporter_anthropic_agents import RespanAnthropicAgentsExporter
-from respan_exporter_anthropic_agents.utils import (
-    extract_session_id_from_system_message,
-)
 
 API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("KEYWORDSAI_API_KEY")
 BASE_URL = os.getenv("RESPAN_BASE_URL") or os.getenv("KEYWORDSAI_BASE_URL")
@@ -42,36 +39,27 @@ exporter = RespanAnthropicAgentsExporter(
 async def test_tool_use():
     """Run a query that uses tools and verify tool spans are exported."""
 
-    options = exporter.with_options(
-        options=ClaudeAgentOptions(
-            permission_mode="bypassPermissions",
-            max_turns=3,
-            allowed_tools=["Read", "Glob", "Grep"],
-        )
+    options = ClaudeAgentOptions(
+        permission_mode="bypassPermissions",
+        max_turns=3,
+        allowed_tools=["Read", "Glob", "Grep"],
     )
 
-    session_id = None
     result = None
 
-    async for message in query(
+    async for message in exporter.query(
         prompt="List the Python files in the current directory. Just show filenames.",
         options=options,
     ):
-        if isinstance(message, SystemMessage):
-            session_id = extract_session_id_from_system_message(
-                system_message=message
-            )
+        msg_type = type(message).__name__
+        print(f"  {msg_type}")
         if isinstance(message, ResultMessage):
-            session_id = message.session_id
             result = message
-
-        await exporter.track_message(message=message, session_id=session_id)
-        print(f"  {type(message).__name__}")
 
     if result:
         print(f"\nResult: subtype={result.subtype}, turns={result.num_turns}")
 
-    print(f"\nSession: {session_id}")
+    print(f"\nSession: {exporter._last_session_id}")
     print("Check Respan traces to see tool spans (Read, Glob, etc.)")
 
 

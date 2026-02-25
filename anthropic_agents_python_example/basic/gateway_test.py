@@ -26,12 +26,9 @@ import os
 import sys
 
 import pytest
-from claude_agent_sdk import ClaudeAgentOptions, ResultMessage, SystemMessage, query
+from claude_agent_sdk import ClaudeAgentOptions, ResultMessage
 
 from respan_exporter_anthropic_agents import RespanAnthropicAgentsExporter
-from respan_exporter_anthropic_agents.utils import (
-    extract_session_id_from_system_message,
-)
 
 API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("KEYWORDSAI_API_KEY")
 BASE_URL = (
@@ -58,42 +55,33 @@ async def test_gateway_query():
     print(f"API key: {API_KEY[:8]}...\n")
 
     # Route Claude SDK through the Respan gateway — same key for auth + tracing
-    options = exporter.with_options(
-        options=ClaudeAgentOptions(
-            permission_mode="bypassPermissions",
-            max_turns=1,
-            env={
-                "ANTHROPIC_BASE_URL": BASE_URL,
-                "ANTHROPIC_AUTH_TOKEN": API_KEY,
-                "ANTHROPIC_API_KEY": API_KEY,
-            },
-        )
+    options = ClaudeAgentOptions(
+        permission_mode="bypassPermissions",
+        max_turns=1,
+        env={
+            "ANTHROPIC_BASE_URL": BASE_URL,
+            "ANTHROPIC_AUTH_TOKEN": API_KEY,
+            "ANTHROPIC_API_KEY": API_KEY,
+        },
     )
 
-    session_id = None
     result = None
 
-    async for message in query(
+    async for message in exporter.query(
         prompt="Reply with exactly: gateway_ok",
         options=options,
     ):
-        if isinstance(message, SystemMessage):
-            session_id = extract_session_id_from_system_message(
-                system_message=message
-            )
+        msg_type = type(message).__name__
+        print(f"  {msg_type}")
         if isinstance(message, ResultMessage):
-            session_id = message.session_id
             result = message
-
-        await exporter.track_message(message=message, session_id=session_id)
-        print(f"  {type(message).__name__}")
 
     if result:
         print(f"\nResult: subtype={result.subtype}, turns={result.num_turns}")
         if result.usage:
             print(f"Usage: {result.usage}")
 
-    print(f"\nSession: {session_id}")
+    print(f"\nSession: {exporter._last_session_id}")
     print(f"View trace at: https://platform.keywordsai.co/traces")
 
 
