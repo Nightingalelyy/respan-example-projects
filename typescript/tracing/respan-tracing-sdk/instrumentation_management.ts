@@ -1,4 +1,4 @@
-import { KeywordsAITelemetry } from '@keywordsai/tracing';
+import { RespanTelemetry } from '@respan/tracing';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -9,10 +9,10 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 async function runInstrumentationDemo() {
-    console.log("=== KeywordsAI Instrumentation Management Demo ===\n");
+    console.log("=== Respan Instrumentation Management Demo ===\n");
 
-    const autoDiscoveryClient = new KeywordsAITelemetry({
-        apiKey: process.env.KEYWORDSAI_API_KEY || "demo-key",
+    const autoDiscoveryClient = new RespanTelemetry({
+        apiKey: process.env.RESPAN_API_KEY || "demo-key",
         appName: "auto-discovery-demo",
         disabledInstrumentations: ['bedrock', 'chromaDB'], 
         logLevel: 'info'
@@ -22,8 +22,8 @@ async function runInstrumentationDemo() {
     console.log("Auto-discovery client initialized\n");
     await autoDiscoveryClient.shutdown();
 
-    const explicitClient = new KeywordsAITelemetry({
-        apiKey: process.env.KEYWORDSAI_API_KEY || "demo-key",
+    const explicitClient = new RespanTelemetry({
+        apiKey: process.env.RESPAN_API_KEY || "demo-key",
         appName: "explicit-modules-demo",
         instrumentModules: {},
         logLevel: 'info'
@@ -39,8 +39,8 @@ async function runInstrumentationDemo() {
         }
     }
 
-    const customClient = new KeywordsAITelemetry({
-        apiKey: process.env.KEYWORDSAI_API_KEY || "demo-key",
+    const customClient = new RespanTelemetry({
+        apiKey: process.env.RESPAN_API_KEY || "demo-key",
         appName: "custom-module-demo",
         instrumentModules: {
             myCustomTool: new MyCustomInstrumentation(),

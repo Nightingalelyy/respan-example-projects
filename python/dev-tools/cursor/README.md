@@ -1,4 +1,4 @@
-# Keywords AI Cursor Integration
+# Respan Cursor Integration
 
 Real-time tracing of Cursor AI agent conversations using [Cursor Hooks](https://cursor.com/docs/agent/hooks).
 
@@ -24,7 +24,7 @@ Cursor hooks provide **structured JSON via stdin** for each event. We send spans
        │          │           │            │            │
        └──────────┴───────────┴────────────┴────────────┘
                             ↓
-                   Keywords AI Groups by
+                   Respan Groups by
                    trace_unique_id on server
 ```
 
@@ -42,7 +42,7 @@ Cursor hooks provide **structured JSON via stdin** for each event. We send spans
 
 **Common fields** (all hooks): `conversation_id`, `generation_id`, `model`, `cursor_version`
 
-**Real-time Architecture**: Each hook sends its span immediately. Keywords AI groups spans with the same `trace_unique_id` on the server side into a hierarchical trace.
+**Real-time Architecture**: Each hook sends its span immediately. Respan groups spans with the same `trace_unique_id` on the server side into a hierarchical trace.
 
 ## Installation
 
@@ -50,22 +50,22 @@ Cursor hooks provide **structured JSON via stdin** for each event. We send spans
 
 **Bash/Zsh:**
 ```bash
-export KEYWORDSAI_API_KEY="your-api-key"
-export TRACE_TO_KEYWORDSAI="true"
-export CURSOR_KEYWORDSAI_DEBUG="true"  # Optional
+export RESPAN_API_KEY="your-api-key"
+export TRACE_TO_RESPAN="true"
+export CURSOR_RESPAN_DEBUG="true"  # Optional
 ```
 
 **PowerShell:**
 ```powershell
-$env:KEYWORDSAI_API_KEY = "your-api-key"
-$env:TRACE_TO_KEYWORDSAI = "true"
+$env:RESPAN_API_KEY = "your-api-key"
+$env:TRACE_TO_RESPAN = "true"
 ```
 
 ### 2. Install Hook Script
 
 ```bash
 mkdir -p ~/.cursor/hooks
-cp keywordsai_hook.py ~/.cursor/hooks/
+cp respan_hook.py ~/.cursor/hooks/
 ```
 
 ### 3. Configure Cursor Hooks
@@ -77,25 +77,25 @@ Copy `hooks.json.example` to `~/.cursor/hooks.json`:
   "version": 1,
   "hooks": {
     "beforeSubmitPrompt": [
-      { "command": "python ~/.cursor/hooks/keywordsai_hook.py" }
+      { "command": "python ~/.cursor/hooks/respan_hook.py" }
     ],
     "afterAgentThought": [
-      { "command": "python ~/.cursor/hooks/keywordsai_hook.py" }
+      { "command": "python ~/.cursor/hooks/respan_hook.py" }
     ],
     "afterAgentResponse": [
-      { "command": "python ~/.cursor/hooks/keywordsai_hook.py" }
+      { "command": "python ~/.cursor/hooks/respan_hook.py" }
     ],
     "afterShellExecution": [
-      { "command": "python ~/.cursor/hooks/keywordsai_hook.py" }
+      { "command": "python ~/.cursor/hooks/respan_hook.py" }
     ],
     "afterFileEdit": [
-      { "command": "python ~/.cursor/hooks/keywordsai_hook.py" }
+      { "command": "python ~/.cursor/hooks/respan_hook.py" }
     ],
     "afterMCPExecution": [
-      { "command": "python ~/.cursor/hooks/keywordsai_hook.py" }
+      { "command": "python ~/.cursor/hooks/respan_hook.py" }
     ],
     "stop": [
-      { "command": "python ~/.cursor/hooks/keywordsai_hook.py" }
+      { "command": "python ~/.cursor/hooks/respan_hook.py" }
     ]
   }
 }
@@ -132,32 +132,32 @@ Agent Response (root)
 4. **Cleanup**: State cleared after root span is sent
 5. **Fallback**: `stop` hook cleans up any remaining state
 
-**Key Point**: Spans are sent immediately as they occur, not batched. The Keywords AI server groups them by `trace_unique_id`.
+**Key Point**: Spans are sent immediately as they occur, not batched. The Respan server groups them by `trace_unique_id`.
 
 ## Debugging
 
 ```bash
 # Watch logs
-tail -f ~/.cursor/state/keywordsai_hook.log
+tail -f ~/.cursor/state/respan_hook.log
 
 # Check state
-cat ~/.cursor/state/keywordsai_state.json
+cat ~/.cursor/state/respan_state.json
 
 # Clear state (reprocess)
-rm ~/.cursor/state/keywordsai_state.json
+rm ~/.cursor/state/respan_state.json
 ```
 
 **PowerShell:**
 ```powershell
-Get-Content "$env:USERPROFILE\.cursor\state\keywordsai_hook.log" -Tail 50 -Wait
+Get-Content "$env:USERPROFILE\.cursor\state\respan_hook.log" -Tail 50 -Wait
 ```
 
 ## Common Issues
 
 | Issue | Solution |
 |-------|----------|
-| No logs | Check `TRACE_TO_KEYWORDSAI=true` is set and environment variables are loaded |
-| API errors (403) | Verify `KEYWORDSAI_API_KEY` is valid and not expired |
+| No logs | Check `TRACE_TO_RESPAN=true` is set and environment variables are loaded |
+| API errors (403) | Verify `RESPAN_API_KEY` is valid and not expired |
 | Only root span | Ensure **all 7 hooks** are configured in `hooks.json` |
 | Missing user input in root span | Verify `beforeSubmitPrompt` hook is configured and running |
 | Missing thinking | Ensure `afterAgentThought` hook is active |
@@ -169,20 +169,20 @@ Get-Content "$env:USERPROFILE\.cursor\state\keywordsai_hook.log" -Tail 50 -Wait
 See `example_transcript.json` for what **Cursor sends to the hook** via stdin for each event.
 
 ### Trace Output Example
-See `example_trace_output.json` for how the **final trace appears in Keywords AI** after all spans are grouped.
+See `example_trace_output.json` for how the **final trace appears in Respan** after all spans are grouped.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `keywordsai_hook.py` | Main hook script that processes events |
+| `respan_hook.py` | Main hook script that processes events |
 | `hooks.json.example` | Cursor hooks configuration template |
 | `example_transcript.json` | Example of hook input data (what Cursor sends) |
-| `example_trace_output.json` | Example of final trace structure (what appears in Keywords AI) |
+| `example_trace_output.json` | Example of final trace structure (what appears in Respan) |
 | `requirements.txt` | Python dependencies (requests) |
 | `README.md` | Documentation |
 
 ## References
 
 - [Cursor Hooks Documentation](https://cursor.com/docs/agent/hooks)
-- [Keywords AI Traces Ingest](https://docs.keywordsai.co/api-endpoints/observe/traces/traces-ingest-from-logs)
+- [Respan Traces Ingest](https://docs.respan.ai/api-endpoints/observe/traces/traces-ingest-from-logs)

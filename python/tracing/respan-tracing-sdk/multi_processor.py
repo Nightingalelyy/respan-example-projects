@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Multi-Processor - KeywordsAI Tracing SDK
+Multi-Processor - Respan Tracing SDK
 Demonstrates: routing spans to multiple destinations with add_processor()
 """
 import os
@@ -16,9 +16,9 @@ load_dotenv(env_path, override=True)
 
 from opentelemetry.sdk.trace import ReadableSpan
 from opentelemetry.sdk.trace.export import SpanExporter, SpanExportResult
-from keywordsai_tracing import KeywordsAITelemetry, get_client
-from keywordsai_tracing.decorators import workflow, task
-from keywordsai_tracing.instruments import Instruments
+from respan_tracing import RespanTelemetry, get_client
+from respan_tracing.decorators import workflow, task
+from respan_tracing.instruments import Instruments
 
 
 class FileExporter(SpanExporter):
@@ -43,9 +43,9 @@ class FileExporter(SpanExporter):
         return True
 
 
-keywords_ai = KeywordsAITelemetry(
+keywords_ai = RespanTelemetry(
     app_name="multi-processor",
-    api_key=os.getenv("KEYWORDSAI_API_KEY"),
+    api_key=os.getenv("RESPAN_API_KEY"),
     is_batching_enabled=False,
     block_instruments={Instruments.REQUESTS, Instruments.URLLIB3},
 )
@@ -57,7 +57,7 @@ keywords_ai.add_processor(exporter=FileExporter("./output/analytics-spans.jsonl"
 
 @task(name="normal_task")
 async def normal_task():
-    """Goes to default KeywordsAI processor."""
+    """Goes to default Respan processor."""
     await asyncio.sleep(0.05)
     return "normal"
 
@@ -101,7 +101,7 @@ async def main():
     print("=" * 50)
     print("Multi-Processor Demo")
     print("=" * 50)
-    print("Routing: default=KeywordsAI, debug=file, analytics=file\n")
+    print("Routing: default=Respan, debug=file, analytics=file\n")
 
     try:
         results = await run_demo()

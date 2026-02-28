@@ -1,12 +1,12 @@
 import requests
 import json
-from .constants import KEYWORDSAI_BASE_URL, KEYWORDSAI_BASE_HEADERS
+from .constants import RESPAN_BASE_URL, RESPAN_BASE_HEADERS
 
 
 def test_evaluator(evaluator_slug: str, input_data: dict, output_data: dict):
     """Test an evaluator with sample data"""
-    url = KEYWORDSAI_BASE_URL + f"/evaluators/{evaluator_slug}/run"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/evaluators/{evaluator_slug}/run"
+    headers = RESPAN_BASE_HEADERS
     
     payload = {
         "input": input_data,

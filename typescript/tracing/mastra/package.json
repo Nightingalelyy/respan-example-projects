@@ -12,8 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",
-    "@keywordsai/exporter-vercel": "^1.0.23",
-    "@keywordsai/keywordsai-sdk": "^0.0.8",
+    "@respan/exporter-vercel": "^1.0.23",
+    "@respan/respan-sdk": "^0.0.8",
     "@mastra/core": "latest",
     "dotenv": "^16.5.0",
     "zod": "^3.25.56"

@@ -175,7 +175,7 @@ export default function ChatPage() {
             onChange={(e) => setStreamingEnabled(e.target.checked)}
             disabled={isLoading}
           />
-          <span>Enable Streaming (Test KeywordsAI workflow streaming)</span>
+          <span>Enable Streaming (Test Respan workflow streaming)</span>
         </label>
       </div>
       

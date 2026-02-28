@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { KeywordsAITelemetry } from "@keywordsai/tracing";
+import { RespanTelemetry } from "@respan/tracing";
 import dotenv from "dotenv";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -9,8 +9,8 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-const keywordsai = new KeywordsAITelemetry({
-  apiKey: process.env.KEYWORDSAI_API_KEY || "test-api-key",
+const respan = new RespanTelemetry({
+  apiKey: process.env.RESPAN_API_KEY || "test-api-key",
   appName: "openai-integration-test",
   instrumentModules: {
     openAI: OpenAI,
@@ -23,13 +23,13 @@ const openai = new OpenAI({
 });
 
 async function runOpenAIIntegrationTest() {
-  console.log("Starting OpenAI Integration Test with KeywordsAI\n");
+  console.log("Starting OpenAI Integration Test with Respan\n");
 
   try {
-    await keywordsai.initialize();
-    console.log("KeywordsAI initialized successfully\n");
+    await respan.initialize();
+    console.log("Respan initialized successfully\n");
 
-    await keywordsai.withWorkflow(
+    await respan.withWorkflow(
       { name: "openai_chat_completion" },
       async () => {
         console.log("Sending request to OpenAI...");
@@ -56,12 +56,12 @@ async function runOpenAIIntegrationTest() {
     );
 
     console.log("\nCleaning up...");
-    await keywordsai.shutdown();
+    await respan.shutdown();
     console.log("Done!");
 
   } catch (error) {
     console.error("Error:", error);
-    await keywordsai.shutdown();
+    await respan.shutdown();
   }
 }
 

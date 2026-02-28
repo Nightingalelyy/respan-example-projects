@@ -8,12 +8,12 @@ from fastapi.responses import StreamingResponse
 from openai import OpenAI
 from .utils.prompt import ClientMessage, convert_to_openai_messages
 from .utils.tools import get_current_weather
-from keywordsai_tracing import KeywordsAITelemetry, workflow, get_client
+from respan_tracing import RespanTelemetry, workflow, get_client
 
 load_dotenv(".env.local")
 
-# Initialize KeywordsAITelemetry at the root of the project
-telemetry = KeywordsAITelemetry()
+# Initialize RespanTelemetry at the root of the project
+telemetry = RespanTelemetry()
 
 app = FastAPI()
 
@@ -33,11 +33,11 @@ available_tools = {
 
 @workflow(name="stream_text")
 async def stream_text(messages: List[ClientMessage], protocol: str = "data"):
-    keywordsai_client = get_client()
-    keywordsai_client.update_current_span(
-        keywordsai_params={
+    respan_client = get_client()
+    respan_client.update_current_span(
+        respan_params={
             "metadata": {
-                "project": "keywordsai-fastapi-example"
+                "project": "respan-fastapi-example"
             }
         }
     )

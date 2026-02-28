@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Keywords AI Hook for Claude Code
+Respan Hook for Claude Code
 
-Sends Claude Code conversation traces to Keywords AI after each response.
-Uses Claude Code's Stop hook to capture transcripts and convert them to Keywords AI spans.
+Sends Claude Code conversation traces to Respan after each response.
+Uses Claude Code's Stop hook to capture transcripts and convert them to Respan spans.
 
 Usage:
-    Copy this file to ~/.claude/hooks/keywordsai_hook.py
+    Copy this file to ~/.claude/hooks/respan_hook.py
     Configure in ~/.claude/settings.json (see .claude/settings.json.example)
     Enable per-project in .claude/settings.local.json (see .claude/settings.local.json.example)
 """
@@ -20,9 +20,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 # Configuration
-LOG_FILE = Path.home() / ".claude" / "state" / "keywordsai_hook.log"
-STATE_FILE = Path.home() / ".claude" / "state" / "keywordsai_state.json"
-DEBUG = os.environ.get("CC_KEYWORDSAI_DEBUG", "").lower() == "true"
+LOG_FILE = Path.home() / ".claude" / "state" / "respan_hook.log"
+STATE_FILE = Path.home() / ".claude" / "state" / "respan_state.json"
+DEBUG = os.environ.get("CC_RESPAN_DEBUG", "").lower() == "true"
 
 
 def log(level: str, message: str) -> None:
@@ -285,14 +285,14 @@ def parse_timestamp(ts_str: str) -> Optional[datetime]:
         return None
 
 
-def create_keywordsai_spans(
+def create_respan_spans(
     session_id: str,
     turn_num: int,
     user_msg: Dict[str, Any],
     assistant_msgs: List[Dict[str, Any]],
     tool_results: List[Dict[str, Any]],
 ) -> List[Dict[str, Any]]:
-    """Create Keywords AI span logs for a single turn with all available metadata."""
+    """Create Respan span logs for a single turn with all available metadata."""
     spans = []
     
     # Extract user text and timestamp
@@ -597,11 +597,11 @@ def process_transcript(
             if current_user and current_assistants:
                 turns_processed += 1
                 turn_num = turn_count + turns_processed
-                spans = create_keywordsai_spans(
+                spans = create_respan_spans(
                     session_id, turn_num, current_user, current_assistants, current_tool_results
                 )
                 
-                # Send spans to Keywords AI
+                # Send spans to Respan
                 try:
                     response = requests.post(
                         f"{base_url}/v1/traces/ingest",
@@ -649,11 +649,11 @@ def process_transcript(
     if current_user and current_assistants:
         turns_processed += 1
         turn_num = turn_count + turns_processed
-        spans = create_keywordsai_spans(
+        spans = create_respan_spans(
             session_id, turn_num, current_user, current_assistants, current_tool_results
         )
         
-        # Send spans to Keywords AI
+        # Send spans to Respan
         try:
             response = requests.post(
                 f"{base_url}/v1/traces/ingest",
@@ -681,17 +681,17 @@ def main():
     debug("Hook started")
     
     # Check if tracing is enabled
-    if os.environ.get("TRACE_TO_KEYWORDSAI", "").lower() != "true":
-        debug("Tracing disabled (TRACE_TO_KEYWORDSAI != true)")
+    if os.environ.get("TRACE_TO_RESPAN", "").lower() != "true":
+        debug("Tracing disabled (TRACE_TO_RESPAN != true)")
         sys.exit(0)
     
     # Check for required environment variables
-    api_key = os.getenv("KEYWORDSAI_API_KEY")
-    # Default: api.keywordsai.co | Enterprise: endpoint.keywordsai.co (set KEYWORDSAI_BASE_URL)
-    base_url = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
+    api_key = os.getenv("RESPAN_API_KEY")
+    # Default: api.respan.ai | Enterprise: endpoint.respan.ai (set RESPAN_BASE_URL)
+    base_url = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
     
     if not api_key:
-        log("ERROR", "Keywords AI API key not set (KEYWORDSAI_API_KEY)")
+        log("ERROR", "Respan API key not set (RESPAN_API_KEY)")
         sys.exit(0)
     
     # Load state

@@ -1,4 +1,4 @@
-import { KeywordsAITelemetry } from '@keywordsai/tracing';
+import { RespanTelemetry } from '@respan/tracing';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -9,9 +9,9 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-const keywordsAi = new KeywordsAITelemetry({
-    apiKey: process.env.KEYWORDSAI_API_KEY || 'demo-key',
-    baseURL: process.env.KEYWORDSAI_BASE_URL,
+const respan = new RespanTelemetry({
+    apiKey: process.env.RESPAN_API_KEY || 'demo-key',
+    baseURL: process.env.RESPAN_BASE_URL,
     appName: 'advanced-tracing-example',
     instrumentModules: {
         openAI: OpenAI,
@@ -25,7 +25,7 @@ const openai = new OpenAI({
 });
 
 const runAgentExample = async (query: string) => {
-    return await keywordsAi.withAgent(
+    return await respan.withAgent(
         { 
             name: 'research_assistant',
             associationProperties: { 
@@ -36,7 +36,7 @@ const runAgentExample = async (query: string) => {
         async () => {
             console.log(`Agent received query: ${query}`);
 
-            const analysis = await keywordsAi.withTool(
+            const analysis = await respan.withTool(
                 { name: 'query_analyzer' },
                 async () => {
                     console.log('Analyzing query...');
@@ -48,7 +48,7 @@ const runAgentExample = async (query: string) => {
                 }
             );
 
-            const searchResults = await keywordsAi.withTool(
+            const searchResults = await respan.withTool(
                 { name: 'web_search' },
                 async () => {
                     console.log('Searching the web...');
@@ -56,7 +56,7 @@ const runAgentExample = async (query: string) => {
                 }
             );
 
-            const finalResponse = await keywordsAi.withTask(
+            const finalResponse = await respan.withTask(
                 { name: 'final_generation' },
                 async () => {
                     console.log('Generating final response...');
@@ -86,17 +86,17 @@ const runAgentExample = async (query: string) => {
 
 async function main() {
     try {
-        await keywordsAi.initialize();
+        await respan.initialize();
         console.log('Starting Advanced Tracing Example\n');
 
         const result = await runAgentExample('How is AI changing software development?');
         console.log('\nAgent Execution Result:', JSON.stringify(result, null, 2));
 
         console.log('\nExample completed. Shutting down...');
-        await keywordsAi.shutdown();
+        await respan.shutdown();
     } catch (error) {
         console.error('Error:', error);
-        await keywordsAi.shutdown();
+        await respan.shutdown();
     }
 }
 

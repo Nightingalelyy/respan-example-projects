@@ -1,10 +1,10 @@
-# Langfuse to KeywordsAI Integration
+# Langfuse to Respan Integration
 
-This example demonstrates how to use the [Langfuse Python SDK](https://python.reference.langfuse.com/) to send traces directly to KeywordsAI
+This example demonstrates how to use the [Langfuse Python SDK](https://python.reference.langfuse.com/) to send traces directly to Respan
 
 ## Overview
 
-The Langfuse SDK provides a convenient API for tracing LLM applications. By simply pointing the SDK to KeywordsAI's API endpoint, you can use all of Langfuse's tracing features while sending data to KeywordsAI.
+The Langfuse SDK provides a convenient API for tracing LLM applications. By simply pointing the SDK to Respan's API endpoint, you can use all of Langfuse's tracing features while sending data to Respan.
 
 ## Installation
 
@@ -28,10 +28,10 @@ poetry install
    cp langfuse/.env.example langfuse/.env
    ```
 
-2. Add your KeywordsAI API key to `langfuse/.env`:
+2. Add your Respan API key to `langfuse/.env`:
    ```env
-   KEYWORDSAI_API_KEY=your_keywordsai_api_key_here
-   KEYWORDSAI_BASE_URL=https://api.keywordsai.co/api
+   RESPAN_API_KEY=your_respan_api_key_here
+   RESPAN_BASE_URL=https://api.respan.ai/api
    
    # Optional: Set Langfuse credentials if you want to use actual Langfuse
    LANGFUSE_PUBLIC_KEY=
@@ -39,7 +39,7 @@ poetry install
    LANGFUSE_BASE_URL=
    ```
    
-3. Get your API key from [KeywordsAI Platform](https://platform.keywordsai.co/platform/api/api-keys)
+3. Get your API key from [Respan Platform](https://platform.respan.ai/platform/api/api-keys)
 
 ## Usage
 
@@ -54,7 +54,7 @@ from langfuse import observe, get_client
 # Set environment variables
 os.environ["LANGFUSE_PUBLIC_KEY"] = os.getenv("LANGFUSE_PUBLIC_KEY", "")
 os.environ["LANGFUSE_SECRET_KEY"] = os.getenv("LANGFUSE_SECRET_KEY", "")
-os.environ["LANGFUSE_BASE_URL"] = os.getenv("KEYWORDSAI_BASE_URL", "")
+os.environ["LANGFUSE_BASE_URL"] = os.getenv("RESPAN_BASE_URL", "")
 
 langfuse = get_client()
 
@@ -82,7 +82,7 @@ This will:
 1. Create two example traces demonstrating different patterns
 2. Example 1: Simple trace with LLM generation
 3. Example 2: Deep research workflow with multi-level nested spans
-4. Send all traces to KeywordsAI
+4. Send all traces to Respan
 
 ## Key Features
 
@@ -135,27 +135,27 @@ The example demonstrates a deep research workflow with:
 
 - [Langfuse Python SDK Reference](https://python.reference.langfuse.com/)
 - [Langfuse Low-Level SDK Guide](https://langfuse.com/docs/sdk/python/low-level-sdk)
-- [KeywordsAI Documentation](https://docs.keywordsai.co/)
+- [Respan Documentation](https://docs.respan.ai/)
 
 ## How It Works
 
 This integration uses a monkey-patched OpenTelemetry exporter to:
 1. Intercept traces created by Langfuse's `@observe()` decorators
-2. Transform OpenTelemetry span format to KeywordsAI's log format
-3. Send traces to `https://api.keywordsai.co/api/v1/traces/ingest`
+2. Transform OpenTelemetry span format to Respan's log format
+3. Send traces to `https://api.respan.ai/api/v1/traces/ingest`
 
 ### Key Points
 - Uses Langfuse's decorator-based API (`@observe()`)
 - Automatically captures function inputs and outputs
 - Creates nested span trees for complex workflows
-- No need for Langfuse credentials - uses your KeywordsAI API key
-- All traces appear in your KeywordsAI dashboard at https://platform.keywordsai.co/
+- No need for Langfuse credentials - uses your Respan API key
+- All traces appear in your Respan dashboard at https://platform.respan.ai/
 
 ## Expected Output
 
 When you run the example, you'll see:
 ```
-🚀 Initializing Langfuse with KeywordsAI base_url...
+🚀 Initializing Langfuse with Respan base_url...
 
 ============================================================
 Example 1: Simple Trace with LLM Generation
@@ -175,5 +175,5 @@ Example 2: Deep Research Workflow (Multi-Level Tree)
 ✅ Research complete!
 
 ✅ All traces flushed!
-📊 Check your KeywordsAI dashboard
+📊 Check your Respan dashboard
 ```

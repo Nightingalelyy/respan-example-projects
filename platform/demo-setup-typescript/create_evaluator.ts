@@ -1,12 +1,12 @@
 /**
  * Create Evaluator Example
- * Documentation: https://docs.keywordsai.co/api-endpoints/evaluate/evaluators/create
+ * Documentation: https://docs.respan.ai/api-endpoints/evaluate/evaluators/create
  */
 
 import "dotenv/config";
 
-const BASE_URL = process.env.KEYWORDSAI_BASE_URL || "https://api.keywordsai.co/api";
-const API_KEY = process.env.KEYWORDSAI_API_KEY;
+const BASE_URL = process.env.RESPAN_BASE_URL || "https://api.respan.ai/api";
+const API_KEY = process.env.RESPAN_API_KEY;
 const EVALUATOR_LLM_ENGINE = process.env.EVALUATOR_LLM_ENGINE || "gpt-4o-mini";
 
 interface EvaluatorResponse {

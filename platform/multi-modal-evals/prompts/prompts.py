@@ -1,12 +1,12 @@
 import requests
 import json
-from ..constants import KEYWORDSAI_BASE_URL, KEYWORDSAI_BASE_HEADERS
+from ..constants import RESPAN_BASE_URL, RESPAN_BASE_HEADERS
 
 
 def create_prompt(name: str, description: str = ""):
     """Create a new prompt"""
-    url = KEYWORDSAI_BASE_URL + "/prompts/"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/prompts/"
+    headers = RESPAN_BASE_HEADERS
     response = requests.post(
         url,
         headers=headers,
@@ -27,8 +27,8 @@ def create_prompt(name: str, description: str = ""):
 
 def list_prompts():
     """List all prompts"""
-    url = KEYWORDSAI_BASE_URL + "/prompts/list"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/prompts/list"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -42,8 +42,8 @@ def list_prompts():
 
 def get_prompt(prompt_id: str):
     """Retrieve a specific prompt"""
-    url = KEYWORDSAI_BASE_URL + f"/prompts/{prompt_id}/"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/prompts/{prompt_id}/"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -57,8 +57,8 @@ def get_prompt(prompt_id: str):
 
 def update_prompt(prompt_id: str, name: str = None, description: str = None, deploy: bool = None):
     """Update a prompt"""
-    url = KEYWORDSAI_BASE_URL + f"/prompts/{prompt_id}/"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/prompts/{prompt_id}/"
+    headers = RESPAN_BASE_HEADERS
     
     update_data = {}
     if name is not None:
@@ -81,8 +81,8 @@ def update_prompt(prompt_id: str, name: str = None, description: str = None, dep
 
 def delete_prompt(prompt_id: str):
     """Delete a prompt"""
-    url = KEYWORDSAI_BASE_URL + f"/prompts/{prompt_id}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/prompts/{prompt_id}"
+    headers = RESPAN_BASE_HEADERS
     response = requests.delete(url, headers=headers)
     try:
         response.raise_for_status()
@@ -96,8 +96,8 @@ def delete_prompt(prompt_id: str):
 
 def create_prompt_version(prompt_id: str, messages: list, prompt_version_id: str = None):
     """Create a new version of a prompt"""
-    url = KEYWORDSAI_BASE_URL + f"/prompts/{prompt_id}/versions"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/prompts/{prompt_id}/versions"
+    headers = RESPAN_BASE_HEADERS
     
     version_data = {
         "messages": messages
@@ -118,8 +118,8 @@ def create_prompt_version(prompt_id: str, messages: list, prompt_version_id: str
 
 def list_prompt_versions(prompt_id: str):
     """List all versions of a prompt"""
-    url = KEYWORDSAI_BASE_URL + f"/prompts/{prompt_id}/versions/"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/prompts/{prompt_id}/versions/"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -133,8 +133,8 @@ def list_prompt_versions(prompt_id: str):
 
 def get_prompt_version(prompt_id: str, version_number: int):
     """Retrieve a specific version of a prompt"""
-    url = KEYWORDSAI_BASE_URL + f"/prompts/{prompt_id}/versions/{version_number}/"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/prompts/{prompt_id}/versions/{version_number}/"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -148,8 +148,8 @@ def get_prompt_version(prompt_id: str, version_number: int):
 
 def update_prompt_version(prompt_id: str, version_number: int, deploy: bool = None, **kwargs):
     """Update a specific version of a prompt"""
-    url = KEYWORDSAI_BASE_URL + f"/prompts/{prompt_id}/versions/{version_number}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/prompts/{prompt_id}/versions/{version_number}"
+    headers = RESPAN_BASE_HEADERS
     
     update_data = {}
     if deploy is not None:

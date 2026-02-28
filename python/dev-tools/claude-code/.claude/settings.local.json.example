@@ -1,8 +1,8 @@
 {
   "env": {
-    "TRACE_TO_KEYWORDSAI": "true",
-    "KEYWORDS_AI_API_KEY": "your-api-key-here",
-    "KEYWORDS_AI_BASE_URL": "https://api.keywordsai.co/api",
-    "CC_KEYWORDSAI_DEBUG": "false"
+    "TRACE_TO_RESPAN": "true",
+    "RESPAN_API_KEY": "your-api-key-here",
+    "RESPAN_BASE_URL": "https://api.respan.ai/api",
+    "CC_RESPAN_DEBUG": "false"
   }
 }

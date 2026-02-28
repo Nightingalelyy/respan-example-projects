@@ -5,25 +5,25 @@ import time
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
-from keywordsai_tracing import KeywordsAITelemetry, get_client
-from keywordsai_tracing.decorators import workflow, task
-from keywordsai_tracing.instruments import Instruments
+from respan_tracing import RespanTelemetry, get_client
+from respan_tracing.decorators import workflow, task
+from respan_tracing.instruments import Instruments
 from opentelemetry.semconv_ai import SpanAttributes, GenAISystem
 
 load_dotenv(Path(__file__).with_name(".env"), override=True)
 
-BASE_URL = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
+BASE_URL = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
 MODEL = os.getenv("SPAN_OPERATIONS_CHAT_MODEL", "gpt-4o-mini")
 PROMPT = os.getenv("SPAN_OPERATIONS_CHAT_PROMPT", "Reply with exactly: Span updates verified.")
 DELAY = float(os.getenv("SPAN_OPERATIONS_STEP_DELAY_SEC", "1.1"))
 
-telemetry = KeywordsAITelemetry(
+telemetry = RespanTelemetry(
     app_name="span-operations",
-    api_key=os.getenv("KEYWORDSAI_API_KEY"),
+    api_key=os.getenv("RESPAN_API_KEY"),
     is_batching_enabled=False,
     block_instruments={Instruments.REQUESTS, Instruments.URLLIB3, Instruments.ANTHROPIC},
 )
-client = OpenAI(api_key=os.getenv("KEYWORDSAI_API_KEY"), base_url=BASE_URL)
+client = OpenAI(api_key=os.getenv("RESPAN_API_KEY"), base_url=BASE_URL)
 
 
 def _attrs(prompt_tokens, completion_tokens, **extra):
@@ -109,8 +109,8 @@ def update_customer():
     if not c:
         return
     c.update_current_span(
-        keywordsai_params={
-            "customer_email": "demo_user@keywordsai.co",
+        respan_params={
+            "customer_email": "demo_user@respan.ai",
             "customer_name": "Demo User",
         }
     )
@@ -125,12 +125,12 @@ def update_ttft():
     time.sleep(max(DELAY / 2, 0.1))
     t1 = round(time.perf_counter() - start, 2)
     c.update_current_span(
-        keywordsai_params={"metadata": {"time_to_first_token": t1, "ttft": t1}}
+        respan_params={"metadata": {"time_to_first_token": t1, "ttft": t1}}
     )
     time.sleep(max(DELAY / 2, 0.1))
     t2 = round(time.perf_counter() - start, 2)
     c.update_current_span(
-        keywordsai_params={"metadata": {"time_to_first_token": t2, "ttft": t2}}
+        respan_params={"metadata": {"time_to_first_token": t2, "ttft": t2}}
     )
 
 

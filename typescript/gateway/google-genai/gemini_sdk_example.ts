@@ -10,15 +10,15 @@ const __dirname = path.dirname(__filename);
 // Load environment variables from parent directory (example_scripts/.env)
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-const API_KEY = process.env.KEYWORDSAI_API_KEY;
+const API_KEY = process.env.RESPAN_API_KEY;
 if (!API_KEY) {
-  throw new Error("KEYWORDSAI_API_KEY not found in environment variables. Please set it in .env file.");
+  throw new Error("RESPAN_API_KEY not found in environment variables. Please set it in .env file.");
 }
 
 const genAI = new GoogleGenAI({
   apiKey: API_KEY,
   httpOptions: {
-    baseUrl: "https://api.keywordsai.co/api/google/gemini",
+    baseUrl: "https://api.respan.ai/api/google/gemini",
   },
 });
 

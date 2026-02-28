@@ -15,8 +15,8 @@ import "dotenv/config";
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import { RespanAnthropicAgentsExporter } from "@respan/exporter-anthropic-agents";
 
-const API_KEY = process.env.RESPAN_API_KEY || process.env.KEYWORDSAI_API_KEY;
-const BASE_URL = process.env.RESPAN_BASE_URL || process.env.KEYWORDSAI_BASE_URL;
+const API_KEY = process.env.RESPAN_API_KEY || process.env.RESPAN_API_KEY;
+const BASE_URL = process.env.RESPAN_BASE_URL || process.env.RESPAN_BASE_URL;
 
 const exporter = new RespanAnthropicAgentsExporter({
   apiKey: API_KEY ?? undefined,

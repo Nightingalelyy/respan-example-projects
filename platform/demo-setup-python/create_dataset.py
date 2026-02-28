@@ -2,11 +2,11 @@
 """
 Create Dataset Example
 
-This example demonstrates how to create and manage datasets in KeywordsAI.
+This example demonstrates how to create and manage datasets in Respan.
 Datasets are curated collections of logs (inputs/outputs + metadata) that you can
 evaluate, annotate, and use to power Experiments.
 
-Documentation: https://docs.keywordsai.co/documentation/products/dataset
+Documentation: https://docs.respan.ai/documentation/products/dataset
 """
 
 import os
@@ -18,8 +18,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-BASE_URL = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
-API_KEY = os.getenv("KEYWORDSAI_API_KEY")
+BASE_URL = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
+API_KEY = os.getenv("RESPAN_API_KEY")
 
 
 def create_dataset(
@@ -34,7 +34,7 @@ def create_dataset(
     **kwargs
 ) -> Dict[str, Any]:
     """
-    Create a new dataset in Keywords AI.
+    Create a new dataset in Respan.
     
     Args:
         name: Name of the dataset
@@ -477,7 +477,7 @@ def delete_dataset(dataset_id: str) -> bool:
 def main():
     """Example usage of dataset creation and management."""
     print("=" * 80)
-    print("KeywordsAI Create Dataset Example")
+    print("Respan Create Dataset Example")
     print("=" * 80)
     
     # Example 1: Create an empty dataset
@@ -625,7 +625,7 @@ def main():
     print("All examples completed successfully!")
     print("=" * 80)
     print("\n💡 Tips:")
-    print("   - You can view your datasets on the KeywordsAI platform")
+    print("   - You can view your datasets on the Respan platform")
     print("   - Use datasets to power Experiments and compare prompt versions")
     print("   - Run evaluators on datasets to assess quality at scale")
     print(f"\n📊 Created Dataset IDs:")

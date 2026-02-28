@@ -26,15 +26,15 @@ from agents import (
     trace,
 )
 from agents.extensions.handoff_prompt import RECOMMENDED_PROMPT_PREFIX
-from keywordsai_exporter_openai_agents import (
-    KeywordsAITraceProcessor,
+from respan_exporter_openai_agents import (
+    RespanTraceProcessor,
 )
 from agents.tracing import set_trace_processors
 from typing import Union
 load_dotenv(override=True)
 
 set_trace_processors(
-    [KeywordsAITraceProcessor(os.getenv("KEYWORDSAI_API_KEY"), endpoint=os.getenv("KEYWORDSAI_OAIA_TRACING_ENDPOINT"))]
+    [RespanTraceProcessor(os.getenv("RESPAN_API_KEY"), endpoint=os.getenv("RESPAN_OAIA_TRACING_ENDPOINT"))]
 )
 
 ### CONTEXT

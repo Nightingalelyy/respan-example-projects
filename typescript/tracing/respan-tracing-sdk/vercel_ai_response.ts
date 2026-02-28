@@ -1,4 +1,4 @@
-import { KeywordsAIExporter } from "../src/index.js";
+import { RespanExporter } from "../src/index.js";
 import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { trace, context } from "@opentelemetry/api";
 import { AsyncHooksContextManager } from "@opentelemetry/context-async-hooks";
@@ -22,8 +22,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 config({ path: path.resolve(__dirname, "../.env") });
 
-const exporter = new KeywordsAIExporter({
-  apiKey: process.env.KEYWORDSAI_API_KEY,
+const exporter = new RespanExporter({
+  apiKey: process.env.RESPAN_API_KEY,
   debug: true, 
 });
 
@@ -35,8 +35,8 @@ provider.register();
 // 3. Response API Example (Strictly Aligned with API Doc)
 // ============================================================================
 async function main() {
-  console.log("🚀 Starting Keywords AI Example (Doc Aligned)...");
-  const tracer = trace.getTracer("keywords-ai-aligned-example");
+  console.log("🚀 Starting Respan Example (Doc Aligned)...");
+  const tracer = trace.getTracer("respan-aligned-example");
 
   await tracer.startActiveSpan("main-execution", async (rootSpan) => {
     try {

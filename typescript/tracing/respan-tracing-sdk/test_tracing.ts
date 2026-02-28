@@ -1,4 +1,4 @@
-import { KeywordsAITelemetry } from '@keywordsai/tracing';
+import { RespanTelemetry } from '@respan/tracing';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -15,11 +15,11 @@ const openai = new OpenAI({
 });
 
 async function main() {
-    console.log('Starting KeywordsAI tracing test...');
+    console.log('Starting Respan tracing test...');
     
-    const keywordsAi = new KeywordsAITelemetry({
-        apiKey: process.env.KEYWORDSAI_API_KEY,
-        baseURL: process.env.KEYWORDSAI_BASE_URL,
+    const respan = new RespanTelemetry({
+        apiKey: process.env.RESPAN_API_KEY,
+        baseURL: process.env.RESPAN_BASE_URL,
         appName: 'pirate-joke-test',
         disableBatch: true,
         logLevel: 'info',
@@ -29,15 +29,15 @@ async function main() {
     });
 
     try {
-        await keywordsAi.initialize();
+        await respan.initialize();
         console.log('SDK initialized');
 
         // Pirate Joke Workflow
-        const finalResult = await keywordsAi.withWorkflow({ name: 'joke_workflow' }, async () => {
+        const finalResult = await respan.withWorkflow({ name: 'joke_workflow' }, async () => {
             console.log('Starting Pirate Joke Workflow...');
 
             // Task 1: Joke Creation
-            const joke = await keywordsAi.withTask({ name: 'joke_creation' }, async () => {
+            const joke = await respan.withTask({ name: 'joke_creation' }, async () => {
                 console.log('Task: Creating joke...');
                 try {
                     const completion = await openai.chat.completions.create({
@@ -53,7 +53,7 @@ async function main() {
             });
 
             // Task 2: Pirate Translation
-            const pirateJoke = await keywordsAi.withTask({ name: 'pirate_joke_translation' }, async () => {
+            const pirateJoke = await respan.withTask({ name: 'pirate_joke_translation' }, async () => {
                 console.log('Task: Translating to pirate...');
                 try {
                     const completion = await openai.chat.completions.create({
@@ -69,7 +69,7 @@ async function main() {
             });
 
             // Task 3: Signature Generation
-            const signatureJoke = await keywordsAi.withTask({ name: 'signature_generation' }, async () => {
+            const signatureJoke = await respan.withTask({ name: 'signature_generation' }, async () => {
                 console.log('Task: Generating signature...');
                 try {
                     const completion = await openai.chat.completions.create({
@@ -95,7 +95,7 @@ async function main() {
     } catch (error) {
         console.error('Test failed:', error);
     } finally {
-        await keywordsAi.shutdown();
+        await respan.shutdown();
     }
 }
 

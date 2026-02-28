@@ -51,7 +51,7 @@ pytest basic/ -v
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `RESPAN_API_KEY` | Yes | Your Respan (Keywords AI) API key |
+| `RESPAN_API_KEY` | Yes | Your Respan (Respan) API key |
 | `ANTHROPIC_API_KEY` | For non-gateway examples | Your Anthropic API key |
-| `RESPAN_BASE_URL` | No | Override ingest URL (default: `https://api.keywordsai.co/api`) |
-| `RESPAN_GATEWAY_BASE_URL` | For gateway example | Gateway URL (default: `https://api.keywordsai.co/api`) |
+| `RESPAN_BASE_URL` | No | Override ingest URL (default: `https://api.respan.ai/api`) |
+| `RESPAN_GATEWAY_BASE_URL` | For gateway example | Gateway URL (default: `https://api.respan.ai/api`) |

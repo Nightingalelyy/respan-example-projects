@@ -1,5 +1,5 @@
 import { registerOTel } from "@vercel/otel";
-import { KeywordsAIExporter } from "@keywordsai/exporter-vercel";
+import { RespanExporter } from "@respan/exporter-vercel";
 // import * as dotenv from "dotenv";
 
 // dotenv.config({
@@ -10,15 +10,15 @@ import { KeywordsAIExporter } from "@keywordsai/exporter-vercel";
 export function register() {
   console.log(
     "registering instrumentation, base url",
-    process.env.KEYWORDSAI_BASE_URL,
+    process.env.RESPAN_BASE_URL,
     "api key",
-    process.env.KEYWORDSAI_API_KEY?.slice(0, 4) + "..."
+    process.env.RESPAN_API_KEY?.slice(0, 4) + "..."
   );
   registerOTel({
     serviceName: "next-app",
-    traceExporter: new KeywordsAIExporter({
-      apiKey: process.env.KEYWORDSAI_API_KEY?.split(" ")[0],
-      baseUrl: process.env.KEYWORDSAI_BASE_URL,
+    traceExporter: new RespanExporter({
+      apiKey: process.env.RESPAN_API_KEY?.split(" ")[0],
+      baseUrl: process.env.RESPAN_BASE_URL,
       debug: true,
     }),
   });

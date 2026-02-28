@@ -1,20 +1,20 @@
 """
-LangGraph + LangChain Agent Example with KeywordsAI Tracing
+LangGraph + LangChain Agent Example with Respan Tracing
 
 This example demonstrates how to use LangGraph with LangChain tools and agents,
-all traced automatically by KeywordsAI.
+all traced automatically by Respan.
 
 Shows:
 - LangGraph's agent workflow
 - Custom LangChain tools
-- Automatic KeywordsAI tracing
+- Automatic Respan tracing
 
 Prerequisites:
 1. Install dependencies: poetry install
 2. Set up environment variables in .env:
-   - KEYWORDSAI_API_KEY=your_api_key (required for tracing)
+   - RESPAN_API_KEY=your_api_key (required for tracing)
    - OPENAI_API_KEY=your_openai_key (required for LLM calls)
-   - KEYWORDSAI_BASE_URL=https://api.keywordsai.co/api (optional)
+   - RESPAN_BASE_URL=https://api.respan.ai/api (optional)
 
 Run:
     python langchain_agent.py
@@ -31,19 +31,19 @@ from langchain_core.tools import tool
 from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, START, END, MessagesState
 from langgraph.prebuilt import ToolNode
-from keywordsai_tracing import KeywordsAITelemetry, workflow
-from keywordsai_tracing.instruments import Instruments
+from respan_tracing import RespanTelemetry, workflow
+from respan_tracing.instruments import Instruments
 
 
-# Initialize KeywordsAI tracing for LangGraph + LangChain
-telemetry = KeywordsAITelemetry(
+# Initialize Respan tracing for LangGraph + LangChain
+telemetry = RespanTelemetry(
     app_name="langgraph-agent-example",
-    api_key=os.getenv("KEYWORDSAI_API_KEY"),
-    base_url=os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api"),
+    api_key=os.getenv("RESPAN_API_KEY"),
+    base_url=os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api"),
     instruments={Instruments.LANGCHAIN, Instruments.OPENAI},
 )
 
-print("✓ LangGraph + LangChain Agent tracing enabled via KeywordsAITelemetry\n")
+print("✓ LangGraph + LangChain Agent tracing enabled via RespanTelemetry\n")
 
 
 # Define custom tools for the agent
@@ -75,13 +75,13 @@ def search_wiki(query: str) -> str:
 tools = [get_weather, calculate, search_wiki]
 
 
-# Initialize the LLM (using KeywordsAI proxy for tracing)
+# Initialize the LLM (using Respan proxy for tracing)
 llm = ChatOpenAI(
     model="gpt-4o-mini",
     openai_api_key=os.getenv("OPENAI_API_KEY"),
-    openai_api_base=os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api/chat/completions"),
+    openai_api_base=os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api/chat/completions"),
     default_headers={
-        "Authorization": f"Bearer {os.getenv('KEYWORDSAI_API_KEY')}",
+        "Authorization": f"Bearer {os.getenv('RESPAN_API_KEY')}",
     },
     temperature=0,
 )
@@ -205,7 +205,7 @@ def interactive_agent():
 
 if __name__ == "__main__":
     # Run examples
-    print("Running LangGraph + LangChain Agent examples with KeywordsAI tracing...\n")
+    print("Running LangGraph + LangChain Agent examples with Respan tracing...\n")
     print("=" * 60)
     
     # Example 1: Weather query

@@ -1,5 +1,5 @@
-import { updateCurrentSpan, startTracing, getClient } from '@keywordsai/tracing';
-import { withAgent } from '@keywordsai/tracing';
+import { updateCurrentSpan, startTracing, getClient } from '@respan/tracing';
+import { withAgent } from '@respan/tracing';
 import { SpanStatusCode } from '@opentelemetry/api';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 /**
- * Example demonstrating advanced span updating with KeywordsAI parameters
+ * Example demonstrating advanced span updating with Respan parameters
  */
 
 async function runUpdateSpanDemo() {
@@ -26,10 +26,10 @@ async function runUpdateSpanDemo() {
         async () => {
             console.log('Agent started...');
             
-            // Update span with KeywordsAI-specific parameters
-            console.log('Updating span with KeywordsAI parameters...');
+            // Update span with Respan-specific parameters
+            console.log('Updating span with Respan parameters...');
             updateCurrentSpan({
-                keywordsaiParams: {
+                respanParams: {
                     model: 'gpt-4',
                     provider: 'openai',
                     temperature: 0.7,
@@ -82,8 +82,8 @@ async function main() {
     
     // Initialize tracing
     await startTracing({
-        apiKey: process.env.KEYWORDSAI_API_KEY || 'demo-key',
-        baseURL: process.env.KEYWORDSAI_BASE_URL,
+        apiKey: process.env.RESPAN_API_KEY || 'demo-key',
+        baseURL: process.env.RESPAN_BASE_URL,
         appName: 'update-span-demo',
         disableBatch: true,
         logLevel: 'info'

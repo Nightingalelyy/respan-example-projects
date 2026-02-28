@@ -1,12 +1,12 @@
 import requests
 import json
-from ..constants import KEYWORDSAI_BASE_URL, KEYWORDSAI_BASE_HEADERS
+from ..constants import RESPAN_BASE_URL, RESPAN_BASE_HEADERS
 
 
 def create_testset(name: str, description: str = "", column_definitions: list = None, starred: bool = False):
     """Create a new testset"""
-    url = KEYWORDSAI_BASE_URL + "/testsets"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/testsets"
+    headers = RESPAN_BASE_HEADERS
     
     if column_definitions is None:
         column_definitions = [
@@ -36,8 +36,8 @@ def create_testset(name: str, description: str = "", column_definitions: list = 
 
 def list_testsets(filters: dict = None):
     """List testsets with optional filters"""
-    url = KEYWORDSAI_BASE_URL + "/testsets/list"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/testsets/list"
+    headers = RESPAN_BASE_HEADERS
     response = requests.post(
         url,
         headers=headers,
@@ -55,8 +55,8 @@ def list_testsets(filters: dict = None):
 
 def get_testset(testset_id: str):
     """Retrieve a specific testset"""
-    url = KEYWORDSAI_BASE_URL + f"/testsets/{testset_id}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/testsets/{testset_id}"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -70,8 +70,8 @@ def get_testset(testset_id: str):
 
 def update_testset(testset_id: str, name: str = None, description: str = None, starred: bool = None):
     """Update testset metadata"""
-    url = KEYWORDSAI_BASE_URL + f"/testsets/{testset_id}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/testsets/{testset_id}"
+    headers = RESPAN_BASE_HEADERS
     
     update_data = {}
     if name is not None:
@@ -94,8 +94,8 @@ def update_testset(testset_id: str, name: str = None, description: str = None, s
 
 def create_testset_rows(testset_id: str, rows: list):
     """Create rows in a testset"""
-    url = KEYWORDSAI_BASE_URL + f"/testsets/{testset_id}/rows"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/testsets/{testset_id}/rows"
+    headers = RESPAN_BASE_HEADERS
     response = requests.post(url, headers=headers, json=rows)
     response_data = response.json()
     try:
@@ -109,8 +109,8 @@ def create_testset_rows(testset_id: str, rows: list):
 
 def list_testset_rows(testset_id: str):
     """List rows in a testset"""
-    url = KEYWORDSAI_BASE_URL + f"/testsets/{testset_id}/rows"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/testsets/{testset_id}/rows"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -124,8 +124,8 @@ def list_testset_rows(testset_id: str):
 
 def update_testset_row(testset_id: str, row_index: int, row_data: dict):
     """Update a specific row in a testset"""
-    url = KEYWORDSAI_BASE_URL + f"/testsets/{testset_id}/rows/{row_index}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/testsets/{testset_id}/rows/{row_index}"
+    headers = RESPAN_BASE_HEADERS
     response = requests.patch(
         url,
         headers=headers,
@@ -143,8 +143,8 @@ def update_testset_row(testset_id: str, row_index: int, row_data: dict):
 
 def delete_testset(testset_id: str):
     """Delete a testset"""
-    url = KEYWORDSAI_BASE_URL + f"/testsets/{testset_id}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/testsets/{testset_id}"
+    headers = RESPAN_BASE_HEADERS
     response = requests.delete(url, headers=headers)
     try:
         response.raise_for_status()
@@ -158,8 +158,8 @@ def delete_testset(testset_id: str):
 
 def delete_testset_rows(testset_id: str, row_indexes: list):
     """Delete specific rows from a testset"""
-    url = KEYWORDSAI_BASE_URL + f"/testsets/{testset_id}/rows"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/testsets/{testset_id}/rows"
+    headers = RESPAN_BASE_HEADERS
     response = requests.delete(
         url,
         headers=headers,

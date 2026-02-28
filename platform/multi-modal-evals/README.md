@@ -1,6 +1,6 @@
-# KeywordsAI Multi-Modal Tool Evaluation Workflow
+# Respan Multi-Modal Tool Evaluation Workflow
 
-This project demonstrates a complete workflow for evaluating LLM agents with tool calls using KeywordsAI's evaluation platform.
+This project demonstrates a complete workflow for evaluating LLM agents with tool calls using Respan's evaluation platform.
 
 ## Workflow Overview
 

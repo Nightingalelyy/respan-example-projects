@@ -25,8 +25,8 @@ from claude_agent_sdk import ClaudeAgentOptions, ResultMessage
 
 from respan_exporter_anthropic_agents import RespanAnthropicAgentsExporter
 
-API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("KEYWORDSAI_API_KEY")
-BASE_URL = os.getenv("RESPAN_BASE_URL") or os.getenv("KEYWORDSAI_BASE_URL")
+API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("RESPAN_API_KEY")
+BASE_URL = os.getenv("RESPAN_BASE_URL") or os.getenv("RESPAN_BASE_URL")
 
 # Create exporter — sends traces to Respan
 exporter = RespanAnthropicAgentsExporter(
@@ -54,7 +54,7 @@ async def test_hello_world():
 
     print(f"\nResult: {result_message.subtype if result_message else 'none'}")
     print(f"Session: {exporter._last_session_id}")
-    print(f"\nView trace at: https://platform.keywordsai.co/traces")
+    print(f"\nView trace at: https://platform.respan.ai/traces")
 
 
 if __name__ == "__main__":

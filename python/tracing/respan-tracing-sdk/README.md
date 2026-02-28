@@ -1,13 +1,13 @@
-# KeywordsAI Tracing SDK Examples (Python)
+# Respan Tracing SDK Examples (Python)
 
-This directory contains comprehensive examples of how to use the `keywordsai-tracing` Python SDK.
+This directory contains comprehensive examples of how to use the `respan-tracing` Python SDK.
 
-**SDK Documentation**: https://github.com/Keywords-AI/keywordsai/blob/main/python-sdks/keywordsai-tracing/README.md
+**SDK Documentation**: https://github.com/respanai/respan/blob/main/python-sdks/respan-tracing/README.md
 
 ## Prerequisites
 
 - Python 3.11 or higher
-- A KeywordsAI API Key (from [keywordsai.co](https://keywordsai.co))
+- A Respan API Key (from [respan.ai](https://respan.ai))
 - (Optional) AI Provider API Keys (OpenAI, Anthropic) for real API testing
 
 ## Setup
@@ -25,8 +25,8 @@ This directory contains comprehensive examples of how to use the `keywordsai-tra
 
 3. Edit `tracing_sdk_examples/.env` with your actual API keys:
    ```env
-   KEYWORDSAI_API_KEY=your_keywordsai_api_key
-   KEYWORDSAI_BASE_URL=https://api.keywordsai.co/api
+   RESPAN_API_KEY=your_respan_api_key
+   RESPAN_BASE_URL=https://api.respan.ai/api
    OPENAI_API_KEY=your_openai_api_key
    ANTHROPIC_API_KEY=your_anthropic_api_key
    ```
@@ -49,7 +49,7 @@ This directory contains comprehensive examples of how to use the `keywordsai-tra
 
 | File | Description |
 |------|-------------|
-| `span_operations.py` | All span APIs: buffering, events, exceptions, keywordsai_params |
+| `span_operations.py` | All span APIs: buffering, events, exceptions, respan_params |
 
 ### Advanced Features
 
@@ -75,10 +75,10 @@ poetry run python tracing_sdk_examples/multi_llm_provider.py
 ### Initialization
 
 ```python
-from keywordsai_tracing import KeywordsAITelemetry
-from keywordsai_tracing.instruments import Instruments
+from respan_tracing import RespanTelemetry
+from respan_tracing.instruments import Instruments
 
-telemetry = KeywordsAITelemetry(
+telemetry = RespanTelemetry(
     app_name="my-app",
     api_key="your-api-key",
     # Optional: filter out noisy HTTP spans
@@ -89,7 +89,7 @@ telemetry = KeywordsAITelemetry(
 ### Decorators
 
 ```python
-from keywordsai_tracing.decorators import workflow, task, agent, tool
+from respan_tracing.decorators import workflow, task, agent, tool
 
 @workflow(name="my_workflow")
 def my_workflow():
@@ -111,7 +111,7 @@ def my_tool():
 ### Client API
 
 ```python
-from keywordsai_tracing import get_client
+from respan_tracing import get_client
 
 client = get_client()
 
@@ -119,7 +119,7 @@ client = get_client()
 client.update_current_span(
     name="new_name",
     attributes={"key": "value"},
-    keywordsai_params={
+    respan_params={
         "customer_identifier": "user_123",
         "metadata": {"version": "1.0"},
     },
@@ -155,10 +155,10 @@ client.process_spans(collected_spans)
 ### Multi-Processor Routing
 
 ```python
-from keywordsai_tracing import KeywordsAITelemetry
-from keywordsai_tracing.decorators import task
+from respan_tracing import RespanTelemetry
+from respan_tracing.decorators import task
 
-kai = KeywordsAITelemetry(...)
+kai = RespanTelemetry(...)
 
 # Add custom processor
 kai.add_processor(exporter=MyExporter(), name="debug")
@@ -177,13 +177,13 @@ def multi_task():
 
 | Variable | Description | Required |
 |----------|-------------|----------|
-| `KEYWORDSAI_API_KEY` | Your KeywordsAI API key | Yes |
-| `KEYWORDSAI_BASE_URL` | API base URL | No (default: https://api.keywordsai.co/api) |
+| `RESPAN_API_KEY` | Your Respan API key | Yes |
+| `RESPAN_BASE_URL` | API base URL | No (default: https://api.respan.ai/api) |
 | `OPENAI_API_KEY` | OpenAI API key | No (for OpenAI examples) |
 | `ANTHROPIC_API_KEY` | Anthropic API key | No (for Anthropic examples) |
 
 ## Notes
 
-- Initialize `KeywordsAITelemetry` **before** creating LLM clients for auto-instrumentation to work
+- Initialize `RespanTelemetry` **before** creating LLM clients for auto-instrumentation to work
 - All examples include fallbacks for when API keys are not available
-- Check your KeywordsAI dashboard at [keywordsai.co](https://keywordsai.co) to view traces
+- Check your Respan dashboard at [respan.ai](https://respan.ai) to view traces

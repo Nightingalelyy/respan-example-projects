@@ -1,13 +1,13 @@
 import json
 import requests
-from ..constants import KEYWORDSAI_BASE_URL, KEYWORDSAI_BASE_HEADERS
+from ..constants import RESPAN_BASE_URL, RESPAN_BASE_HEADERS
 from datetime import datetime
 from urllib.parse import urlencode
 
 
 def get_logs(start_time: datetime, end_time: datetime, filters: dict = None):
-    url = KEYWORDSAI_BASE_URL + "/request-logs/list"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/request-logs/list"
+    headers = RESPAN_BASE_HEADERS
     url_params = {
         "start_time": start_time,
         "end_time": end_time,

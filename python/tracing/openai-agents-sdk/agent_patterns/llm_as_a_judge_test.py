@@ -10,15 +10,15 @@ import pytest
 from pydantic import BaseModel
 
 from agents import Agent, ItemHelpers, Runner, TResponseInputItem, trace
-from keywordsai_exporter_openai_agents import KeywordsAITraceProcessor
+from respan_exporter_openai_agents import RespanTraceProcessor
 from agents.tracing import set_trace_processors
 
 
 set_trace_processors(
     [
-        KeywordsAITraceProcessor(
-            os.getenv("KEYWORDSAI_API_KEY"),
-            endpoint=os.getenv("KEYWORDSAI_OAIA_TRACING_ENDPOINT"),
+        RespanTraceProcessor(
+            os.getenv("RESPAN_API_KEY"),
+            endpoint=os.getenv("RESPAN_OAIA_TRACING_ENDPOINT"),
         ),
     ]
 )

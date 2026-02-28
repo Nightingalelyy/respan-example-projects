@@ -1,5 +1,5 @@
-import { KeywordsAITelemetry } from '@keywordsai/tracing';
-import { updateCurrentSpan, addSpanEvent } from '@keywordsai/tracing';
+import { RespanTelemetry } from '@respan/tracing';
+import { updateCurrentSpan, addSpanEvent } from '@respan/tracing';
 import * as fs from 'fs';
 import * as path from 'path';
 import dotenv from 'dotenv';
@@ -117,15 +117,15 @@ async function processWithProcessors(
 async function runMultiProcessorDemo() {
   console.log('Starting Span Tracking & Logging Demo\n');
 
-  const keywordsAi = new KeywordsAITelemetry({
-    apiKey: process.env.KEYWORDSAI_API_KEY || 'demo-key',
-    baseURL: process.env.KEYWORDSAI_BASE_URL,
+  const respan = new RespanTelemetry({
+    apiKey: process.env.RESPAN_API_KEY || 'demo-key',
+    baseURL: process.env.RESPAN_BASE_URL,
     appName: 'span-tracking-demo',
     logLevel: 'info',
     disableBatch: true,
   });
 
-  await keywordsAi.initialize();
+  await respan.initialize();
   console.log('Tracing initialized\n');
 
   // Processor setup: routing + filters + multiple exporters.
@@ -158,10 +158,10 @@ async function runMultiProcessorDemo() {
     },
   ];
 
-  await keywordsAi.withWorkflow({ name: 'span_tracking_workflow' }, async () => {
+  await respan.withWorkflow({ name: 'span_tracking_workflow' }, async () => {
     // Normal task - standard tracing
     console.log('1. Normal Task:');
-    await keywordsAi.withTask({ name: 'normal_task' }, async () => {
+    await respan.withTask({ name: 'normal_task' }, async () => {
       const startTime = Date.now();
       updateCurrentSpan({
         attributes: {
@@ -193,7 +193,7 @@ async function runMultiProcessorDemo() {
 
     // Debug task - with debug logging
     console.log('\n2. Debug Task:');
-    await keywordsAi.withTask({ name: 'debug_task' }, async () => {
+    await respan.withTask({ name: 'debug_task' }, async () => {
       const startTime = Date.now();
       updateCurrentSpan({
         attributes: {
@@ -227,7 +227,7 @@ async function runMultiProcessorDemo() {
 
     // Analytics task - with console analytics
     console.log('\n3. Analytics Task:');
-    await keywordsAi.withTask({ name: 'analytics_task' }, async () => {
+    await respan.withTask({ name: 'analytics_task' }, async () => {
       const startTime = Date.now();
       updateCurrentSpan({
         attributes: {
@@ -262,7 +262,7 @@ async function runMultiProcessorDemo() {
 
     // Slow task - demonstrates long-running operation
     console.log('\n4. Slow Task (long-running):');
-    await keywordsAi.withTask({ name: 'slow_task' }, async () => {
+    await respan.withTask({ name: 'slow_task' }, async () => {
       const startTime = Date.now();
       updateCurrentSpan({
         attributes: {
@@ -298,7 +298,7 @@ async function runMultiProcessorDemo() {
   });
 
   console.log('\nShutting down...');
-  await keywordsAi.shutdown();
+  await respan.shutdown();
   console.log('Span tracking demo completed.');
   console.log('\nCheck these files for logged spans:');
   console.log('   - ./debug-spans.jsonl');

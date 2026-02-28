@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { KeywordsAITelemetry } from '@keywordsai/tracing';
+import { RespanTelemetry } from '@respan/tracing';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 declare global {
-  var keywordsai: KeywordsAITelemetry | undefined;
+  var respan: RespanTelemetry | undefined;
 }
 
 const openai = new OpenAI({
@@ -23,13 +23,13 @@ export interface ChatMessage {
 }
 
 export async function generateChatCompletion(messages: ChatMessage[]) {
-  const keywordsai = global.keywordsai;
+  const respan = global.respan;
   
-  if (!keywordsai) {
-    throw new Error('KeywordsAI not initialized. Make sure instrumentation is set up correctly.');
+  if (!respan) {
+    throw new Error('Respan not initialized. Make sure instrumentation is set up correctly.');
   }
 
-  return await keywordsai.withWorkflow(
+  return await respan.withWorkflow(
     {
       name: 'generateChatCompletion',
     },
@@ -62,10 +62,10 @@ export async function generateChatCompletion(messages: ChatMessage[]) {
 }
 
 async function simpleOpenAITest() {
-  console.log('Simple OpenAI + KeywordsAI Test\n');
+  console.log('Simple OpenAI + Respan Test\n');
 
-  const keywordsai = new KeywordsAITelemetry({
-    apiKey: process.env.KEYWORDSAI_API_KEY || 'test-api-key',
+  const respan = new RespanTelemetry({
+    apiKey: process.env.RESPAN_API_KEY || 'test-api-key',
     appName: 'simple-openai-test',
     instrumentModules: {
       openAI: OpenAI,
@@ -73,10 +73,10 @@ async function simpleOpenAITest() {
     logLevel: 'info'
   });
 
-  await keywordsai.initialize();
+  await respan.initialize();
   
-  global.keywordsai = keywordsai;
-  console.log('KeywordsAI setup complete\n');
+  global.respan = respan;
+  console.log('Respan setup complete\n');
 
   const messages: ChatMessage[] = [
     { role: 'system', content: 'You are a helpful assistant.' },
@@ -96,7 +96,7 @@ async function simpleOpenAITest() {
     console.error('Error:', error);
   }
 
-  await keywordsai.shutdown();
+  await respan.shutdown();
   console.log('\nTest completed!');
 }
 

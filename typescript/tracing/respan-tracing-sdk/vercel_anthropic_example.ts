@@ -2,8 +2,8 @@ import { createAnthropic } from "@ai-sdk/anthropic";
 import { generateText, tool } from "ai";
 import { z } from "zod";
 
-const apiKey = process.env.KEYWORDSAI_API_KEY;
-const baseURL = process.env.KEYWORDSAI_BASE_URL;
+const apiKey = process.env.RESPAN_API_KEY;
+const baseURL = process.env.RESPAN_BASE_URL;
 
 const anthropic = createAnthropic({
   baseURL,

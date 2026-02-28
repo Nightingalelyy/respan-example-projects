@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Multi-LLM Provider - KeywordsAI Tracing SDK
+Multi-LLM Provider - Respan Tracing SDK
 Demonstrates: tracing across OpenAI + Anthropic in one workflow
 """
 import os
@@ -12,13 +12,13 @@ env_path = Path(__file__).parent / ".env"
 load_dotenv(env_path, override=True)
 
 from openai import OpenAI
-from keywordsai_tracing import KeywordsAITelemetry, get_client
-from keywordsai_tracing.decorators import workflow, task
-from keywordsai_tracing.instruments import Instruments
+from respan_tracing import RespanTelemetry, get_client
+from respan_tracing.decorators import workflow, task
+from respan_tracing.instruments import Instruments
 
-keywords_ai = KeywordsAITelemetry(
+keywords_ai = RespanTelemetry(
     app_name="multi-llm",
-    api_key=os.getenv("KEYWORDSAI_API_KEY"),
+    api_key=os.getenv("RESPAN_API_KEY"),
     is_batching_enabled=False,
     block_instruments={Instruments.REQUESTS, Instruments.URLLIB3},
 )
@@ -75,7 +75,7 @@ async def multi_llm_workflow(prompt: str) -> dict:
     client = get_client()
     if client:
         client.update_current_span(
-            keywordsai_params={
+            respan_params={
                 "customer_identifier": "multi_llm_user",
                 "metadata": {"prompt": prompt},
             }

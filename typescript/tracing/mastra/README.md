@@ -1,6 +1,6 @@
-# Mastra Weather Agent with KeywordsAI Observability
+# Mastra Weather Agent with Respan Observability
 
-A quick setup guide for running a Mastra weather agent with KeywordsAI telemetry integration.
+A quick setup guide for running a Mastra weather agent with Respan telemetry integration.
 
 ## Setup
 
@@ -10,7 +10,7 @@ A quick setup guide for running a Mastra weather agent with KeywordsAI telemetry
 pnpm install
 ```
 
-The project includes the required `@keywordsai/exporter-vercel` package for telemetry export.
+The project includes the required `@respan/exporter-vercel` package for telemetry export.
 
 ### 2. Environment Variables
 
@@ -24,8 +24,8 @@ Update `.env.local` with your credentials:
 
 ```env
 OPENAI_API_KEY=your-openai-api-key
-KEYWORDSAI_API_KEY=your-keywordsai-api-key
-KEYWORDSAI_BASE_URL=https://api.keywordsai.co
+RESPAN_API_KEY=your-respan-api-key
+RESPAN_BASE_URL=https://api.respan.ai
 ```
 
 ### 3. Run the Project
@@ -38,7 +38,7 @@ This opens the Mastra playground where you can interact with the weather agent.
 
 ## Observability
 
-The project is configured with KeywordsAI telemetry in `src/mastra/index.ts`:
+The project is configured with Respan telemetry in `src/mastra/index.ts`:
 
 ```typescript
 telemetry: {
@@ -46,13 +46,13 @@ telemetry: {
   enabled: true,
   export: {
     type: "custom",
-    exporter: new KeywordsAIExporter({
-      apiKey: process.env.KEYWORDSAI_API_KEY,
-      baseUrl: process.env.KEYWORDSAI_BASE_URL,
+    exporter: new RespanExporter({
+      apiKey: process.env.RESPAN_API_KEY,
+      baseUrl: process.env.RESPAN_BASE_URL,
       debug: true,
     })
   }
 }
 ```
 
-Interact with the agent in the playground and view traces in your KeywordsAI dashboard. 
+Interact with the agent in the playground and view traces in your Respan dashboard. 

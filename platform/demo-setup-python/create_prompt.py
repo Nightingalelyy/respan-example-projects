@@ -2,10 +2,10 @@
 """
 Create Prompt Example
 
-This example demonstrates how to create and manage prompts in KeywordsAI.
+This example demonstrates how to create and manage prompts in Respan.
 Prompts are reusable templates for LLM conversations that can be versioned and deployed.
 
-Documentation: https://docs.keywordsai.co/get-started/quickstart/create-a-prompt
+Documentation: https://docs.respan.ai/get-started/quickstart/create-a-prompt
 """
 
 import os
@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-BASE_URL = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
-API_KEY = os.getenv("KEYWORDSAI_API_KEY")
+BASE_URL = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
+API_KEY = os.getenv("RESPAN_API_KEY")
 
 # Prompt configuration from environment variables
 DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "gpt-4o")
@@ -31,7 +31,7 @@ def create_prompt(
     description: str = ""
 ) -> Dict[str, Any]:
     """
-    Create a new prompt in Keywords AI.
+    Create a new prompt in Respan.
     
     Args:
         name: Name of the prompt
@@ -284,7 +284,7 @@ def get_prompt_version(prompt_id: str, version_number: int) -> Dict[str, Any]:
 def main():
     """Example usage of prompt creation and management."""
     print("=" * 80)
-    print("KeywordsAI Create Prompt Example")
+    print("Respan Create Prompt Example")
     print("=" * 80)
     
     # Example 1: Create a simple prompt
@@ -390,7 +390,7 @@ def main():
     print("All examples completed successfully!")
     print("=" * 80)
     print("\n💡 Tip: You can now use these prompts in your experiments and evaluations.")
-    print("   Visit the KeywordsAI platform to see your prompts in the Prompt Management section.")
+    print("   Visit the Respan platform to see your prompts in the Prompt Management section.")
     
     return {
         "prompt_1": prompt_1,

@@ -1,4 +1,4 @@
-import { KeywordsAITelemetry } from '@keywordsai/tracing';
+import { RespanTelemetry } from '@respan/tracing';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -25,9 +25,9 @@ async function runManualInstrumentationDemo() {
         console.log('Anthropic SDK not available, skipping Anthropic instrumentation');
     }
 
-    const keywordsAI = new KeywordsAITelemetry({
-        apiKey: process.env.KEYWORDSAI_API_KEY || 'test-key',
-        baseURL: process.env.KEYWORDSAI_BASE_URL || 'https://api.keywordsai.co',
+    const respan = new RespanTelemetry({
+        apiKey: process.env.RESPAN_API_KEY || 'test-key',
+        baseURL: process.env.RESPAN_BASE_URL || 'https://api.respan.ai',
         appName: 'manual-instrumentation-example',
         disableBatch: true,
         logLevel: 'info',
@@ -47,15 +47,15 @@ async function runManualInstrumentationDemo() {
         apiKey: process.env.ANTHROPIC_API_KEY || 'test-key',
     }) : null;
 
-    await keywordsAI.initialize();
+    await respan.initialize();
     console.log('Starting Manual Instrumentation Demo\n');
 
     // Multi-provider workflow
-    await keywordsAI.withWorkflow(
+    await respan.withWorkflow(
         { name: 'multi_provider_workflow', version: 1 },
         async () => {
             // OpenAI task
-            const openaiResult = await keywordsAI.withTask(
+            const openaiResult = await respan.withTask(
                 { name: 'openai_completion' },
                 async () => {
                     try {
@@ -73,7 +73,7 @@ async function runManualInstrumentationDemo() {
             );
 
             // Anthropic task (if available)
-            const anthropicResult = anthropic ? await keywordsAI.withTask(
+            const anthropicResult = anthropic ? await respan.withTask(
                 { name: 'anthropic_completion' },
                 async () => {
                     try {
@@ -98,7 +98,7 @@ async function runManualInstrumentationDemo() {
     );
 
     console.log('\nShutting down...');
-    await keywordsAI.shutdown();
+    await respan.shutdown();
     console.log('Manual instrumentation demo completed.');
 }
 

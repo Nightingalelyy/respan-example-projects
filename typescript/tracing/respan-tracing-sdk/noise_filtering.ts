@@ -1,4 +1,4 @@
-import { startTracing, withWorkflow, withTask, withTool, getClient } from '@keywordsai/tracing';
+import { startTracing, withWorkflow, withTask, withTool, getClient } from '@respan/tracing';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -10,11 +10,11 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '.env') });
 
 async function runNoiseFilteringDemo() {
-    console.log("=== KeywordsAI Noise Filtering Demo ===\n");
+    console.log("=== Respan Noise Filtering Demo ===\n");
 
     await startTracing({
-        apiKey: process.env.KEYWORDSAI_API_KEY || "demo-key",
-        baseURL: process.env.KEYWORDSAI_BASE_URL || "https://api.keywordsai.co",
+        apiKey: process.env.RESPAN_API_KEY || "demo-key",
+        baseURL: process.env.RESPAN_BASE_URL || "https://api.respan.ai",
         appName: "noise-filtering-demo",
         logLevel: "info",
         instrumentModules: {
@@ -28,7 +28,7 @@ async function runNoiseFilteringDemo() {
     });
 
     console.log("Scenario 1: Making an OpenAI request OUTSIDE any context");
-    console.log("(This should NOT be sent to KeywordsAI - filtered as noise)\n");
+    console.log("(This should NOT be sent to Respan - filtered as noise)\n");
     try {
         await openai.chat.completions.create({
             model: 'gpt-3.5-turbo',
@@ -41,7 +41,7 @@ async function runNoiseFilteringDemo() {
     }
 
     console.log("Scenario 2: Making OpenAI requests INSIDE a workflow context");
-    console.log("(Child spans SHOULD be preserved and sent to KeywordsAI)\n");
+    console.log("(Child spans SHOULD be preserved and sent to Respan)\n");
 
     await withWorkflow({ name: "noise_filtered_workflow" }, async () => {
         console.log("  Inside workflow context...\n");

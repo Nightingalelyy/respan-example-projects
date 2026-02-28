@@ -4,15 +4,15 @@ from dotenv import load_dotenv
 
 loaded = load_dotenv(".env", override=True)
 # print("Loaded env?", loaded)
-from keywordsai_tracing.decorators import workflow, task
-from keywordsai_tracing.main import KeywordsAITelemetry
+from respan_tracing.decorators import workflow, task
+from respan_tracing.main import RespanTelemetry
 import time
 from anthropic import Anthropic
 
 client = OpenAI()
 anthropic = Anthropic()
 
-k_tl = KeywordsAITelemetry(
+k_tl = RespanTelemetry(
 )
 
 @task(name="store_joke")

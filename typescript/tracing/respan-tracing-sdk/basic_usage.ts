@@ -1,4 +1,4 @@
-import { KeywordsAITelemetry } from '@keywordsai/tracing';
+import { RespanTelemetry } from '@respan/tracing';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -8,16 +8,16 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-const keywordsAi = new KeywordsAITelemetry({
-    apiKey: process.env.KEYWORDSAI_API_KEY,
-    baseURL: process.env.KEYWORDSAI_BASE_URL,
+const respan = new RespanTelemetry({
+    apiKey: process.env.RESPAN_API_KEY,
+    baseURL: process.env.RESPAN_BASE_URL,
     appName: 'basic-example',
     disableBatch: true,
     logLevel: 'info'
 });
 
 const generateResponse = async (prompt: string) => {
-    return await keywordsAi.withTask(
+    return await respan.withTask(
         { name: 'generate_response', version: 1 },
         async () => {
             await new Promise(resolve => setTimeout(resolve, 100));
@@ -27,7 +27,7 @@ const generateResponse = async (prompt: string) => {
 };
 
 const chatWorkflow = async (userMessage: string) => {
-    return await keywordsAi.withWorkflow(
+    return await respan.withWorkflow(
         { 
             name: 'chat_workflow', 
             version: 1,
@@ -36,7 +36,7 @@ const chatWorkflow = async (userMessage: string) => {
         async () => {
             const response = await generateResponse(userMessage);
             
-            await keywordsAi.withTask(
+            await respan.withTask(
                 { name: 'log_interaction' },
                 async () => {
                     console.log(`User: ${userMessage}`);
@@ -51,13 +51,13 @@ const chatWorkflow = async (userMessage: string) => {
 };
 
 const assistantAgent = async (query: string) => {
-    return await keywordsAi.withAgent(
+    return await respan.withAgent(
         { 
             name: 'assistant_agent',
             associationProperties: { 'agent_type': 'general' }
         },
         async () => {
-            const analysis = await keywordsAi.withTool(
+            const analysis = await respan.withTool(
                 { name: 'query_analyzer' },
                 async () => {
                     return {
@@ -68,7 +68,7 @@ const assistantAgent = async (query: string) => {
                 }
             );
             
-            const response = await keywordsAi.withTool(
+            const response = await respan.withTool(
                 { name: 'response_generator' },
                 async () => {
                     await new Promise(resolve => setTimeout(resolve, 100));
@@ -86,7 +86,7 @@ const assistantAgent = async (query: string) => {
 
 async function main() {
     try {
-        await keywordsAi.initialize();
+        await respan.initialize();
         
         console.log('=== Basic Task Example ===');
         const basicResponse = await generateResponse('Hello, how are you?');
@@ -102,11 +102,11 @@ async function main() {
         
         console.log('\n=== All examples completed ===');
         
-        await keywordsAi.shutdown();
+        await respan.shutdown();
         
     } catch (error) {
         console.error('Error:', error);
-        await keywordsAi.shutdown();
+        await respan.shutdown();
     }
 }
 
@@ -114,4 +114,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     main();
 }
 
-export { keywordsAi, generateResponse, chatWorkflow, assistantAgent };
+export { respan, generateResponse, chatWorkflow, assistantAgent };

@@ -3,9 +3,9 @@
         {
             "id": "0e128c3a-2d99-4486-bb8f-2e89c31f3513",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
             "eval_class": "",
             "name": "Human bool example",
@@ -40,9 +40,9 @@
         {
             "id": "29dff465-8f0a-423a-9931-9b628158f490",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
             "eval_class": "",
             "name": "Human categorical example",
@@ -77,9 +77,9 @@
         {
             "id": "f996d859-12e5-4969-9869-59f7d1ba7e2b",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
             "eval_class": "",
             "name": "Human numerical sample",
@@ -105,9 +105,9 @@
         {
             "id": "f3147fcf-7d81-48b1-9c49-4e81babbcd9b",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
             "eval_class": "",
             "name": "Human text example",
@@ -133,11 +133,11 @@
         {
             "id": "dbc152fc-8b9a-4db9-aa2c-ecae1f3733a8",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
-            "eval_class": "keywordsai_custom_evaluator",
+            "eval_class": "respan_custom_evaluator",
             "name": "Info correctness",
             "type": "llm",
             "unique_organization_id": "8264a3f4-40c7-476a-97d1-96908127ea21",
@@ -164,11 +164,11 @@
         {
             "id": "9b589384-574a-429c-8996-58419f514871",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
-            "eval_class": "keywordsai_custom_evaluator",
+            "eval_class": "respan_custom_evaluator",
             "name": "Is English",
             "type": "llm",
             "unique_organization_id": "8264a3f4-40c7-476a-97d1-96908127ea21",
@@ -195,11 +195,11 @@
         {
             "id": "05a79783-41fe-4735-92e0-a3cad23505ac",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
-            "eval_class": "keywordsai_custom_evaluator",
+            "eval_class": "respan_custom_evaluator",
             "name": "Language",
             "type": "llm",
             "unique_organization_id": "8264a3f4-40c7-476a-97d1-96908127ea21",
@@ -225,9 +225,9 @@
         {
             "id": "de1471a2-aaae-4db5-8389-bb7b22c4f22f",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
             "eval_class": "output_word_count",
             "name": "Output word count",
@@ -253,11 +253,11 @@
         {
             "id": "acc92605-25d3-4923-b24f-52502f618bfa",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
-            "eval_class": "keywordsai_custom_evaluator",
+            "eval_class": "respan_custom_evaluator",
             "name": "RNG test",
             "type": "llm",
             "unique_organization_id": "8264a3f4-40c7-476a-97d1-96908127ea21",
@@ -284,9 +284,9 @@
         {
             "id": "9012325c-54ee-4c7f-a64a-9a708f420a6f",
             "editor": {
-                "first_name": "Keywords AI",
+                "first_name": "Respan",
                 "last_name": "Team",
-                "email": "admin@keywordsai.co"
+                "email": "admin@respan.ai"
             },
             "eval_class": "custom_code",
             "name": "Updated evaluator name",
@@ -348,11 +348,11 @@
             "value_choices": [
                 {
                     "name": "Raymond Huang",
-                    "value": "raymond@keywordsai.co"
+                    "value": "raymond@respan.ai"
                 },
                 {
-                    "name": "Keywords AI Team",
-                    "value": "admin@keywordsai.co"
+                    "name": "Respan Team",
+                    "value": "admin@respan.ai"
                 }
             ],
             "value_field_type": "selection",

@@ -10,8 +10,8 @@ def extract_variables_from_logs(logs_data):
     testset_rows = []
     
     for log in logs_data.get('results', []):
-        keywordsai_params = log.get('keywordsai_params', {})
-        variables = keywordsai_params.get('variables', {})
+        respan_params = log.get('respan_params', {})
+        variables = respan_params.get('variables', {})
         
         # Extract the relevant variables for our travel agent
         if 'category' in variables and 'name' in variables:
@@ -21,8 +21,8 @@ def extract_variables_from_logs(logs_data):
                 "is_booking_hotel": variables.get('is_booking_hotel', False),
                 "is_checking_weather": variables.get('is_checking_weather', False),
                 "has_image": 'image' in variables,
-                "customer_id": keywordsai_params.get('customer_identifier', ''),
-                "evaluation_id": keywordsai_params.get('evaluation_identifier', '')
+                "customer_id": respan_params.get('customer_identifier', ''),
+                "evaluation_id": respan_params.get('evaluation_identifier', '')
             }
             
             # Add expected behavior based on variables

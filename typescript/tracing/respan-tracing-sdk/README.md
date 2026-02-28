@@ -1,11 +1,11 @@
-# KeywordsAI Tracing SDK Examples
+# Respan Tracing SDK Examples
 
-This directory contains comprehensive examples of how to use the `@keywordsai/tracing` SDK. These examples cover all core functionalities tested in the Tracing SDK reference directory.
+This directory contains comprehensive examples of how to use the `@respan/tracing` SDK. These examples cover all core functionalities tested in the Tracing SDK reference directory.
 
 ## Prerequisites
 
 - Node.js (v18 or higher)
-- A KeywordsAI API Key (from [keywordsai.com](https://keywordsai.com))
+- A Respan API Key (from [respan.aim](https://respan.aim))
 - (Optional) AI Provider API Keys (OpenAI, Anthropic) for real API testing
 
 ## Setup
@@ -22,8 +22,8 @@ This directory contains comprehensive examples of how to use the `@keywordsai/tr
 
 3. Configure environment variables in `.env`:
    ```env
-   KEYWORDSAI_API_KEY=your_keywordsai_api_key
-   KEYWORDSAI_BASE_URL=https://api.keywordsai.co
+   RESPAN_API_KEY=your_respan_api_key
+   RESPAN_BASE_URL=https://api.respan.ai
    OPENAI_API_KEY=your_openai_api_key
    ANTHROPIC_API_KEY=your_anthropic_api_key
    ```
@@ -73,7 +73,7 @@ npx tsx tracing_sdk_example/span_management.ts
 ```
 
 #### 7. Update Span (`update_span.ts`)
-Advanced span updating with KeywordsAI-specific parameters.
+Advanced span updating with Respan-specific parameters.
 ```bash
 npx tsx tracing_sdk_example/update_span.ts
 ```
@@ -132,7 +132,7 @@ npx tsx tracing_sdk_example/test_tracing.ts
 | `withTask` | Discrete step within a workflow. |
 | `withAgent` / `withTool` | Specialized for agentic patterns. |
 | `getClient()` | Access manual span management methods. |
-| `updateCurrentSpan` | Update name, attributes, status, and KeywordsAI params. |
+| `updateCurrentSpan` | Update name, attributes, status, and Respan params. |
 | `addSpanEvent` | Add a timestamped event to the current span. |
 | `recordSpanException` | Record an error on the current span. |
 | `setSpanStatus` | Set span status (OK, ERROR). |
@@ -145,8 +145,8 @@ npx tsx tracing_sdk_example/test_tracing.ts
 
 See `.env.example` for all available configuration options. Key variables:
 
-- `KEYWORDSAI_API_KEY` - Your KeywordsAI API key (required)
-- `KEYWORDSAI_BASE_URL` - KeywordsAI API base URL (default: https://api.keywordsai.co)
+- `RESPAN_API_KEY` - Your Respan API key (required)
+- `RESPAN_BASE_URL` - Respan API base URL (default: https://api.respan.ai)
 - `OPENAI_API_KEY` - OpenAI API key (optional, for OpenAI examples)
 - `OPENAI_BASE_URL` - OpenAI API base URL (optional)
 - `ANTHROPIC_API_KEY` - Anthropic API key (optional, for Anthropic examples)

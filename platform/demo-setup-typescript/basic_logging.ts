@@ -1,12 +1,12 @@
 /**
  * Basic Logging Example
- * Documentation: https://docs.keywordsai.co/get-started/quickstart/logging
+ * Documentation: https://docs.respan.ai/get-started/quickstart/logging
  */
 
 import "dotenv/config";
 
-const BASE_URL = process.env.KEYWORDSAI_BASE_URL || "https://api.keywordsai.co/api";
-const API_KEY = process.env.KEYWORDSAI_API_KEY;
+const BASE_URL = process.env.RESPAN_BASE_URL || "https://api.respan.ai/api";
+const API_KEY = process.env.RESPAN_API_KEY;
 const DEFAULT_MODEL = process.env.DEFAULT_MODEL || "gpt-4o";
 const DEFAULT_MODEL_MINI = process.env.DEFAULT_MODEL_MINI || "gpt-4o-mini";
 const DEFAULT_MODEL_CLAUDE = process.env.DEFAULT_MODEL_CLAUDE || "claude-3-5-sonnet-20241022";

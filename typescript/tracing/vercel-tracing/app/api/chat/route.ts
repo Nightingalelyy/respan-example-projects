@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   console.log('chat id', id); // can be used for persisting the chat
   const createHeader = () => {
     return {
-      'X-Data-Keywordsai-Params': Buffer.from(JSON.stringify({
+      'X-Data-Respan-Params': Buffer.from(JSON.stringify({
         prompt_unit_price: 100000
       })).toString('base64')
     }

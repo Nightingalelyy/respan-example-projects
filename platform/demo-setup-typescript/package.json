@@ -1,7 +1,7 @@
 {
   "name": "demo-account-setup-ts",
   "version": "1.0.0",
-  "description": "TypeScript examples for KeywordsAI demo account setup",
+  "description": "TypeScript examples for Respan demo account setup",
   "type": "module",
   "scripts": {
     "basic-logging": "npx tsx basic_logging.ts",

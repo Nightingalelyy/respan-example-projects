@@ -16,7 +16,7 @@
         "span_path": "logging_joke",
         "span_workflow_name": "audience_reaction",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -41,7 +41,7 @@
         "span_path": "",
         "span_workflow_name": "pirate_joke_plus_audience_reactions",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -90,7 +90,7 @@
         "span_path": "joke_creation",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -117,7 +117,7 @@
         "span_path": "joke_creation.store_joke",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -162,7 +162,7 @@
         "span_path": "joke_creation.pirate_joke_translation",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -207,7 +207,7 @@
         "span_path": "joke_creation.pirate_joke_translation.signature_generation",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -253,7 +253,7 @@
         "span_path": "audience_laughs",
         "span_workflow_name": "audience_reaction",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -299,7 +299,7 @@
         "span_path": "audience_laughs.audience_applaud.audience_claps",
         "span_workflow_name": "audience_reaction",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -345,7 +345,7 @@
         "span_path": "audience_laughs.audience_applaud.audience_claps",
         "span_workflow_name": "audience_reaction",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -371,7 +371,7 @@
         "span_path": "joke_creation.store_joke",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -397,7 +397,7 @@
         "span_path": "joke_creation",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -423,7 +423,7 @@
         "span_path": "joke_creation.pirate_joke_translation",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -449,7 +449,7 @@
         "span_path": "joke_creation.pirate_joke_translation.signature_generation",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -475,7 +475,7 @@
         "span_path": "",
         "span_workflow_name": "pirate_joke_generator",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -501,7 +501,7 @@
         "span_path": "audience_laughs",
         "span_workflow_name": "audience_reaction",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -527,7 +527,7 @@
         "span_path": "audience_laughs.audience_applaud.audience_claps",
         "span_workflow_name": "audience_reaction",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -553,7 +553,7 @@
         "span_path": "audience_laughs.audience_applaud",
         "span_workflow_name": "audience_reaction",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },
@@ -579,7 +579,7 @@
         "span_path": "",
         "span_workflow_name": "audience_reaction",
         "disable_fallback": false,
-        "keywordsai_params": {
+        "respan_params": {
             "has_webhook": false,
             "environment": "prod"
         },

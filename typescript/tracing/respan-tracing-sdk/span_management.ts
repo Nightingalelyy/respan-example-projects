@@ -1,5 +1,5 @@
-import { KeywordsAITelemetry, getClient } from '@keywordsai/tracing';
-import { updateCurrentSpan, addSpanEvent, recordSpanException } from '@keywordsai/tracing';
+import { RespanTelemetry, getClient } from '@respan/tracing';
+import { updateCurrentSpan, addSpanEvent, recordSpanException } from '@respan/tracing';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -9,18 +9,18 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-const keywordsAi = new KeywordsAITelemetry({
-    apiKey: process.env.KEYWORDSAI_API_KEY || "demo-key",
+const respan = new RespanTelemetry({
+    apiKey: process.env.RESPAN_API_KEY || "demo-key",
     appName: "span-management-demo",
     disableBatch: true,
     logLevel: 'info'
 });
 
 async function runSpanManagementDemo() {
-    await keywordsAi.initialize();
+    await respan.initialize();
     console.log("Starting Span Management Demo\n");
 
-    await keywordsAi.withWorkflow({ name: "main_workflow" }, async () => {
+    await respan.withWorkflow({ name: "main_workflow" }, async () => {
         const client = getClient();
         
         // Check if methods exist before calling
@@ -40,7 +40,7 @@ async function runSpanManagementDemo() {
                 "custom.status": "processing",
                 "env": "test"
             },
-            keywordsaiParams: {
+            respanParams: {
                 customerIdentifier: "user_999",
                 traceGroupIdentifier: "demo-group",
                 metadata: {
@@ -57,7 +57,7 @@ async function runSpanManagementDemo() {
 
         await new Promise(resolve => setTimeout(resolve, 200));
 
-        await keywordsAi.withTask({ name: "sub_task" }, async () => {
+        await respan.withTask({ name: "sub_task" }, async () => {
             console.log("In sub-task...");
             
             addSpanEvent("sub_task_event");
@@ -74,7 +74,7 @@ async function runSpanManagementDemo() {
     });
 
     console.log("\nShutting down...");
-    await keywordsAi.shutdown();
+    await respan.shutdown();
     console.log("Span management demo completed.");
 }
 

@@ -2,10 +2,10 @@
 """
 Create Evaluator Example
 
-This example demonstrates how to create custom evaluators in KeywordsAI.
+This example demonstrates how to create custom evaluators in Respan.
 Evaluators are used to automatically score and evaluate logs.
 
-Documentation: https://docs.keywordsai.co/api-endpoints/evaluate/evaluators/create
+Documentation: https://docs.respan.ai/api-endpoints/evaluate/evaluators/create
 """
 
 import os
@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-BASE_URL = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
-API_KEY = os.getenv("KEYWORDSAI_API_KEY")
+BASE_URL = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
+API_KEY = os.getenv("RESPAN_API_KEY")
 
 # Evaluator configuration from environment variables
 EVALUATOR_LLM_ENGINE = os.getenv("EVALUATOR_LLM_ENGINE", "gpt-4o-mini")
@@ -38,7 +38,7 @@ def create_evaluator(
     configurations: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
     """
-    Create a custom evaluator in Keywords AI.
+    Create a custom evaluator in Respan.
     
     Args:
         name: Human-readable name for the evaluator
@@ -151,7 +151,7 @@ def create_llm_evaluator(
 def main():
     """Example usage of evaluator creation."""
     print("=" * 80)
-    print("KeywordsAI Create Evaluator Example")
+    print("Respan Create Evaluator Example")
     print("=" * 80)
     
     # Example 1: Simple LLM evaluator for response quality

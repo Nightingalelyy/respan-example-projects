@@ -8,14 +8,14 @@ from google import genai
 from google.genai.types import Tool, GenerateContentConfig, UrlContext
 from google.genai import types
 
-API_KEY = os.getenv("KEYWORDSAI_API_KEY")
+API_KEY = os.getenv("RESPAN_API_KEY")
 if not API_KEY:
-    raise ValueError("KEYWORDSAI_API_KEY not found in environment variables. Please set it in .env file.")
+    raise ValueError("RESPAN_API_KEY not found in environment variables. Please set it in .env file.")
 
 client = genai.Client(
     api_key=API_KEY,
     http_options={
-        "base_url": "https://api.keywordsai.co/api/google/gemini",
+        "base_url": "https://api.respan.ai/api/google/gemini",
     }
 )
 model_id = "gemini-2.5-flash"

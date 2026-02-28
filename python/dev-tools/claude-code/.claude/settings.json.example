@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 ~/.claude/hooks/keywordsai_hook.py"
+            "command": "python3 ~/.claude/hooks/respan_hook.py"
           }
         ]
       }

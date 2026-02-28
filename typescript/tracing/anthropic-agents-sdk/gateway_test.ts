@@ -18,16 +18,16 @@ import "dotenv/config";
 import { query } from "@anthropic-ai/claude-agent-sdk";
 import { RespanAnthropicAgentsExporter } from "@respan/exporter-anthropic-agents";
 
-const API_KEY = process.env.RESPAN_API_KEY || process.env.KEYWORDSAI_API_KEY;
+const API_KEY = process.env.RESPAN_API_KEY || process.env.RESPAN_API_KEY;
 const BASE_URL = (
   process.env.RESPAN_GATEWAY_BASE_URL ||
   process.env.RESPAN_BASE_URL ||
-  process.env.KEYWORDSAI_BASE_URL ||
-  "https://api.keywordsai.co/api"
+  process.env.RESPAN_BASE_URL ||
+  "https://api.respan.ai/api"
 ).replace(/\/+$/, "");
 
 if (!API_KEY) {
-  console.error("ERROR: Set RESPAN_API_KEY (or KEYWORDSAI_API_KEY)");
+  console.error("ERROR: Set RESPAN_API_KEY (or RESPAN_API_KEY)");
   process.exit(1);
 }
 
@@ -74,7 +74,7 @@ async function main(): Promise<void> {
   }
 
   console.log(`\nSession: ${sessionId}`);
-  console.log("View trace at: https://platform.keywordsai.co/traces");
+  console.log("View trace at: https://platform.respan.ai/traces");
 }
 
 main().catch(console.error);

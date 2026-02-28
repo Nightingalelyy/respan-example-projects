@@ -5,7 +5,7 @@ Create Log Scores Example
 This example demonstrates how to create scores on logs using evaluators.
 Scores link evaluators to specific log entries and store evaluation results.
 
-Documentation: https://docs.keywordsai.co/api-endpoints/evaluate/log-scores/create
+Documentation: https://docs.respan.ai/api-endpoints/evaluate/log-scores/create
 """
 
 import os
@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-BASE_URL = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
-API_KEY = os.getenv("KEYWORDSAI_API_KEY")
+BASE_URL = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
+API_KEY = os.getenv("RESPAN_API_KEY")
 
 
 def create_log_score(
@@ -153,7 +153,7 @@ def create_log_score_batch(
 def main():
     """Example usage of log score creation."""
     print("=" * 80)
-    print("KeywordsAI Create Log Scores Example")
+    print("Respan Create Log Scores Example")
     print("=" * 80)
     print("\n⚠️  Note: This example requires existing logs and evaluators.")
     print("   Please run basic_logging.py and create_evaluator.py first.\n")

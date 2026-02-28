@@ -1,12 +1,12 @@
 import requests
 import json
-from ..constants import KEYWORDSAI_BASE_URL, KEYWORDSAI_BASE_HEADERS
+from ..constants import RESPAN_BASE_URL, RESPAN_BASE_HEADERS
 
 
 def create_experiment(name: str, description: str = "", columns: list = None, rows: list = None):
     """Create a new experiment"""
-    url = KEYWORDSAI_BASE_URL + "/experiments/create"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/experiments/create"
+    headers = RESPAN_BASE_HEADERS
     
     experiment_data = {
         "name": name,
@@ -31,8 +31,8 @@ def create_experiment(name: str, description: str = "", columns: list = None, ro
 
 def list_experiments():
     """List all experiments"""
-    url = KEYWORDSAI_BASE_URL + "/experiments/list"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/experiments/list"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -46,8 +46,8 @@ def list_experiments():
 
 def get_experiment(experiment_id: str):
     """Retrieve a specific experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -61,8 +61,8 @@ def get_experiment(experiment_id: str):
 
 def update_experiment(experiment_id: str, name: str = None, description: str = None):
     """Update experiment metadata"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}"
+    headers = RESPAN_BASE_HEADERS
     
     update_data = {}
     if name is not None:
@@ -83,8 +83,8 @@ def update_experiment(experiment_id: str, name: str = None, description: str = N
 
 def add_experiment_rows(experiment_id: str, rows: list):
     """Add rows to an experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}/rows"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}/rows"
+    headers = RESPAN_BASE_HEADERS
     response = requests.post(url, headers=headers, json={"rows": rows})
     response_data = response.json()
     try:
@@ -98,8 +98,8 @@ def add_experiment_rows(experiment_id: str, rows: list):
 
 def remove_experiment_rows(experiment_id: str, row_ids: list):
     """Remove rows from an experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}/rows"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}/rows"
+    headers = RESPAN_BASE_HEADERS
     response = requests.delete(url, headers=headers, json={"rows": row_ids})
     try:
         response.raise_for_status()
@@ -113,8 +113,8 @@ def remove_experiment_rows(experiment_id: str, row_ids: list):
 
 def update_experiment_rows(experiment_id: str, rows: list):
     """Update rows in an experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}/rows"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}/rows"
+    headers = RESPAN_BASE_HEADERS
     response = requests.patch(url, headers=headers, json={"rows": rows})
     response_data = response.json()
     try:
@@ -128,8 +128,8 @@ def update_experiment_rows(experiment_id: str, rows: list):
 
 def add_experiment_columns(experiment_id: str, columns: list):
     """Add columns to an experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}/columns"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}/columns"
+    headers = RESPAN_BASE_HEADERS
     response = requests.post(url, headers=headers, json={"columns": columns})
     response_data = response.json()
     try:
@@ -143,8 +143,8 @@ def add_experiment_columns(experiment_id: str, columns: list):
 
 def remove_experiment_columns(experiment_id: str, column_ids: list):
     """Remove columns from an experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}/columns"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}/columns"
+    headers = RESPAN_BASE_HEADERS
     response = requests.delete(url, headers=headers, json={"columns": column_ids})
     try:
         response.raise_for_status()
@@ -158,8 +158,8 @@ def remove_experiment_columns(experiment_id: str, column_ids: list):
 
 def update_experiment_columns(experiment_id: str, columns: list):
     """Update columns in an experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}/columns"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}/columns"
+    headers = RESPAN_BASE_HEADERS
     response = requests.patch(url, headers=headers, json={"columns": columns})
     response_data = response.json()
     try:
@@ -173,8 +173,8 @@ def update_experiment_columns(experiment_id: str, columns: list):
 
 def run_experiment(experiment_id: str, columns: list = None):
     """Run an experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}/run"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}/run"
+    headers = RESPAN_BASE_HEADERS
     
     run_data = {}
     if columns:
@@ -193,8 +193,8 @@ def run_experiment(experiment_id: str, columns: list = None):
 
 def run_experiment_evals(experiment_id: str, evaluator_slugs: list):
     """Run evaluations on an experiment"""
-    url = KEYWORDSAI_BASE_URL + f"/experiments/{experiment_id}/run-evals"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/experiments/{experiment_id}/run-evals"
+    headers = RESPAN_BASE_HEADERS
     response = requests.post(
         url,
         headers=headers,

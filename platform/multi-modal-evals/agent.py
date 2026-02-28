@@ -10,8 +10,8 @@ from example_workflows.multi_modal_tool_evals.constants import EVALUATION_IDENTI
 resource_path = Path(__file__).parent / "assets"
 
 client = OpenAI(
-    base_url=os.getenv("KEYWORDSAI_BASE_URL"),
-    api_key=os.getenv("KEYWORDSAI_API_KEY"),
+    base_url=os.getenv("RESPAN_BASE_URL"),
+    api_key=os.getenv("RESPAN_API_KEY"),
 )
 
 EVALUATION_IDENTIFIER = EVALUATION_IDENTIFIER
@@ -110,9 +110,9 @@ def create_demo_variables(
     name: str,
     **kwargs,
 ):
-    """Create variables for KeywordsAI prompt management"""
+    """Create variables for Respan prompt management"""
 
-    # Variables for KeywordsAI prompt template
+    # Variables for Respan prompt template
     variables = {
         "category": category,
         "is_booking_hotel": is_booking_hotel,
@@ -141,7 +141,7 @@ def get_user_location_choice() -> str:
     return user_choice
 
 
-def _run_interactive_loop(assistant_response, conversation_history, keywordsai_args):
+def _run_interactive_loop(assistant_response, conversation_history, respan_args):
     """Handle the interactive conversation loop"""
     print(f"\nAssistant: {assistant_response}")
     while True:
@@ -153,13 +153,13 @@ def _run_interactive_loop(assistant_response, conversation_history, keywordsai_a
         conversation_history.append({"role": "user", "content": user_input})
 
         # Update conversation history in prompt args
-        keywordsai_args["prompt"]["override_params"]["messages"] = conversation_history
+        respan_args["prompt"]["override_params"]["messages"] = conversation_history
 
         # Get agent response
         continue_response = client.chat.completions.create(
             model="gpt-4o",
             messages=[],
-            extra_body=keywordsai_args,
+            extra_body=respan_args,
         )
 
         # Handle any new tool calls
@@ -202,12 +202,12 @@ def _run_interactive_loop(assistant_response, conversation_history, keywordsai_a
                 })
 
             # Update conversation history and get final response
-            keywordsai_args["prompt"]["override_params"]["messages"] = conversation_history
+            respan_args["prompt"]["override_params"]["messages"] = conversation_history
 
             final_response = client.chat.completions.create(
                 model="gpt-4o",
                 messages=[],
-                extra_body=keywordsai_args,
+                extra_body=respan_args,
             )
             agent_reply = final_response.choices[0].message.content
             conversation_history.append({"role": "assistant", "content": agent_reply})
@@ -219,13 +219,13 @@ def _run_interactive_loop(assistant_response, conversation_history, keywordsai_a
 
 
 def run_demo_agent(variables: dict, customer_id: str, interactive: bool = True):
-    """Run the travel agent demo with KeywordsAI prompt management"""
+    """Run the travel agent demo with Respan prompt management"""
 
     prompt_id = os.getenv("TRAVELING_AGENT_PROMPT_ID")  # Replace with actual prompt ID
     conversation_history = []
 
-    # KeywordsAI prompt management configuration
-    keywordsai_args = {
+    # Respan prompt management configuration
+    respan_args = {
         "prompt": {
             "prompt_id": prompt_id,
             "variables": variables,
@@ -242,7 +242,7 @@ def run_demo_agent(variables: dict, customer_id: str, interactive: bool = True):
     response = client.chat.completions.create(
         model="gpt-4o",  # This will be overridden by prompt if override=True
         messages=[],  # Empty since we're using prompt management
-        extra_body=keywordsai_args,
+        extra_body=respan_args,
     )
 
     # Track conversation history for multi-turn
@@ -297,12 +297,12 @@ def run_demo_agent(variables: dict, customer_id: str, interactive: bool = True):
             )
 
         # Make follow-up request with updated conversation history
-        keywordsai_args["prompt"]["override_params"]["messages"] = conversation_history
+        respan_args["prompt"]["override_params"]["messages"] = conversation_history
 
         follow_up_response = client.chat.completions.create(
             model="gpt-4o",
             messages=[],
-            extra_body=keywordsai_args,
+            extra_body=respan_args,
         )
         assistant_response = follow_up_response.choices[0].message.content
         conversation_history.append(
@@ -311,7 +311,7 @@ def run_demo_agent(variables: dict, customer_id: str, interactive: bool = True):
 
         # Continue conversation if interactive
         if interactive:
-            _run_interactive_loop(assistant_response, conversation_history, keywordsai_args)
+            _run_interactive_loop(assistant_response, conversation_history, respan_args)
 
     else:
         assistant_response = response.choices[0].message.content
@@ -321,14 +321,14 @@ def run_demo_agent(variables: dict, customer_id: str, interactive: bool = True):
 
         # Continue conversation if interactive
         if interactive:
-            _run_interactive_loop(assistant_response, conversation_history, keywordsai_args)
+            _run_interactive_loop(assistant_response, conversation_history, respan_args)
 
     return assistant_response
 
 
 def run_interactive_demo():
     """Run interactive demo with multiple customers"""
-    print("=== KeywordsAI Multi-Modal Tool Evaluation Demo ===\n")
+    print("=== Respan Multi-Modal Tool Evaluation Demo ===\n")
 
     # Demo customers with different scenarios
     customers = [

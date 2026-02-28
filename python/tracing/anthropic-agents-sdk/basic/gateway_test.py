@@ -30,12 +30,12 @@ from claude_agent_sdk import ClaudeAgentOptions, ResultMessage
 
 from respan_exporter_anthropic_agents import RespanAnthropicAgentsExporter
 
-API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("KEYWORDSAI_API_KEY")
+API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("RESPAN_API_KEY")
 BASE_URL = (
     os.getenv("RESPAN_GATEWAY_BASE_URL")
     or os.getenv("RESPAN_BASE_URL")
-    or os.getenv("KEYWORDSAI_BASE_URL")
-    or "https://api.keywordsai.co/api"
+    or os.getenv("RESPAN_BASE_URL")
+    or "https://api.respan.ai/api"
 ).rstrip("/")
 
 exporter = RespanAnthropicAgentsExporter(
@@ -82,11 +82,11 @@ async def test_gateway_query():
             print(f"Usage: {result.usage}")
 
     print(f"\nSession: {exporter._last_session_id}")
-    print(f"View trace at: https://platform.keywordsai.co/traces")
+    print(f"View trace at: https://platform.respan.ai/traces")
 
 
 if __name__ == "__main__":
     if not API_KEY:
-        print("ERROR: Set RESPAN_API_KEY (or KEYWORDSAI_API_KEY)")
+        print("ERROR: Set RESPAN_API_KEY (or RESPAN_API_KEY)")
         sys.exit(1)
     asyncio.run(test_gateway_query())

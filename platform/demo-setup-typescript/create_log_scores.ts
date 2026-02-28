@@ -1,12 +1,12 @@
 /**
  * Create Log Scores Example
- * Documentation: https://docs.keywordsai.co/api-endpoints/evaluate/log-scores/create
+ * Documentation: https://docs.respan.ai/api-endpoints/evaluate/log-scores/create
  */
 
 import "dotenv/config";
 
-const BASE_URL = process.env.KEYWORDSAI_BASE_URL || "https://api.keywordsai.co/api";
-const API_KEY = process.env.KEYWORDSAI_API_KEY;
+const BASE_URL = process.env.RESPAN_BASE_URL || "https://api.respan.ai/api";
+const API_KEY = process.env.RESPAN_API_KEY;
 
 interface ScoreResponse {
   id?: string;

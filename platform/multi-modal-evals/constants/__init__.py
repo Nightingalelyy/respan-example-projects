@@ -3,10 +3,10 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-KEYWORDSAI_BASE_URL = os.getenv("KEYWORDSAI_BASE_URL")
-KEYWORDSAI_API_KEY = os.getenv("KEYWORDSAI_API_KEY")
-KEYWORDSAI_BASE_HEADERS = {
-    "Authorization": f"Bearer {KEYWORDSAI_API_KEY}",
+RESPAN_BASE_URL = os.getenv("RESPAN_BASE_URL")
+RESPAN_API_KEY = os.getenv("RESPAN_API_KEY")
+RESPAN_BASE_HEADERS = {
+    "Authorization": f"Bearer {RESPAN_API_KEY}",
     "Content-Type": "application/json",
 }
 

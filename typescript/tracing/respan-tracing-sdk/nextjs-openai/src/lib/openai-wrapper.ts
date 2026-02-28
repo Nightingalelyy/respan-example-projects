@@ -1,7 +1,7 @@
 import OpenAI from "openai";
-import { keywordsai } from "./keywordsai-init";
+import { respan } from "./respan-init";
 
-// Create OpenAI instance - will be automatically instrumented by KeywordsAI
+// Create OpenAI instance - will be automatically instrumented by Respan
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || "",
 });
@@ -12,7 +12,7 @@ export interface ChatMessage {
 }
 
 export async function generateChatCompletion(messages: ChatMessage[]) {
-  return await keywordsai.withWorkflow(
+  return await respan.withWorkflow(
     {
       name: "generateChatCompletion",
     },
@@ -44,7 +44,7 @@ export async function generateChatCompletion(messages: ChatMessage[]) {
 }
 
 export async function generateChatCompletionStream(messages: ChatMessage[]) {
-  return await keywordsai.withWorkflow(
+  return await respan.withWorkflow(
     {
       name: "generateChatCompletionStream",
     },

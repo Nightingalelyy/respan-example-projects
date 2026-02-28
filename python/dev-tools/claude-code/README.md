@@ -1,10 +1,10 @@
-# Claude Code Integration with Keywords AI
+# Claude Code Integration with Respan
 
-This integration automatically sends Claude Code conversation traces to Keywords AI for observability and monitoring.
+This integration automatically sends Claude Code conversation traces to Respan for observability and monitoring.
 
 ## Overview
 
-Claude Code is Anthropic's agentic coding tool that lives in your terminal. This integration uses Claude Code's hooks system to automatically capture and send conversation traces to Keywords AI after each response.
+Claude Code is Anthropic's agentic coding tool that lives in your terminal. This integration uses Claude Code's hooks system to automatically capture and send conversation traces to Respan after each response.
 
 ## Features
 
@@ -18,7 +18,7 @@ Claude Code is Anthropic's agentic coding tool that lives in your terminal. This
 
 1. **Claude Code** - Install from [code.claude.com](https://code.claude.com)
 2. **Python 3.9+** - Verify with `python3 --version`
-3. **Keywords AI API Key** - Get from [platform.keywordsai.co](https://platform.keywordsai.co/platform/api/api-keys)
+3. **Respan API Key** - Get from [platform.respan.ai](https://platform.respan.ai/platform/api/api-keys)
 
 ## Installation
 
@@ -38,10 +38,10 @@ Copy the hook script to Claude Code's hooks directory:
 mkdir -p ~/.claude/hooks
 
 # Copy the hook script
-cp keywordsai_hook.py ~/.claude/hooks/
+cp respan_hook.py ~/.claude/hooks/
 
 # Make it executable
-chmod +x ~/.claude/hooks/keywordsai_hook.py
+chmod +x ~/.claude/hooks/respan_hook.py
 ```
 
 ### Step 3: Configure Global Hook
@@ -54,7 +54,7 @@ Add the Stop hook to your global Claude Code settings (`~/.claude/settings.json`
     "Stop": [{
       "hooks": [{
         "type": "command",
-        "command": "python3 ~/.claude/hooks/keywordsai_hook.py"
+        "command": "python3 ~/.claude/hooks/respan_hook.py"
       }]
     }]
   }
@@ -68,14 +68,14 @@ For each project where you want tracing, create `.claude/settings.local.json`:
 ```json
 {
   "env": {
-    "TRACE_TO_KEYWORDSAI": "true",
-    "KEYWORDS_AI_API_KEY": "your-api-key-here",
-    "KEYWORDS_AI_BASE_URL": "https://api.keywordsai.co/api"
+    "TRACE_TO_RESPAN": "true",
+    "RESPAN_API_KEY": "your-api-key-here",
+    "RESPAN_BASE_URL": "https://api.respan.ai/api"
   }
 }
 ```
 
-**Note:** Tracing is opt-in per project. The hook runs globally but exits immediately if `TRACE_TO_KEYWORDSAI` is not set to `"true"`.
+**Note:** Tracing is opt-in per project. The hook runs globally but exits immediately if `TRACE_TO_RESPAN` is not set to `"true"`.
 
 ## How It Works
 
@@ -83,11 +83,11 @@ For each project where you want tracing, create `.claude/settings.local.json`:
 2. **Transcript Reading**: Script finds the latest transcript file (`*.jsonl` in `~/.claude/projects/`)
 3. **Incremental Processing**: Reads only new messages since last run (tracks state)
 4. **Turn Grouping**: Groups messages into turns (user → assistant → tools)
-5. **Span Creation**: Converts each turn into Keywords AI spans:
+5. **Span Creation**: Converts each turn into Respan spans:
    - Chat span (root) with `log_type: "chat"`
    - Tool spans (children) with `log_type: "tool"`
 6. **Batch Sending**: Sends spans via `/api/traces/ingest/` endpoint
-7. **State Update**: Saves progress to `~/.claude/state/keywordsai_state.json`
+7. **State Update**: Saves progress to `~/.claude/state/respan_state.json`
 
 ## Data Structure
 
@@ -112,62 +112,62 @@ All turns share the same `thread_identifier` (sessionId) for grouping in the Thr
 
 | Variable | Description | Required |
 |----------|-------------|----------|
-| `TRACE_TO_KEYWORDSAI` | Set to `"true"` to enable tracing | Yes |
-| `KEYWORDS_AI_API_KEY` | Your Keywords AI API key | Yes |
-| `KEYWORDS_AI_BASE_URL` | API base URL (default: `https://api.keywordsai.co/api`) | No |
-| `CC_KEYWORDSAI_DEBUG` | Set to `"true"` for verbose debug logging | No |
+| `TRACE_TO_RESPAN` | Set to `"true"` to enable tracing | Yes |
+| `RESPAN_API_KEY` | Your Respan API key | Yes |
+| `RESPAN_BASE_URL` | API base URL (default: `https://api.respan.ai/api`) | No |
+| `CC_RESPAN_DEBUG` | Set to `"true"` for verbose debug logging | No |
 
 ## Troubleshooting
 
-### No traces appearing in Keywords AI
+### No traces appearing in Respan
 
 1. **Check hook is running:**
    ```bash
-   tail -f ~/.claude/state/keywordsai_hook.log
+   tail -f ~/.claude/state/respan_hook.log
    ```
 
 2. **Verify environment variables** in `.claude/settings.local.json`:
-   - `TRACE_TO_KEYWORDSAI` must be `"true"` (string, not boolean)
+   - `TRACE_TO_RESPAN` must be `"true"` (string, not boolean)
    - API key must be correct
 
 3. **Enable debug mode:**
    ```json
    {
      "env": {
-       "CC_KEYWORDSAI_DEBUG": "true"
+       "CC_RESPAN_DEBUG": "true"
      }
    }
    ```
 
 4. **Check script is executable:**
    ```bash
-   chmod +x ~/.claude/hooks/keywordsai_hook.py
+   chmod +x ~/.claude/hooks/respan_hook.py
    ```
 
 ### Permission errors
 
 Make sure the hook script is executable:
 ```bash
-chmod +x ~/.claude/hooks/keywordsai_hook.py
+chmod +x ~/.claude/hooks/respan_hook.py
 ```
 
 ### Hook script errors
 
 Test the script manually:
 ```bash
-TRACE_TO_KEYWORDSAI=true \
-KEYWORDS_AI_API_KEY="your-key" \
-python3 ~/.claude/hooks/keywordsai_hook.py
+TRACE_TO_RESPAN=true \
+RESPAN_API_KEY="your-key" \
+python3 ~/.claude/hooks/respan_hook.py
 ```
 
 Check the log file:
 ```bash
-cat ~/.claude/state/keywordsai_hook.log
+cat ~/.claude/state/respan_hook.log
 ```
 
 ## Viewing Traces
 
-Open your Keywords AI dashboard to see:
+Open your Respan dashboard to see:
 - **Threads view**: All turns in a session as a linear conversation
 - **Traces view**: Each turn as a hierarchical trace with spans
 - **Logs view**: Individual spans/logs
@@ -176,15 +176,15 @@ Filter by `thread_identifier` to see all turns from a Claude Code session.
 
 ## Files
 
-- `keywordsai_hook.py` - Main hook script (copy to `~/.claude/hooks/`)
+- `respan_hook.py` - Main hook script (copy to `~/.claude/hooks/`)
 - `requirements.txt` - Python dependencies
 - `README.md` - This file
 
 ## State Files
 
 The hook creates state files in `~/.claude/state/`:
-- `keywordsai_state.json` - Tracks last processed line per session
-- `keywordsai_hook.log` - Debug logs
+- `respan_state.json` - Tracks last processed line per session
+- `respan_hook.log` - Debug logs
 
 ## Security Note
 

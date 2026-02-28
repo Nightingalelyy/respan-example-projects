@@ -1,5 +1,5 @@
 {
-  "description": "Example of how the trace appears in Keywords AI after all hooks have sent their spans",
+  "description": "Example of how the trace appears in Respan after all hooks have sent their spans",
   "trace_unique_id": "abc123-def456_gen789",
   "spans": [
     {
@@ -122,5 +122,5 @@
       }
     }
   ],
-  "visualization": "In Keywords AI Platform, this appears as:\n\ncursor_abc123-def456_gen789 (15.2s)\n├── Thinking 1 (0.45s) - \"I need to create a Python function...\"\n├── Edit: fibonacci.py (0.1s)\n├── Thinking 2 (0.32s) - \"Now I'll run the Python file...\"\n├── Shell: python fibonacci.py (0.16s)\n└── MCP: search_codebase (0.23s)"
+  "visualization": "In Respan Platform, this appears as:\n\ncursor_abc123-def456_gen789 (15.2s)\n├── Thinking 1 (0.45s) - \"I need to create a Python function...\"\n├── Edit: fibonacci.py (0.1s)\n├── Thinking 2 (0.32s) - \"Now I'll run the Python file...\"\n├── Shell: python fibonacci.py (0.16s)\n└── MCP: search_codebase (0.23s)"
 }

@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import Anthropic from '@anthropic-ai/sdk';
-import { KeywordsAITelemetry } from '@keywordsai/tracing';
+import { RespanTelemetry } from '@respan/tracing';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -13,8 +13,8 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 async function runMultiProviderDemo() {
     console.log('OpenAI and Anthropic SDKs loaded');
 
-    const keywordsAi = new KeywordsAITelemetry({
-        apiKey: process.env.KEYWORDSAI_API_KEY || 'demo-key',
+    const respan = new RespanTelemetry({
+        apiKey: process.env.RESPAN_API_KEY || 'demo-key',
         appName: "multi-provider-demo",
         // Use automatic discovery instead of manual instrumentation
         disableBatch: true,
@@ -30,13 +30,13 @@ async function runMultiProviderDemo() {
         baseURL: process.env.ANTHROPIC_BASE_URL
     });
 
-    await keywordsAi.initialize();
+    await respan.initialize();
     console.log("Starting Multi-Provider Demo\n");
 
-    await keywordsAi.withWorkflow({ name: "multi_llm_workflow" }, async () => {
+    await respan.withWorkflow({ name: "multi_llm_workflow" }, async () => {
         
         console.log("Calling OpenAI...");
-        await keywordsAi.withTask({ name: "openai_step" }, async () => {
+        await respan.withTask({ name: "openai_step" }, async () => {
             try {
                 const response = await openai.chat.completions.create({
                     model: "gpt-3.5-turbo",
@@ -49,7 +49,7 @@ async function runMultiProviderDemo() {
         });
 
         console.log("Calling Anthropic...");
-        await keywordsAi.withTask({ name: "anthropic_step" }, async () => {
+        await respan.withTask({ name: "anthropic_step" }, async () => {
             try {
                 const response = await anthropic.messages.create({
                     model: "claude-3-haiku-20240307",
@@ -64,7 +64,7 @@ async function runMultiProviderDemo() {
     });
 
     console.log("\nShutting down...");
-    await keywordsAi.shutdown();
+    await respan.shutdown();
     console.log("Multi-provider demo completed.");
 }
 

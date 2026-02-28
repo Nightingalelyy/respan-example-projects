@@ -16,8 +16,8 @@ from agents import (
     Runner,
     output_guardrail,
 )
-from keywordsai_exporter_openai_agents import (
-    KeywordsAITraceProcessor,
+from respan_exporter_openai_agents import (
+    RespanTraceProcessor,
 )
 from typing import Union
 from agents.tracing import set_trace_processors, trace
@@ -25,9 +25,9 @@ import os
 
 set_trace_processors(
     [
-        KeywordsAITraceProcessor(
-            os.getenv("KEYWORDSAI_API_KEY"),
-            endpoint=os.getenv("KEYWORDSAI_OAIA_TRACING_ENDPOINT"),
+        RespanTraceProcessor(
+            os.getenv("RESPAN_API_KEY"),
+            endpoint=os.getenv("RESPAN_OAIA_TRACING_ENDPOINT"),
         ),
     ]
 )

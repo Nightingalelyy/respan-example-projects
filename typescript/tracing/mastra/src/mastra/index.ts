@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { weatherAgent } from './agents';
 import { weatherWorkflow as legacyWeatherWorkflow } from './workflows';
 import { weatherWorkflow, weatherWorkflow2 } from './workflows/new-workflow';
-import { KeywordsAIExporter } from '@keywordsai/exporter-vercel';
+import { RespanExporter } from '@respan/exporter-vercel';
 
 dotenv.config({
   path: '.env.local',
@@ -15,13 +15,13 @@ export const mastra = new Mastra({
   legacy_workflows: { legacyWeatherWorkflow },
   workflows: { weatherWorkflow, weatherWorkflow2 },
   telemetry: {
-    serviceName: "keywordsai-mastra-example",
+    serviceName: "respan-mastra-example",
     enabled: true,
     export: {
       type: "custom",
-      "exporter": new KeywordsAIExporter({
-        apiKey: process.env.KEYWORDSAI_API_KEY,
-        baseUrl: process.env.KEYWORDSAI_BASE_URL,
+      "exporter": new RespanExporter({
+        apiKey: process.env.RESPAN_API_KEY,
+        baseUrl: process.env.RESPAN_BASE_URL,
         debug: true,
       })
     }

@@ -1,14 +1,14 @@
-import { KeywordsAITelemetry } from "@keywordsai/tracing";
+import { RespanTelemetry } from "@respan/tracing";
 import OpenAI from "openai";
 import * as dotenv from "dotenv";
 
 // Load environment variables
 dotenv.config({ path: ".env.local", override: true });
 
-// Initialize KeywordsAI telemetry singleton
-const keywordsai = new KeywordsAITelemetry({
-  apiKey: process.env.KEYWORDSAI_API_KEY || "",
-  baseURL: process.env.KEYWORDSAI_BASE_URL || "",
+// Initialize Respan telemetry singleton
+const respan = new RespanTelemetry({
+  apiKey: process.env.RESPAN_API_KEY || "",
+  baseURL: process.env.RESPAN_BASE_URL || "",
   logLevel: "debug",
   instrumentModules: {
     openAI: OpenAI, // This enables OpenAI tracing
@@ -17,6 +17,6 @@ const keywordsai = new KeywordsAITelemetry({
 });
 
 // Initialize the telemetry singleton
-keywordsai.initialize();
+respan.initialize();
 
-export { keywordsai }; 
+export { respan }; 

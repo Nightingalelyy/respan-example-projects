@@ -3,9 +3,9 @@
 Basic Logging Example
 
 This example demonstrates the basic logging functionality as shown in the
-KeywordsAI quickstart guide.
+Respan quickstart guide.
 
-Quickstart guide: https://docs.keywordsai.co/get-started/quickstart/logging
+Quickstart guide: https://docs.respan.ai/get-started/quickstart/logging
 """
 
 import os
@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-BASE_URL = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
-API_KEY = os.getenv("KEYWORDSAI_API_KEY")
+BASE_URL = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
+API_KEY = os.getenv("RESPAN_API_KEY")
 
 # Model configuration from environment variables
 DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "gpt-4o")
@@ -35,7 +35,7 @@ def create_log(
     **kwargs
 ) -> Dict[str, Any]:
     """
-    Create a new log entry in Keywords AI.
+    Create a new log entry in Respan.
     
     Args:
         model: Model name (e.g., "gpt-4o", "claude-3-5-sonnet")
@@ -97,7 +97,7 @@ def create_log(
 def main():
     """Example usage of basic logging."""
     print("=" * 80)
-    print("KeywordsAI Basic Logging Example")
+    print("Respan Basic Logging Example")
     print("=" * 80)
     
     # Example 1: Simple log entry

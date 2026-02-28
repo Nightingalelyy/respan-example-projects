@@ -1,11 +1,11 @@
 import requests
 import json
-from ..constants import KEYWORDSAI_BASE_URL, KEYWORDSAI_BASE_HEADERS
+from ..constants import RESPAN_BASE_URL, RESPAN_BASE_HEADERS
 
 
 def list_evaluators():
-    url = KEYWORDSAI_BASE_URL + "/evaluators/list"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/evaluators/list"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:
@@ -27,8 +27,8 @@ def create_llm_evaluator(
     max_score: float = 1.0,
     passing_score: float = 0.8,
 ):
-    url = KEYWORDSAI_BASE_URL + "/evaluators"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + "/evaluators"
+    headers = RESPAN_BASE_HEADERS
     response = requests.post(
         url,
         headers=headers,
@@ -36,7 +36,7 @@ def create_llm_evaluator(
             "evaluator_slug": evaluator_slug,
             "name": name,
             "description": description,
-            "eval_class": "keywordsai_custom_llm",
+            "eval_class": "respan_custom_llm",
             "configurations": {
                 "evaluator_definition": evaluator_definition,
                 "scoring_rubric": scoring_rubric,
@@ -57,8 +57,8 @@ def create_llm_evaluator(
 
 
 def get_evaluator(evaluator_slug: str):
-    url = KEYWORDSAI_BASE_URL + f"/evaluators/{evaluator_slug}"
-    headers = KEYWORDSAI_BASE_HEADERS
+    url = RESPAN_BASE_URL + f"/evaluators/{evaluator_slug}"
+    headers = RESPAN_BASE_HEADERS
     response = requests.get(url, headers=headers)
     response_data = response.json()
     try:

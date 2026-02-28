@@ -26,8 +26,8 @@ from claude_agent_sdk import ClaudeAgentOptions
 
 from respan_exporter_anthropic_agents import RespanAnthropicAgentsExporter
 
-API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("KEYWORDSAI_API_KEY")
-BASE_URL = os.getenv("RESPAN_BASE_URL") or os.getenv("KEYWORDSAI_BASE_URL")
+API_KEY = os.getenv("RESPAN_API_KEY") or os.getenv("RESPAN_API_KEY")
+BASE_URL = os.getenv("RESPAN_BASE_URL") or os.getenv("RESPAN_BASE_URL")
 
 exporter = RespanAnthropicAgentsExporter(
     api_key=API_KEY,

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Keywords AI Hook for Cursor
+Respan Hook for Cursor
 
 Real-time tracing - each hook sends its span immediately.
-Spans with same trace_unique_id are grouped by Keywords AI server.
+Spans with same trace_unique_id are grouped by Respan server.
 
 Hooks:
 - beforeSubmitPrompt: Store user input + start time
@@ -15,9 +15,9 @@ Hooks:
 - stop: Cleanup
 
 Usage:
-    Copy to ~/.cursor/hooks/keywordsai_hook.py
+    Copy to ~/.cursor/hooks/respan_hook.py
     Configure hooks.json
-    Set KEYWORDSAI_API_KEY and TRACE_TO_KEYWORDSAI=true
+    Set RESPAN_API_KEY and TRACE_TO_RESPAN=true
 """
 
 import json
@@ -29,9 +29,9 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 # Configuration
-LOG_FILE = Path.home() / ".cursor" / "state" / "keywordsai_hook.log"
-STATE_FILE = Path.home() / ".cursor" / "state" / "keywordsai_state.json"
-DEBUG = os.environ.get("CURSOR_KEYWORDSAI_DEBUG", "").lower() == "true"
+LOG_FILE = Path.home() / ".cursor" / "state" / "respan_hook.log"
+STATE_FILE = Path.home() / ".cursor" / "state" / "respan_state.json"
+DEBUG = os.environ.get("CURSOR_RESPAN_DEBUG", "").lower() == "true"
 
 
 def log(level: str, message: str) -> None:
@@ -84,7 +84,7 @@ def get_timestamp() -> str:
 
 
 def send_span(span: Dict, api_key: str, base_url: str) -> bool:
-    """Send a single span to Keywords AI."""
+    """Send a single span to Respan."""
     try:
         url = f"{base_url}/v1/traces/ingest"
         debug(f"Sending span '{span.get('span_name')}' to {url}")
@@ -439,17 +439,17 @@ def main():
     debug("Hook started")
     
     # Check if enabled
-    if os.environ.get("TRACE_TO_KEYWORDSAI", "").lower() != "true":
+    if os.environ.get("TRACE_TO_RESPAN", "").lower() != "true":
         debug("Tracing disabled")
         sys.exit(0)
     
     # Get config
-    api_key = os.getenv("KEYWORDSAI_API_KEY")
-    # Default: api.keywordsai.co | Enterprise: endpoint.keywordsai.co (set KEYWORDSAI_BASE_URL)
-    base_url = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
+    api_key = os.getenv("RESPAN_API_KEY")
+    # Default: api.respan.ai | Enterprise: endpoint.respan.ai (set RESPAN_BASE_URL)
+    base_url = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
     
     if not api_key:
-        log("ERROR", "KEYWORDSAI_API_KEY not set")
+        log("ERROR", "RESPAN_API_KEY not set")
         sys.exit(0)
     
     # Read hook input

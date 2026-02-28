@@ -8,13 +8,13 @@ import asyncio
 import os
 from agents import Agent, Runner, set_default_openai_client
 from agents.tracing import set_trace_processors, trace
-from keywordsai_exporter_openai_agents import KeywordsAITraceProcessor
-API_KEY = os.getenv("KEYWORDSAI_API_KEY")
-ENDPOINT = os.getenv("KEYWORDSAI_OAIA_TRACING_ENDPOINT")
-BASE_URL = os.getenv("KEYWORDSAI_BASE_URL")
+from respan_exporter_openai_agents import RespanTraceProcessor
+API_KEY = os.getenv("RESPAN_API_KEY")
+ENDPOINT = os.getenv("RESPAN_OAIA_TRACING_ENDPOINT")
+BASE_URL = os.getenv("RESPAN_BASE_URL")
 set_trace_processors(
     [
-        KeywordsAITraceProcessor(
+        RespanTraceProcessor(
             api_key=API_KEY,
             endpoint=ENDPOINT,
         ),

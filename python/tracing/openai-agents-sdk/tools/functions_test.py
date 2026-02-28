@@ -5,16 +5,16 @@ import pytest
 # ==========copy the below==========
 import asyncio
 from agents import Agent, Runner, function_tool
-from keywordsai_exporter_openai_agents import (
-    KeywordsAITraceProcessor,
+from respan_exporter_openai_agents import (
+    RespanTraceProcessor,
 )
 from agents.tracing import set_trace_processors
 import os
 
 set_trace_processors(
     [
-        KeywordsAITraceProcessor(
-            os.getenv("KEYWORDSAI_API_KEY"),
+        RespanTraceProcessor(
+            os.getenv("RESPAN_API_KEY"),
             endpoint="http://localhost:8000/api/openai/v1/traces/ingest",
         ),
     ]

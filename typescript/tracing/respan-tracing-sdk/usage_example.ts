@@ -7,13 +7,13 @@ import {
   recordSpanException,
   setSpanStatus,
   withManualSpan,
-} from '@keywordsai/tracing';
+} from '@respan/tracing';
 import {
   withWorkflow,
   withTask,
   withTool,
   withAgent,
-} from '@keywordsai/tracing';
+} from '@respan/tracing';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -185,13 +185,13 @@ async function errorProneOperation() {
 }
 
 async function main() {
-  console.log('Initializing KeywordsAI tracing...\n');
+  console.log('Initializing Respan tracing...\n');
   
   // Initialize tracing and wait for it to complete
   await startTracing({
     appName: 'my-ai-app',
-    apiKey: process.env.KEYWORDSAI_API_KEY || 'demo-key',
-    baseURL: process.env.KEYWORDSAI_BASE_URL || 'https://api.keywordsai.co',
+    apiKey: process.env.RESPAN_API_KEY || 'demo-key',
+    baseURL: process.env.RESPAN_BASE_URL || 'https://api.respan.ai',
     traceContent: true,
     logLevel: 'info',
   });
@@ -239,7 +239,7 @@ async function main() {
 if (import.meta.url === `file://${process.argv[1]}`) {
   main()
     .then(() => {
-      console.log('\nExample completed. Check your KeywordsAI dashboard for traces!');
+      console.log('\nExample completed. Check your Respan dashboard for traces!');
     })
     .catch((error) => {
       console.error('Example failed:', error);

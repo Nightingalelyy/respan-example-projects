@@ -1,4 +1,4 @@
-"""Langfuse to KeywordsAI Integration using @observe decorators."""
+"""Langfuse to Respan Integration using @observe decorators."""
 
 import os
 from pathlib import Path
@@ -16,9 +16,9 @@ from datetime import datetime, timezone
 original_export = otlp_module.OTLPSpanExporter.export
 
 def patched_export(self, spans):
-    """Transform and export spans to KeywordsAI."""
-    keywordsai_endpoint = "https://api.keywordsai.co/api/v1/traces/ingest"
-    api_key = os.getenv("KEYWORDSAI_API_KEY")
+    """Transform and export spans to Respan."""
+    respan_endpoint = "https://api.respan.ai/api/v1/traces/ingest"
+    api_key = os.getenv("RESPAN_API_KEY")
     
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -83,21 +83,21 @@ def patched_export(self, spans):
     
     if batch_logs:
         try:
-            response = requests.post(keywordsai_endpoint, json=batch_logs, headers=headers, timeout=10)
+            response = requests.post(respan_endpoint, json=batch_logs, headers=headers, timeout=10)
             response.raise_for_status()
         except Exception as e:
-            print(f"Warning: Failed to send batch to KeywordsAI. Error: {e}")
+            print(f"Warning: Failed to send batch to Respan. Error: {e}")
     
     from opentelemetry.sdk.trace.export import SpanExportResult
     return SpanExportResult.SUCCESS
 
 otlp_module.OTLPSpanExporter.export = patched_export
 
-keywordsai_api_key = os.getenv("KEYWORDSAI_API_KEY")
-keywordsai_base_url = os.getenv("KEYWORDSAI_BASE_URL", "https://api.keywordsai.co/api")
+respan_api_key = os.getenv("RESPAN_API_KEY")
+respan_base_url = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
 
-if not keywordsai_api_key:
-    raise ValueError("KEYWORDSAI_API_KEY environment variable is required")
+if not respan_api_key:
+    raise ValueError("RESPAN_API_KEY environment variable is required")
 
 langfuse_public_key = os.getenv("LANGFUSE_PUBLIC_KEY", "")
 langfuse_secret_key = os.getenv("LANGFUSE_SECRET_KEY", "")
@@ -105,7 +105,7 @@ langfuse_secret_key = os.getenv("LANGFUSE_SECRET_KEY", "")
 langfuse = Langfuse(
     public_key=langfuse_public_key,
     secret_key=langfuse_secret_key,
-    base_url=keywordsai_base_url
+    base_url=respan_base_url
 )
 
 
@@ -223,10 +223,10 @@ def simple_chat_example():
 
 
 def main():
-    """Run Langfuse to KeywordsAI integration examples."""
-    print("🚀 Initializing Langfuse with KeywordsAI base_url...\n")
-    print(f"✅ Langfuse initialized with base_url: {keywordsai_base_url}")
-    print(f"🔑 Using API Key: {keywordsai_api_key[:10]}...\n")
+    """Run Langfuse to Respan integration examples."""
+    print("🚀 Initializing Langfuse with Respan base_url...\n")
+    print(f"✅ Langfuse initialized with base_url: {respan_base_url}")
+    print(f"🔑 Using API Key: {respan_api_key[:10]}...\n")
     
     print("=" * 60)
     print("Example 1: Simple Trace with LLM Generation")
@@ -248,13 +248,13 @@ def main():
     print(f"   Sources: {result2['sources_used']}, Quality: {result2['evaluation']['quality_score']}\n")
     
     print("=" * 60)
-    print("Flushing traces to KeywordsAI...")
+    print("Flushing traces to Respan...")
     print("=" * 60)
     langfuse.flush()
     
     print("\n✅ All traces flushed!")
-    print("\n📊 Check your KeywordsAI dashboard:")
-    print("   https://platform.keywordsai.co/")
+    print("\n📊 Check your Respan dashboard:")
+    print("   https://platform.respan.ai/")
 
 
 if __name__ == "__main__":

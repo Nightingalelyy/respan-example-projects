@@ -79,7 +79,7 @@ jupyter notebook
 
 - `gemini_sdk_example.py` - Example using Google Gemini SDK
 - `langchain_agent.py` - LangChain agent implementation
-- `pirate_joke_tracing_example.py` - Tracing example with KeywordsAI
+- `pirate_joke_tracing_example.py` - Tracing example with Respan
 - `experiment_custom_workflow.ipynb` - Jupyter notebook for custom workflows
 - `logs_to_trace/` - Directory containing log-to-trace conversion utilities
 

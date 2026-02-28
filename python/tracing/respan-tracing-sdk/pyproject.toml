@@ -13,7 +13,7 @@ langchain-anthropic = "*"
 langchain-openai = "*"
 typing-extensions = "*"
 python-dotenv = "*"
-keywordsai-tracing = "*"
+respan-tracing = "*"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = ">=7.1.0,<8.0.0"

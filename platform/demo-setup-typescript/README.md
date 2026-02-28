@@ -1,14 +1,14 @@
-# KeywordsAI Logging Examples (TypeScript)
+# Respan Logging Examples (TypeScript)
 
-This directory contains TypeScript examples for working with KeywordsAI's logging API, evaluators, and scoring functionality.
+This directory contains TypeScript examples for working with Respan's logging API, evaluators, and scoring functionality.
 
 ## Quick Links
 
-- **Quickstart Guide**: https://docs.keywordsai.co/get-started/quickstart/logging
-- **Create a Prompt**: https://docs.keywordsai.co/get-started/quickstart/create-a-prompt
-- **Create Datasets**: https://docs.keywordsai.co/documentation/products/dataset
-- **Evaluator Creation**: https://docs.keywordsai.co/api-endpoints/evaluate/evaluators/create
-- **Log Scores Creation**: https://docs.keywordsai.co/api-endpoints/evaluate/log-scores/create
+- **Quickstart Guide**: https://docs.respan.ai/get-started/quickstart/logging
+- **Create a Prompt**: https://docs.respan.ai/get-started/quickstart/create-a-prompt
+- **Create Datasets**: https://docs.respan.ai/documentation/products/dataset
+- **Evaluator Creation**: https://docs.respan.ai/api-endpoints/evaluate/evaluators/create
+- **Log Scores Creation**: https://docs.respan.ai/api-endpoints/evaluate/log-scores/create
 
 ## Setup
 
@@ -30,8 +30,8 @@ cp env.template .env
 Then edit `.env` and set your API key:
 
 ```bash
-KEYWORDSAI_API_KEY=your_keywordsai_api_key_here
-KEYWORDSAI_BASE_URL=https://api.keywordsai.co/api
+RESPAN_API_KEY=your_respan_api_key_here
+RESPAN_BASE_URL=https://api.respan.ai/api
 ```
 
 You can also customize other settings in `.env` such as:
@@ -62,7 +62,7 @@ yarn basic-logging
 
 ### 2. Create Evaluator (`create_evaluator.ts`)
 
-This script demonstrates how to create custom evaluators in KeywordsAI:
+This script demonstrates how to create custom evaluators in Respan:
 - LLM evaluator for response quality (numerical)
 - Helpfulness evaluator (categorical)
 - Factual accuracy evaluator (boolean)
@@ -99,7 +99,7 @@ yarn test-create-log-score
 
 ### 5. Create Prompt (`create_prompt.ts`)
 
-This script demonstrates how to create and manage prompts in KeywordsAI:
+This script demonstrates how to create and manage prompts in Respan:
 - Create a new prompt
 - Create prompt versions with messages
 - List all prompts
@@ -115,7 +115,7 @@ yarn create-prompt
 
 ### 6. Create Dataset (`create_dataset.ts`)
 
-This script demonstrates how to create and manage datasets in KeywordsAI:
+This script demonstrates how to create and manage datasets in Respan:
 - Create an empty dataset
 - Add dataset logs (input/output JSON)
 - List dataset logs
@@ -132,13 +132,13 @@ Datasets are curated collections of logs that you can evaluate, annotate, and us
 yarn create-dataset
 ```
 
-After running any of these scripts, you can view the results on the KeywordsAI platform:
+After running any of these scripts, you can view the results on the Respan platform:
 - Navigate to the **Logs** tab to see your created logs and their associated scores
 - Navigate to the **Prompt Management** section to see your created prompts
 - Navigate to the **Datasets** section to see your created datasets
 
 ## Additional Resources
 
-- [KeywordsAI Documentation](https://docs.keywordsai.co)
-- [API Reference](https://docs.keywordsai.co/api-endpoints)
-- [Integration Guides](https://docs.keywordsai.co/get-started/quickstart)
+- [Respan Documentation](https://docs.respan.ai)
+- [API Reference](https://docs.respan.ai/api-endpoints)
+- [Integration Guides](https://docs.respan.ai/get-started/quickstart)
