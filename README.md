@@ -47,7 +47,7 @@ platform/
 
 ## Documentation
 
-- [Respan Docs](https://docs.respan.ai) - Full documentation
-- [Python Tracing SDK](https://docs.respan.ai/sdks/python/tracing/quickstart) - Python SDK quickstart
-- [TypeScript Tracing SDK](https://docs.respan.ai/sdks/typescript/tracing/quickstart) - TypeScript SDK quickstart
-- [Integrations](https://docs.respan.ai/integrations/tracing/overview) - Integration guides
+- [Respan Docs](https://www.respan.ai/docs) - Full documentation
+- [Python Tracing SDK](https://www.respan.ai/docs/sdks/python/tracing/quickstart) - Python SDK quickstart
+- [TypeScript Tracing SDK](https://www.respan.ai/docs/sdks/typescript/tracing/quickstart) - TypeScript SDK quickstart
+- [Integrations](https://www.respan.ai/docs/integrations/overview) - Integration guides
