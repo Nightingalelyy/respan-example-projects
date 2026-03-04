@@ -29,3 +29,7 @@ python example.py
 1. `RespanTelemetry` initializes the OpenTelemetry pipeline for Respan.
 2. `instrument_pydantic_ai()` intercepts calls made by the `pydantic-ai` Agents.
 3. The traces, spans, and metrics from LLM calls are sent to Respan, available in the dashboard.
+
+## Further reading
+
+- [Respan Example Projects](https://github.com/respanai/respan-example-projects/tree/main)
