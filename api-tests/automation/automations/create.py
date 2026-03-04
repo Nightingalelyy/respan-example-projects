@@ -1,0 +1,26 @@
+"""POST /automation/automations/ — Create an automation"""
+import os, json, requests
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), "../../.env"))
+BASE_URL = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai")
+API_KEY = os.getenv("RESPAN_API_KEY", "")
+H = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
+
+resp = requests.post(
+    f"{BASE_URL}/automation/automations/",
+    headers=H,
+    json={
+        "automation_slug": "api-test-automation",
+        "name": "api-test-automation",
+        "automation_type": "online_eval",
+        "condition": "REPLACE_ME",
+        "evaluator_ids": ["REPLACE_ME"],
+        "configuration": {
+            "sampling_rate": 0.1,
+        },
+        "is_enabled": False,
+    },
+)
+print(f"Status: {resp.status_code}")
+print(json.dumps(resp.json(), indent=2, default=str))

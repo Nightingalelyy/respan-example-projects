@@ -6,7 +6,7 @@ authors = ["Respan <team@respan.ai>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
+python = ">=3.11,<3.14"
 claude-agent-sdk = ">=0.1.0"
 respan-exporter-anthropic-agents = "^1.0.0"
 python-dotenv = "^1.0.0"
