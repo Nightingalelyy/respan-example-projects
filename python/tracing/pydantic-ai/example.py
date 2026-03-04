@@ -33,7 +33,7 @@ def main():
     # Run the agent synchronously
     result = agent.run_sync("What is the capital of France?")
     
-    print("Agent Output:", result.data)
+    print("Agent Output:", result.output)
 
 if __name__ == "__main__":
     main()
