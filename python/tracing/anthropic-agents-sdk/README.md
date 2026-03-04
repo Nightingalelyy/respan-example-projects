@@ -5,7 +5,7 @@ Runnable examples showing how to trace Anthropic Agent SDK queries with Respan.
 ## Setup
 
 ```bash
-cd anthropic_agents_python_example
+cd python/tracing/anthropic-agents-sdk
 
 # Install dependencies
 pip install claude-agent-sdk respan-exporter-anthropic-agents python-dotenv
@@ -51,7 +51,7 @@ pytest basic/ -v
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `RESPAN_API_KEY` | Yes | Your Respan (Respan) API key |
+| `RESPAN_API_KEY` | Yes | Your Respan API key |
 | `ANTHROPIC_API_KEY` | For non-gateway examples | Your Anthropic API key |
 | `RESPAN_BASE_URL` | No | Override ingest URL (default: `https://api.respan.ai/api`) |
 | `RESPAN_GATEWAY_BASE_URL` | For gateway example | Gateway URL (default: `https://api.respan.ai/api`) |

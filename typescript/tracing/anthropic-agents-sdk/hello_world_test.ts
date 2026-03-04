@@ -11,11 +11,11 @@
  */
 
 import "dotenv/config";
-import { query } from "@anthropic-ai/claude-agent-sdk";
 import { RespanAnthropicAgentsExporter } from "@respan/exporter-anthropic-agents";
+import { queryForResult } from "./_sdk_runtime";
 
-const API_KEY = process.env.RESPAN_API_KEY || process.env.RESPAN_API_KEY;
-const BASE_URL = process.env.RESPAN_BASE_URL || process.env.RESPAN_BASE_URL;
+const API_KEY = process.env.RESPAN_API_KEY;
+const BASE_URL = process.env.RESPAN_BASE_URL;
 
 const exporter = new RespanAnthropicAgentsExporter({
   apiKey: API_KEY ?? undefined,
@@ -23,33 +23,29 @@ const exporter = new RespanAnthropicAgentsExporter({
 });
 
 async function main(): Promise<void> {
-  console.log("Asking Claude a question...\n");
+    console.log("Asking Claude a question...\n");
 
-  // Attach exporter hooks to SDK options
+  if (!API_KEY) {
+    throw new Error("Set RESPAN_API_KEY to run this example.");
+  }
+
   const options = exporter.withOptions({
     permissionMode: "bypassPermissions",
     maxTurns: 1,
   });
 
-  let sessionId: string | undefined;
+  const { result, sessionId } = await queryForResult({
+    prompt: "What is 2 + 2? Reply in one word.",
+    options,
+    onMessage: async (message, context) => {
+      await exporter.trackMessage({ message, sessionId: context.sessionId });
+      console.log(`  ${String(message.type ?? "unknown")}`);
+    },
+  });
 
-  for await (const message of query({ prompt: "What is 2 + 2? Reply in one word.", options })) {
-    const msg = message as Record<string, unknown>;
-
-    // Track session ID
-    if (msg.type === "system") {
-      const data = (msg.data ?? {}) as Record<string, unknown>;
-      sessionId = (data.session_id ?? data.sessionId ?? sessionId) as string;
-    }
-    if (msg.type === "result") {
-      sessionId = (msg.session_id ?? sessionId) as string;
-      console.log(`  Result: subtype=${msg.subtype}, turns=${msg.num_turns}`);
-    }
-
-    // Export each message to Respan
-    await exporter.trackMessage({ message, sessionId });
-    console.log(`  ${msg.type}`);
-  }
+  console.log(
+    `  Result: subtype=${String(result.subtype)}, turns=${String(result.num_turns)}`,
+  );
 
   console.log(`\nSession: ${sessionId}`);
   console.log("View trace at: https://platform.respan.ai/platform/traces");

@@ -15,16 +15,21 @@
  */
 
 import "dotenv/config";
-import { query } from "@anthropic-ai/claude-agent-sdk";
 import { RespanAnthropicAgentsExporter } from "@respan/exporter-anthropic-agents";
+import { queryForResult } from "./_sdk_runtime";
 
-const API_KEY = process.env.RESPAN_API_KEY || process.env.RESPAN_API_KEY;
+const API_KEY = process.env.RESPAN_API_KEY;
 const BASE_URL = (
   process.env.RESPAN_GATEWAY_BASE_URL ||
   process.env.RESPAN_BASE_URL ||
-  process.env.RESPAN_BASE_URL ||
   "https://api.respan.ai/api"
 ).replace(/\/+$/, "");
+const QUERY_TIMEOUT_SECONDS = Number.parseInt(
+  process.env.RESPAN_GATEWAY_QUERY_TIMEOUT_SECONDS ??
+    process.env.RESPAN_QUERY_TIMEOUT_SECONDS ??
+    "90",
+  10,
+);
 
 if (!API_KEY) {
   console.error("ERROR: Set RESPAN_API_KEY (or RESPAN_API_KEY)");
@@ -35,6 +40,30 @@ const exporter = new RespanAnthropicAgentsExporter({
   apiKey: API_KEY,
   endpoint: `${BASE_URL}/v1/traces/ingest`,
 });
+
+async function probeGateway(gatewayUrl: string): Promise<void> {
+  const probeUrl = `${gatewayUrl}/v1/messages`;
+  try {
+    const response = await fetch(probeUrl, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": API_KEY!,
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-5",
+        max_tokens: 8,
+        messages: [{ role: "user", content: "ping" }],
+      }),
+    });
+
+    const bodyText = await response.text();
+    const preview = bodyText.slice(0, 400).replace(/\n/g, " ");
+    console.log(`Gateway probe -> ${response.status} ${response.statusText}: ${preview}`);
+  } catch (error) {
+    console.log(`Gateway probe failed: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
 
 async function main(): Promise<void> {
   console.log(`Gateway: ${BASE_URL}`);
@@ -48,45 +77,41 @@ async function main(): Promise<void> {
     permissionMode: "bypassPermissions",
     maxTurns: 1,
     env: {
+      ...process.env,
       ANTHROPIC_BASE_URL: gatewayUrl,
       ANTHROPIC_AUTH_TOKEN: API_KEY,
       ANTHROPIC_API_KEY: API_KEY,
     },
   } as any);
 
-  let sessionId: string | undefined;
-  let gotResult = false;
-
   try {
-    for await (const message of query({ prompt: "Reply with exactly: gateway_ok", options })) {
-      const msg = message as Record<string, unknown>;
+    const { result, sessionId } = await queryForResult({
+      prompt: "Reply with exactly: gateway_ok",
+      options,
+      timeoutSeconds: QUERY_TIMEOUT_SECONDS,
+      onMessage: async (message, context) => {
+        await exporter.trackMessage({ message, sessionId: context.sessionId });
+        console.log(`  ${String(message.type ?? "unknown")}`);
+      },
+    });
 
-      if (msg.type === "system") {
-        const data = (msg.data ?? {}) as Record<string, unknown>;
-        sessionId = (data.session_id ?? data.sessionId ?? sessionId) as string;
-      }
-      if (msg.type === "result") {
-        gotResult = true;
-        sessionId = (msg.session_id ?? sessionId) as string;
-        const usage = msg.usage as Record<string, unknown> | undefined;
-        console.log(`  Result: subtype=${msg.subtype}, turns=${msg.num_turns}`);
-        if (usage) {
-          console.log(`  Usage: input=${usage.input_tokens}, output=${usage.output_tokens}`);
-        }
-      }
-
-      await exporter.trackMessage({ message, sessionId });
-      console.log(`  ${msg.type}`);
+    const usage = result.usage as Record<string, unknown> | undefined;
+    console.log(
+      `  Result: subtype=${String(result.subtype)}, turns=${String(result.num_turns)}`,
+    );
+    if (usage) {
+      console.log(`  Usage: input=${usage.input_tokens}, output=${usage.output_tokens}`);
     }
-  } catch (err) {
-    // The Claude Code subprocess may exit with code 1 due to internal
-    // hook cleanup after the query has already completed successfully.
-    // If we received a result, the query worked — ignore the error.
-    if (!gotResult) throw err;
-  }
 
-  console.log(`\nSession: ${sessionId}`);
-  console.log("View trace at: https://platform.respan.ai/platform/traces");
+    console.log(`\nSession: ${sessionId}`);
+    console.log("View trace at: https://platform.respan.ai/platform/traces");
+  } catch (err) {
+    console.error(
+      `Gateway query failed: ${err instanceof Error ? err.message : String(err)}`,
+    );
+    await probeGateway(gatewayUrl);
+    throw err;
+  }
 }
 
 main().catch(console.error);

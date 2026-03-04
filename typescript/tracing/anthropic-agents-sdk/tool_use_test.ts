@@ -12,11 +12,11 @@
  */
 
 import "dotenv/config";
-import { query } from "@anthropic-ai/claude-agent-sdk";
 import { RespanAnthropicAgentsExporter } from "@respan/exporter-anthropic-agents";
+import { queryForResult } from "./_sdk_runtime";
 
-const API_KEY = process.env.RESPAN_API_KEY || process.env.RESPAN_API_KEY;
-const BASE_URL = process.env.RESPAN_BASE_URL || process.env.RESPAN_BASE_URL;
+const API_KEY = process.env.RESPAN_API_KEY;
+const BASE_URL = process.env.RESPAN_BASE_URL;
 
 const exporter = new RespanAnthropicAgentsExporter({
   apiKey: API_KEY ?? undefined,
@@ -26,32 +26,28 @@ const exporter = new RespanAnthropicAgentsExporter({
 async function main(): Promise<void> {
   console.log("Running query with tools (Read, Glob, Grep)...\n");
 
+  if (!API_KEY) {
+    throw new Error("Set RESPAN_API_KEY to run this example.");
+  }
+
   const options = exporter.withOptions({
     permissionMode: "bypassPermissions",
     maxTurns: 3,
     allowedTools: ["Read", "Glob", "Grep"],
   } as any);
 
-  let sessionId: string | undefined;
-
-  for await (const message of query({
+  const { result, sessionId } = await queryForResult({
     prompt: "List the files in the current directory. Just show filenames.",
     options,
-  })) {
-    const msg = message as Record<string, unknown>;
+    onMessage: async (message, context) => {
+      await exporter.trackMessage({ message, sessionId: context.sessionId });
+      console.log(`  ${String(message.type ?? "unknown")}`);
+    },
+  });
 
-    if (msg.type === "system") {
-      const data = (msg.data ?? {}) as Record<string, unknown>;
-      sessionId = (data.session_id ?? data.sessionId ?? sessionId) as string;
-    }
-    if (msg.type === "result") {
-      sessionId = (msg.session_id ?? sessionId) as string;
-      console.log(`  Result: subtype=${msg.subtype}, turns=${msg.num_turns}`);
-    }
-
-    await exporter.trackMessage({ message, sessionId });
-    console.log(`  ${msg.type}`);
-  }
+  console.log(
+    `  Result: subtype=${String(result.subtype)}, turns=${String(result.num_turns)}`,
+  );
 
   console.log(`\nSession: ${sessionId}`);
   console.log("Check Respan traces to see tool spans (Read, Glob, etc.)");
