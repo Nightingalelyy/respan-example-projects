@@ -7,15 +7,16 @@ This example demonstrates how to integrate `pydantic-ai` with Respan tracing usi
 1. Install the required dependencies:
 
 ```bash
+cd python/tracing/pydantic-ai
 pip install -r requirements.txt
 ```
 
 2. Set your environment variables:
 
 ```bash
-export RESPAN_API_KEY="your-respan-api-key"
-export OPENAI_API_KEY="your-openai-api-key"
+cp .env.example .env
 ```
+Then edit `.env` and fill in your actual API keys.
 
 3. Run the example script:
 

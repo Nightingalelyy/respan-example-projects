@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+
 from pydantic_ai import Agent
 from respan_tracing import RespanTelemetry
 from respan_exporter_pydantic_ai import instrument_pydantic_ai
