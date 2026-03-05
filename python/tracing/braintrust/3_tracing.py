@@ -19,26 +19,30 @@ def main() -> None:
     exporter = RespanBraintrustExporter(api_key=api_key, raise_on_error=True)
     with exporter:
         logger = braintrust.init_logger(
-            project="Respan Braintrust Example",
-            project_id="respan-braintrust-example",
+            project="Respan Tracing Example",
+            project_id="respan-braintrust-tracing",
             api_key=os.getenv("BRAINTRUST_API_KEY", braintrust.logger.TEST_API_KEY),
             async_flush=False,
             set_current=False,
         )
 
-        with logger.start_span(name="respan-braintrust-parent", type="task") as root_span:
-            with root_span.start_span(name="respan-braintrust-child", type="chat") as child_span:
-                time.sleep(0.25)
-                child_span.log(
-                    input=[{"role": "user", "content": "Hello from Braintrust usage"}],
-                    output="Hello from Respan!",
-                    metrics={"prompt_tokens": 5, "completion_tokens": 7},
+        with logger.start_span(name="workflow-parent", type="task") as root_span:
+            with root_span.start_span(name="task-child-1", type="tool") as child_span_1:
+                time.sleep(0.1)
+                child_span_1.log(input="Task 1 input", output="Task 1 output")
+                
+            with root_span.start_span(name="task-child-2", type="chat") as child_span_2:
+                time.sleep(0.1)
+                child_span_2.log(
+                    input=[{"role": "user", "content": "Task 2 input"}],
+                    output="Task 2 output",
+                    metrics={"prompt_tokens": 10, "completion_tokens": 20},
                     metadata={"model": "gpt-4o-mini"},
                 )
 
         logger.flush()
 
-    print("✓ Sent basic Braintrust trace to Respan.")
+    print("✓ Sent Tracing Braintrust trace to Respan.")
 
 
 if __name__ == "__main__":

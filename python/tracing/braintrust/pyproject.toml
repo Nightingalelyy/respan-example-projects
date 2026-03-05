@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "braintrust-examples"
+version = "0.1.0"
+description = ""
+authors = ["Nightingalelyy <nightingalelyy@outlook.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.14"
+braintrust = ">=0.5.0"
+openai = "^2.24.0"
+python-dotenv = "^1.2.2"
+respan-sdk = {path = "/home/yuyang/KeywordsAI/respan/python-sdks/respan-sdk"}
+respan-tracing = {path = "/home/yuyang/KeywordsAI/respan/python-sdks/respan-tracing"}
+respan-exporter-braintrust = {path = "/home/yuyang/KeywordsAI/respan/python-sdks/respan-exporter-braintrust"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -19,28 +19,30 @@ def main() -> None:
 
     with RespanBraintrustExporter(api_key=api_key, raise_on_error=True):
         logger = init_logger(
-            project="Email Classifier",
+            project="Respan Gateway Example",
+            project_id="respan-braintrust-gateway",
             api_key=os.getenv("BRAINTRUST_API_KEY", braintrust.logger.TEST_API_KEY),
             async_flush=False,
-            set_current=False,
+            set_current=True,
         )
         
-        # wrap_openai instruments the OpenAI client with braintrust
-        client = wrap_openai(client=OpenAI(api_key=os.getenv("OPENAI_API_KEY")))
-
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": "Hello from wrapped OpenAI in Braintrust"}],
+        # Route through Respan Gateway
+        client = wrap_openai(
+            OpenAI(
+                base_url="https://api.respan.ai/api",
+                api_key=api_key, # Use Respan API key for gateway
+            )
         )
 
-        logger.log(
-            input={"prompt": "Hello from wrapped OpenAI in Braintrust"},
-            output=response.choices[0].message.content,
-        )
+        with logger.start_span(name="gateway-call") as span:
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": "Hello from wrapped OpenAI via Respan Gateway"}],
+            )
 
         logger.flush()
 
-    print("✓ Sent wrapped OpenAI trace from Braintrust to Respan.")
+    print("✓ Sent Gateway OpenAI trace from Braintrust to Respan.")
 
 
 if __name__ == "__main__":
