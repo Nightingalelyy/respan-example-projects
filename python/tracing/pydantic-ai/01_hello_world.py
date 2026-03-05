@@ -1,8 +1,12 @@
 import os
+from dotenv import load_dotenv, find_dotenv
 
-from dotenv import load_dotenv
+load_dotenv(find_dotenv(), override=True)
 
-load_dotenv(override=True)
+# Route LLM calls through Respan (gateway pattern — only RESPAN_API_KEY needed)
+respan_api_key = os.environ["RESPAN_API_KEY"]
+os.environ["OPENAI_BASE_URL"] = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
+os.environ["OPENAI_API_KEY"] = respan_api_key
 
 from pydantic_ai import Agent
 from respan_tracing import RespanTelemetry
@@ -10,21 +14,21 @@ from respan_exporter_pydantic_ai import instrument_pydantic_ai
 
 def main():
     # 1. Initialize Respan Telemetry
-    # Ensure RESPAN_API_KEY is set in your environment
+    respan_base_url = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
     telemetry = RespanTelemetry(
-        app_name="pydantic-ai-example",
-        api_key=os.environ.get("RESPAN_API_KEY")
+        app_name="pydantic-ai-hello-world",
+        api_key=respan_api_key,
+        base_url=respan_base_url
     )
     
     # 2. Instrument Pydantic AI
-    # By default, it instruments globally. We pass kwargs as per BE conventions
     instrument_pydantic_ai(
         include_content=True,
         include_binary_content=True
     )
     
     # 3. Create an agent and run it
-    # Pydantic AI Agent setup
+    # Note: Requires OPENAI_API_KEY to be set in your environment
     agent = Agent(
         model="openai:gpt-4o",
         system_prompt="You are a helpful assistant."
@@ -34,6 +38,8 @@ def main():
     result = agent.run_sync("What is the capital of France?")
     
     print("Agent Output:", result.output)
+
+    telemetry.flush()  # Ensure spans are exported before exit
 
 if __name__ == "__main__":
     main()

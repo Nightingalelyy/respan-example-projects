@@ -1,4 +1,4 @@
-pydantic-ai>=0.0.12
+pydantic-ai>=0.0.36
 respan-tracing
 respan-exporter-pydantic-ai
 python-dotenv
