@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "crewai-tracing-example"
+version = "0.1.0"
+description = "CrewAI tracing examples with Respan"
+authors = ["Yuyang <yuyang@respan.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+respan-exporter-crewai = { path = "../../../../respan/python-sdks/respan-exporter-crewai", develop = true }
+crewai = ">=1.10.0"
+respan-sdk = ">=2.5.0"
+respan-tracing = ">=2.3.0"
+python-dotenv = "^1.0.1"
+setuptools = "<70"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
