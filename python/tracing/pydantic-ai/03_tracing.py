@@ -1,3 +1,5 @@
+"""Workflow/task spans with @workflow and @task decorators."""
+
 import os
 from dotenv import load_dotenv, find_dotenv
 
@@ -31,19 +33,16 @@ def main():
     telemetry = RespanTelemetry(
         app_name="pydantic-ai-tracing",
         api_key=respan_api_key,
-        base_url=respan_base_url
-    )
-    
-    # 3. Instrument Pydantic AI
-    instrument_pydantic_ai(
-        include_content=True,
-        include_binary_content=True
+        base_url=respan_base_url,
     )
 
-    # 4. Run the workflow
+    # 2. Instrument Pydantic AI
+    instrument_pydantic_ai()
+
+    # 3. Run the workflow
     output = travel_planning_workflow("Paris")
     print("Workflow Output:", output)
-    
+
     telemetry.flush()
 
 if __name__ == "__main__":

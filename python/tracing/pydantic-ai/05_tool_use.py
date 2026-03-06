@@ -1,3 +1,5 @@
+"""Tracing a Pydantic AI agent that uses tools."""
+
 import os
 from dotenv import load_dotenv, find_dotenv
 
@@ -11,15 +13,16 @@ os.environ["OPENAI_API_KEY"] = respan_api_key
 
 from pydantic_ai import Agent
 from respan_tracing import RespanTelemetry
-from respan_tracing.decorators import workflow, tool
+from respan_tracing.decorators import workflow
 from respan_exporter_pydantic_ai import instrument_pydantic_ai
 
 agent = Agent(
     "openai:gpt-4o",
-    system_prompt="You are a calculator assistant. Use tools to calculate things."
+    system_prompt="You are a calculator assistant. Use tools to calculate things.",
 )
 
-@tool(name="add_numbers")
+# Pydantic AI's native instrumentation (via instrument_pydantic_ai) traces
+# tool calls automatically — no extra decorator needed.
 @agent.tool_plain
 def add(a: int, b: int) -> int:
     """Add two numbers together."""
@@ -27,7 +30,6 @@ def add(a: int, b: int) -> int:
 
 @workflow(name="calculator_agent_run")
 def run_calculator_agent(prompt: str):
-    """Run the agent with tracing context"""
     result = agent.run_sync(prompt)
     return result.output
 
@@ -36,19 +38,16 @@ def main():
     telemetry = RespanTelemetry(
         app_name="pydantic-ai-tool-use",
         api_key=respan_api_key,
-        base_url=respan_base_url
-    )
-    
-    # 3. Instrument Pydantic AI
-    instrument_pydantic_ai(
-        include_content=True,
-        include_binary_content=True
+        base_url=respan_base_url,
     )
 
-    # 4. Run the agent with a prompt that triggers the tool
+    # 2. Instrument Pydantic AI
+    instrument_pydantic_ai()
+
+    # 3. Run the agent with a prompt that triggers the tool
     output = run_calculator_agent("What is 15 plus 27?")
     print("Agent Output:", output)
-    
+
     telemetry.flush()
 
 if __name__ == "__main__":

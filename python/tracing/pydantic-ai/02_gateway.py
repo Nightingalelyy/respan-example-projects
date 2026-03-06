@@ -1,3 +1,5 @@
+"""Route LLM calls through Respan gateway with content capture options."""
+
 import os
 from dotenv import load_dotenv, find_dotenv
 
@@ -16,31 +18,26 @@ from respan_exporter_pydantic_ai import instrument_pydantic_ai
 def main():
     # 1. Initialize Respan Telemetry
     telemetry = RespanTelemetry(
-        app_name="pydantic-ai-example",
+        app_name="pydantic-ai-gateway",
         api_key=respan_api_key,
-        base_url=respan_base_url
+        base_url=respan_base_url,
     )
-    
-    # 3. Instrument Pydantic AI
-    # By default, it instruments globally. We pass kwargs as per BE conventions
+
+    # 2. Instrument Pydantic AI with content capture options
     instrument_pydantic_ai(
         include_content=True,
-        include_binary_content=True
+        include_binary_content=True,
     )
-    
-    # 4. Create an agent and run it
-    # Pydantic AI Agent setup
+
+    # 3. Create an agent and run it
     agent = Agent(
         model="openai:gpt-4o",
-        system_prompt="You are a helpful assistant."
+        system_prompt="You are a helpful assistant.",
     )
-    
-    # Run the agent synchronously
     result = agent.run_sync("What is the capital of France?")
-    
     print("Agent Output:", result.output)
 
-    telemetry.flush()  # Ensure spans are exported before exit
+    telemetry.flush()
 
 if __name__ == "__main__":
     main()

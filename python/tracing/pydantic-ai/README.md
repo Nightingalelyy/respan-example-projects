@@ -11,6 +11,13 @@ cd python/tracing/pydantic-ai
 pip install -r requirements.txt
 ```
 
+> **Note:** `respan-tracing` and `respan-exporter-pydantic-ai` must be published to PyPI first. For local development, install from source instead:
+> ```bash
+> pip install -e /path/to/respan/python-sdks/respan-tracing \
+>             -e /path/to/respan/python-sdks/respan-exporter-pydantic-ai \
+>             pydantic-ai python-dotenv
+> ```
+
 2. Set your environment variables:
 
 ```bash
@@ -20,29 +27,30 @@ Then edit `.env` and set your Respan API key. All examples route LLM calls throu
 
 ## Examples
 
-We provide 5 examples demonstrating different aspects of the integration:
-
 | Example | Description |
 |---------|-------------|
-| `01_hello_world.py` | Bare minimum sanity check — does this integration work? |
-| `02_gateway.py` | Route LLM calls through Respan proxy |
-| `03_tracing.py` | Workflow/task spans with `RespanTelemetry`, `@workflow`, and `@task` decorators |
+| `01_hello_world.py` | Bare-minimum sanity check — instrument + one agent call |
+| `02_gateway.py` | Gateway pattern with content capture options |
+| `03_tracing.py` | Workflow/task spans with `@workflow` and `@task` decorators |
 | `04_respan_params.py` | Setting `customer_identifier`, `metadata`, and `custom_tags` on spans |
 | `05_tool_use.py` | Tracing a Pydantic AI agent that uses tools |
 
-Run any example like this:
+Run any example:
 
 ```bash
-python 02_gateway.py
+python 01_hello_world.py
 ```
 
 ## How it works
 
 1. `RespanTelemetry` initializes the OpenTelemetry pipeline for Respan.
-2. `instrument_pydantic_ai()` intercepts calls made by the `pydantic-ai` Agents.
-3. The traces, spans, and metrics from LLM calls (and tools/workflows) are sent to Respan, available in the dashboard.
+2. `instrument_pydantic_ai()` instruments Pydantic AI agents via native `InstrumentationSettings`.
+3. Traces, spans, and metrics from LLM calls (and tools/workflows) are sent to Respan and visible in the dashboard.
 4. **Gateway pattern**: By pointing `OPENAI_BASE_URL` and `OPENAI_API_KEY` to Respan, LLM calls are routed through Respan, so only `RESPAN_API_KEY` is required.
 
 ## Further reading
 
-- [Respan Example Projects](https://github.com/respanai/respan-example-projects/tree/main)
+- [respan-exporter-pydantic-ai](https://pypi.org/project/respan-exporter-pydantic-ai/)
+- [respan-tracing](https://pypi.org/project/respan-tracing/)
+- [Respan Documentation](https://docs.respan.ai)
+- [Pydantic AI](https://ai.pydantic.dev/)
