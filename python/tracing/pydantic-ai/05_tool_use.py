@@ -1,4 +1,8 @@
-"""Tracing a Pydantic AI agent that uses tools."""
+"""Tracing a Pydantic AI agent that uses tools.
+
+This example is written so the agent is required to use a tool (add) to answer,
+ensuring the exported trace contains tool-call spans.
+"""
 
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -18,20 +22,23 @@ from respan_exporter_pydantic_ai import instrument_pydantic_ai
 
 agent = Agent(
     "openai:gpt-4o",
-    system_prompt="You are a calculator assistant. Use tools to calculate things.",
+    system_prompt=(
+        "You are a calculator assistant. You must use the provided tools for any arithmetic. "
+        "Never compute numbers yourself; always call the add tool when asked to add numbers."
+    ),
 )
 
-# Pydantic AI's native instrumentation (via instrument_pydantic_ai) traces
-# tool calls automatically — no extra decorator needed.
 @agent.tool_plain
 def add(a: int, b: int) -> int:
     """Add two numbers together."""
     return a + b
 
+
 @workflow(name="calculator_agent_run")
 def run_calculator_agent(prompt: str):
     result = agent.run_sync(prompt)
     return result.output
+
 
 def main():
     # 1. Initialize Respan Telemetry
@@ -44,11 +51,14 @@ def main():
     # 2. Instrument Pydantic AI
     instrument_pydantic_ai()
 
-    # 3. Run the agent with a prompt that triggers the tool
-    output = run_calculator_agent("What is 15 plus 27?")
+    # 3. Run the agent with a prompt that requires a tool call (so the trace contains tool-call spans)
+    output = run_calculator_agent(
+        "Use your add tool to compute 15 + 27, then reply with the result."
+    )
     print("Agent Output:", output)
 
     telemetry.flush()
+
 
 if __name__ == "__main__":
     main()
