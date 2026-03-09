@@ -1,4 +1,23 @@
 [tool.poetry]
+name = "pydantic-ai-tracing"
+version = "0.1.0"
+description = "Pydantic AI tracing example with respan"
+authors = ["Respan Example"]
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.14"
+pydantic-ai = ">=0.0.36"
+respan-sdk = "2.6.3"
+respan-tracing = { path = "../../../../respan/python-sdks/respan-tracing", develop = true }
+respan-exporter-pydantic-ai = { path = "../../../../respan/python-sdks/respan-exporter-pydantic-ai", develop = true }
+python-dotenv = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+[tool.poetry]
 name = "pydantic-ai-tracing-example"
 version = "0.1.0"
 description = "Poetry environment for Pydantic AI tracing examples"
