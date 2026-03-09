@@ -22,7 +22,7 @@ def main():
     respan_client = create_client(
         api_key=respan_api_key,
         gateway_base_url=os.getenv("RESPAN_BASE_URL"),
-        gateway_model=os.getenv("RESPAN_MODEL"),
+        gateway_model=os.getenv("RESPAN_MODEL", "gpt-4o"),
     )
 
     user_id = f"user-{uuid.uuid4().hex[:8]}"
