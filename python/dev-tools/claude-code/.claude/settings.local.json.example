@@ -3,6 +3,8 @@
     "TRACE_TO_RESPAN": "true",
     "RESPAN_API_KEY": "your-api-key-here",
     "RESPAN_BASE_URL": "https://api.respan.ai/api",
-    "CC_RESPAN_DEBUG": "false"
+    "CC_RESPAN_DEBUG": "false",
+    "RESPAN_METADATA": "{\"team\":\"my-team\"}",
+    "CC_RESPAN_MAX_CHARS": "4000"
   }
 }

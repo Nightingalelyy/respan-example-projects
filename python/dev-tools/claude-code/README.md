@@ -80,7 +80,7 @@ For each project where you want tracing, create `.claude/settings.local.json`:
 ## How It Works
 
 1. **Hook Execution**: After each Claude Code response, the Stop hook runs
-2. **Transcript Reading**: Script finds the latest transcript file (`*.jsonl` in `~/.claude/projects/`)
+2. **Transcript Reading**: Script reads the transcript path from stdin (piped by Claude Code) or falls back to finding the latest `*.jsonl` in `~/.claude/projects/`
 3. **Incremental Processing**: Reads only new messages since last run (tracks state)
 4. **Turn Grouping**: Groups messages into turns (user → assistant → tools)
 5. **Span Creation**: Converts each turn into Respan spans:
@@ -116,6 +116,8 @@ All turns share the same `thread_identifier` (sessionId) for grouping in the Thr
 | `RESPAN_API_KEY` | Your Respan API key | Yes |
 | `RESPAN_BASE_URL` | API base URL (default: `https://api.respan.ai/api`) | No |
 | `CC_RESPAN_DEBUG` | Set to `"true"` for verbose debug logging | No |
+| `RESPAN_METADATA` | JSON string merged into every span's metadata (e.g. `'{"user_id":"u1"}'`) | No |
+| `CC_RESPAN_MAX_CHARS` | Max characters for tool input/output truncation (default: `4000`) | No |
 
 ## Troubleshooting
 

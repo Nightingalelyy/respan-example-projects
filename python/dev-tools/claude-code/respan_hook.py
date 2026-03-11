@@ -11,18 +11,32 @@ Usage:
     Enable per-project in .claude/settings.local.json (see .claude/settings.local.json.example)
 """
 
+import contextlib
 import json
 import os
 import sys
+import tempfile
+import time
 import requests
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+try:
+    import fcntl
+except ImportError:
+    fcntl = None  # Not available on Windows
+
 # Configuration
 LOG_FILE = Path.home() / ".claude" / "state" / "respan_hook.log"
 STATE_FILE = Path.home() / ".claude" / "state" / "respan_state.json"
+LOCK_FILE = Path.home() / ".claude" / "state" / "respan_hook.lock"
 DEBUG = os.environ.get("CC_RESPAN_DEBUG", "").lower() == "true"
+
+try:
+    MAX_CHARS = int(os.environ.get("CC_RESPAN_MAX_CHARS", "4000"))
+except (ValueError, TypeError):
+    MAX_CHARS = 4000
 
 
 def log(level: str, message: str) -> None:
@@ -50,9 +64,21 @@ def load_state() -> Dict[str, Any]:
 
 
 def save_state(state: Dict[str, Any]) -> None:
-    """Save the state file."""
+    """Save the state file atomically via write-to-temp + rename."""
     STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
-    STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
+    try:
+        fd, tmp_path = tempfile.mkstemp(dir=STATE_FILE.parent, suffix=".tmp")
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                json.dump(state, f, indent=2)
+            os.rename(tmp_path, STATE_FILE)
+        except BaseException:
+            with contextlib.suppress(OSError):
+                os.unlink(tmp_path)
+            raise
+    except OSError as e:
+        log("ERROR", f"Failed to save state atomically, falling back: {e}")
+        STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
 
 
 def get_content(msg: Dict[str, Any]) -> Any:
@@ -102,7 +128,7 @@ def get_text_content(msg: Dict[str, Any]) -> str:
     return ""
 
 
-def format_tool_input(tool_name: str, tool_input: Any, max_length: int = 4000) -> str:
+def format_tool_input(tool_name: str, tool_input: Any, max_length: int = MAX_CHARS) -> str:
     """Format tool input for better readability."""
     if not tool_input:
         return ""
@@ -141,7 +167,7 @@ def format_tool_input(tool_name: str, tool_input: Any, max_length: int = 4000) -
         return str(tool_input)[:max_length]
 
 
-def format_tool_output(tool_name: str, tool_output: Any, max_length: int = 4000) -> str:
+def format_tool_output(tool_name: str, tool_output: Any, max_length: int = MAX_CHARS) -> str:
     """Format tool output for better readability."""
     if not tool_output:
         return ""
@@ -300,38 +326,63 @@ def create_respan_spans(
     user_timestamp = user_msg.get("timestamp")
     user_time = parse_timestamp(user_timestamp) if user_timestamp else None
     
-    # Extract final assistant text and get timing from first assistant message
+    # Extract assistant text from ALL messages in the turn (tool-using turns
+    # have multiple assistant messages: text before tool, then text after).
     final_output = ""
     first_assistant_msg = None
     if assistant_msgs:
-        final_output = get_text_content(assistant_msgs[-1])
+        text_parts = [get_text_content(m) for m in assistant_msgs]
+        final_output = "\n".join(p for p in text_parts if p)
         first_assistant_msg = assistant_msgs[0]
     
-    # Get model, usage, and timing info from first assistant message
+    # Get model, usage, and timing info from assistant messages.
+    # For tool-using turns there are multiple assistant messages (multiple API
+    # calls), so we aggregate usage and take the *last* timestamp as end time.
     model = "claude"
     usage = None
     request_id = None
     stop_reason = None
-    assistant_timestamp = None
-    assistant_time = None
-    
-    if first_assistant_msg and isinstance(first_assistant_msg, dict) and "message" in first_assistant_msg:
-        msg_obj = first_assistant_msg["message"]
-        model = msg_obj.get("model", "claude")
-        usage = msg_obj.get("usage")
-        request_id = msg_obj.get("requestId")
-        stop_reason = msg_obj.get("stop_reason")
-        assistant_timestamp = first_assistant_msg.get("timestamp")
-        assistant_time = parse_timestamp(assistant_timestamp) if assistant_timestamp else None
-    
+    first_assistant_timestamp = None
+    last_assistant_timestamp = None
+    last_assistant_time = None
+
+    for a_msg in assistant_msgs:
+        if not (isinstance(a_msg, dict) and "message" in a_msg):
+            continue
+        msg_obj = a_msg["message"]
+        model = msg_obj.get("model", model)
+        request_id = a_msg.get("requestId", request_id)
+        stop_reason = msg_obj.get("stop_reason") or stop_reason
+        ts = a_msg.get("timestamp")
+        if ts:
+            if first_assistant_timestamp is None:
+                first_assistant_timestamp = ts
+            last_assistant_timestamp = ts
+            last_assistant_time = parse_timestamp(ts)
+
+        # Aggregate usage across all API calls in the turn
+        msg_usage = msg_obj.get("usage")
+        if msg_usage:
+            if usage is None:
+                usage = dict(msg_usage)
+            else:
+                for key in ("input_tokens", "output_tokens",
+                            "cache_creation_input_tokens",
+                            "cache_read_input_tokens"):
+                    if key in msg_usage:
+                        usage[key] = usage.get(key, 0) + msg_usage[key]
+                # Keep last service_tier
+                if "service_tier" in msg_usage:
+                    usage["service_tier"] = msg_usage["service_tier"]
+
     # Calculate timing
-    start_time_str = user_timestamp if user_timestamp else (assistant_timestamp if assistant_timestamp else datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"))
-    timestamp_str = assistant_timestamp if assistant_timestamp else datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    
-    # Calculate latency if we have both timestamps
+    start_time_str = user_timestamp or first_assistant_timestamp or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    timestamp_str = last_assistant_timestamp or first_assistant_timestamp or datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    # Calculate latency from user message to final assistant response
     latency = None
-    if user_time and assistant_time:
-        latency = (assistant_time - user_time).total_seconds()
+    if user_time and last_assistant_time:
+        latency = (last_assistant_time - user_time).total_seconds()
     
     # Extract messages for chat span
     prompt_messages = []
@@ -345,9 +396,11 @@ def create_respan_spans(
     # Create trace ID for this turn
     trace_unique_id = f"{session_id}_turn_{turn_num}"
     
-    # Naming convention: claudecode_{session_id} for workflow, claudecode_{trace_id} for root span
-    workflow_name = f"claudecode_{session_id}"
-    root_span_name = f"claudecode_{trace_unique_id}"
+    # Naming: human-readable workflow + span names
+    workflow_name = "claude-code"
+    # Use first ~60 chars of user message as span name for readability
+    user_preview = (user_text[:60] + "...") if user_text and len(user_text) > 60 else (user_text or f"turn_{turn_num}")
+    root_span_name = f"Turn {turn_num}: {user_preview}"
     thread_id = f"claudecode_{session_id}"
     
     # Build metadata with additional info
@@ -358,6 +411,18 @@ def create_respan_spans(
         metadata["request_id"] = request_id
     if stop_reason:
         metadata["stop_reason"] = stop_reason
+
+    # Merge user-provided metadata from env var
+    env_metadata = os.environ.get("RESPAN_METADATA")
+    if env_metadata:
+        try:
+            extra = json.loads(env_metadata)
+            if isinstance(extra, dict):
+                metadata.update(extra)
+            else:
+                debug("RESPAN_METADATA is not a JSON object, skipping")
+        except json.JSONDecodeError as e:
+            debug(f"Invalid JSON in RESPAN_METADATA, skipping: {e}")
     
     # Build usage object with cache details
     usage_obj = None
@@ -389,10 +454,12 @@ def create_respan_spans(
             metadata["service_tier"] = service_tier
     
     # Create chat span (root)
-    chat_span_id = f"turn_{turn_num}_chat"
+    chat_span_id = f"claudecode_{trace_unique_id}_chat"
+    customer_id = os.environ.get("RESPAN_CUSTOMER_ID", "claude-code")
     chat_span = {
         "trace_unique_id": trace_unique_id,
         "thread_identifier": thread_id,
+        "customer_identifier": customer_id,
         "span_unique_id": chat_span_id,
         "span_parent_id": None,
         "span_name": root_span_name,
@@ -435,7 +502,7 @@ def create_respan_spans(
                     if isinstance(item, dict) and item.get("type") == "thinking":
                         thinking_text = item.get("thinking", "")
                         if thinking_text:
-                            thinking_span_id = f"turn_{turn_num}_thinking_{len(thinking_spans) + 1}"
+                            thinking_span_id = f"claudecode_{trace_unique_id}_thinking_{len(thinking_spans) + 1}"
                             thinking_timestamp = assistant_msg.get("timestamp", timestamp_str)
                             thinking_spans.append({
                                 "trace_unique_id": trace_unique_id,
@@ -498,7 +565,7 @@ def create_respan_spans(
     tool_num = 0
     for tool_id, tool_data in tool_call_map.items():
         tool_num += 1
-        tool_span_id = f"turn_{turn_num}_tool_{tool_num}"
+        tool_span_id = f"claudecode_{trace_unique_id}_tool_{tool_num}"
         
         # Use tool result timestamp if available, otherwise use tool call timestamp
         tool_timestamp = tool_data.get("result_timestamp") or tool_data.get("timestamp") or timestamp_str
@@ -534,6 +601,43 @@ def create_respan_spans(
     return spans
 
 
+def send_spans(
+    spans: List[Dict[str, Any]],
+    api_key: str,
+    base_url: str,
+    turn_num: int,
+) -> None:
+    """Send spans to Respan with timeout and one retry on transient errors."""
+    url = f"{base_url}/v1/traces/ingest"
+    headers = {"Authorization": f"Bearer {api_key}"}
+
+    for attempt in range(2):
+        try:
+            response = requests.post(url, json=spans, headers=headers, timeout=30)
+            if response.status_code < 400:
+                debug(f"Sent {len(spans)} spans for turn {turn_num}")
+                return
+            if response.status_code < 500:
+                # 4xx — not retryable
+                log("ERROR", f"Failed to send spans for turn {turn_num}: HTTP {response.status_code}")
+                return
+            # 5xx — retryable
+            if attempt == 0:
+                debug(f"Server error {response.status_code} for turn {turn_num}, retrying...")
+                time.sleep(1)
+                continue
+            log("ERROR", f"Failed to send spans for turn {turn_num} after retry: HTTP {response.status_code}")
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+            if attempt == 0:
+                debug(f"Transient error for turn {turn_num}: {e}, retrying...")
+                time.sleep(1)
+                continue
+            log("ERROR", f"Failed to send spans for turn {turn_num} after retry: {e}")
+        except Exception as e:
+            log("ERROR", f"Failed to send spans for turn {turn_num}: {e}")
+            return
+
+
 def process_transcript(
     session_id: str,
     transcript_file: Path,
@@ -555,76 +659,80 @@ def process_transcript(
         debug(f"No new lines to process (last: {last_line}, total: {total_lines})")
         return 0
     
-    # Parse new messages
+    # Parse new messages, tracking their line indices
     new_messages = []
     for i in range(last_line, total_lines):
         try:
             if lines[i].strip():
                 msg = json.loads(lines[i])
+                msg["_line_idx"] = i
                 new_messages.append(msg)
         except json.JSONDecodeError:
             continue
-    
+
     if not new_messages:
         return 0
-    
+
     debug(f"Processing {len(new_messages)} new messages")
-    
+
     # Group messages into turns (user -> assistant(s) -> tool_results)
     turns_processed = 0
+    # Track the line after the last fully-processed turn so we can
+    # re-read incomplete turns on the next invocation.
+    last_committed_line = last_line
     current_user = None
+    current_user_line = last_line
     current_assistants = []
     current_assistant_parts = []
     current_msg_id = None
     current_tool_results = []
-    
+
+    def _commit_turn():
+        """Send the current turn and update last_committed_line."""
+        nonlocal turns_processed, last_committed_line
+        turns_processed += 1
+        turn_num = turn_count + turns_processed
+        spans = create_respan_spans(
+            session_id, turn_num, current_user, current_assistants, current_tool_results
+        )
+        send_spans(spans, api_key, base_url, turn_num)
+        last_committed_line = total_lines  # safe default, refined below
+
     for msg in new_messages:
+        line_idx = msg.pop("_line_idx", last_line)
         role = msg.get("type") or (msg.get("message", {}).get("role"))
-        
+
         if role == "user":
             # Check if this is a tool result
             if is_tool_result(msg):
                 current_tool_results.append(msg)
                 continue
-            
+
             # New user message - finalize previous turn
             if current_msg_id and current_assistant_parts:
                 merged = merge_assistant_parts(current_assistant_parts)
                 current_assistants.append(merged)
                 current_assistant_parts = []
                 current_msg_id = None
-            
+
             if current_user and current_assistants:
-                turns_processed += 1
-                turn_num = turn_count + turns_processed
-                spans = create_respan_spans(
-                    session_id, turn_num, current_user, current_assistants, current_tool_results
-                )
-                
-                # Send spans to Respan
-                try:
-                    response = requests.post(
-                        f"{base_url}/v1/traces/ingest",
-                        json=spans,
-                        headers={"Authorization": f"Bearer {api_key}"},
-                    )
-                    response.raise_for_status()
-                    debug(f"Sent {len(spans)} spans for turn {turn_num}")
-                except Exception as e:
-                    log("ERROR", f"Failed to send spans for turn {turn_num}: {e}")
-            
+                _commit_turn()
+                # Advance committed line to just before this new user msg
+                last_committed_line = line_idx
+
             # Start new turn
             current_user = msg
+            current_user_line = line_idx
             current_assistants = []
             current_assistant_parts = []
             current_msg_id = None
             current_tool_results = []
-            
+
         elif role == "assistant":
             msg_id = None
             if isinstance(msg, dict) and "message" in msg:
                 msg_id = msg["message"].get("id")
-            
+
             if not msg_id:
                 # No message ID, treat as continuation
                 current_assistant_parts.append(msg)
@@ -636,38 +744,32 @@ def process_transcript(
                 if current_msg_id and current_assistant_parts:
                     merged = merge_assistant_parts(current_assistant_parts)
                     current_assistants.append(merged)
-                
+
                 # Start new assistant message
                 current_msg_id = msg_id
                 current_assistant_parts = [msg]
-    
+
     # Process final turn
     if current_msg_id and current_assistant_parts:
         merged = merge_assistant_parts(current_assistant_parts)
         current_assistants.append(merged)
-    
+
     if current_user and current_assistants:
-        turns_processed += 1
-        turn_num = turn_count + turns_processed
-        spans = create_respan_spans(
-            session_id, turn_num, current_user, current_assistants, current_tool_results
-        )
-        
-        # Send spans to Respan
-        try:
-            response = requests.post(
-                f"{base_url}/v1/traces/ingest",
-                json=spans,
-                headers={"Authorization": f"Bearer {api_key}"},
-            )
-            response.raise_for_status()
-            debug(f"Sent {len(spans)} spans for turn {turn_num}")
-        except Exception as e:
-            log("ERROR", f"Failed to send spans for turn {turn_num}: {e}")
-    
+        _commit_turn()
+        last_committed_line = total_lines
+    else:
+        # Incomplete turn — rewind so the next run re-reads from the
+        # unmatched user message (or from where we left off if no user).
+        if current_user:
+            last_committed_line = current_user_line
+            debug(f"Incomplete turn at line {current_user_line}, will retry next run")
+        # else: no pending user, advance past non-turn lines
+        elif last_committed_line == last_line:
+            last_committed_line = total_lines
+
     # Update state
     state[session_id] = {
-        "last_line": total_lines,
+        "last_line": last_committed_line,
         "turn_count": turn_count + turns_processed,
         "updated": datetime.now(timezone.utc).isoformat(),
     }
@@ -676,57 +778,140 @@ def process_transcript(
     return turns_processed
 
 
+def read_stdin_payload() -> Optional[Tuple[str, Path]]:
+    """Read session_id and transcript_path from stdin JSON payload.
+
+    Claude Code hooks pipe a JSON object on stdin with at least
+    ``session_id`` and ``transcript_path``.  Returns ``None`` when
+    stdin is a TTY, empty, or contains invalid data.
+    """
+    if sys.stdin.isatty():
+        debug("stdin is a TTY, skipping stdin payload")
+        return None
+
+    try:
+        raw = sys.stdin.read()
+    except Exception as e:
+        debug(f"Failed to read stdin: {e}")
+        return None
+
+    if not raw or not raw.strip():
+        debug("stdin is empty")
+        return None
+
+    try:
+        payload = json.loads(raw)
+    except json.JSONDecodeError as e:
+        debug(f"Invalid JSON on stdin: {e}")
+        return None
+
+    session_id = payload.get("session_id")
+    transcript_path_str = payload.get("transcript_path")
+    if not session_id or not transcript_path_str:
+        debug("stdin payload missing session_id or transcript_path")
+        return None
+
+    transcript_path = Path(transcript_path_str)
+    if not transcript_path.exists():
+        debug(f"transcript_path from stdin does not exist: {transcript_path}")
+        return None
+
+    debug(f"Got transcript from stdin: session={session_id}, path={transcript_path}")
+    return (session_id, transcript_path)
+
+
+@contextlib.contextmanager
+def state_lock(timeout: float = 5.0):
+    """Acquire an advisory file lock around state operations.
+
+    Falls back to no-lock when fcntl is unavailable (Windows) or on errors.
+    """
+    if fcntl is None:
+        yield
+        return
+
+    LOCK_FILE.parent.mkdir(parents=True, exist_ok=True)
+    lock_fd = None
+    try:
+        lock_fd = open(LOCK_FILE, "w")
+        deadline = time.monotonic() + timeout
+        while True:
+            try:
+                fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except (IOError, OSError):
+                if time.monotonic() >= deadline:
+                    debug("Could not acquire state lock within timeout, proceeding without lock")
+                    lock_fd.close()
+                    lock_fd = None
+                    yield
+                    return
+                time.sleep(0.1)
+        try:
+            yield
+        finally:
+            fcntl.flock(lock_fd, fcntl.LOCK_UN)
+            lock_fd.close()
+    except Exception as e:
+        debug(f"Lock error, proceeding without lock: {e}")
+        if lock_fd is not None:
+            with contextlib.suppress(Exception):
+                lock_fd.close()
+        yield
+
+
 def main():
     script_start = datetime.now()
     debug("Hook started")
-    
+
     # Check if tracing is enabled
     if os.environ.get("TRACE_TO_RESPAN", "").lower() != "true":
         debug("Tracing disabled (TRACE_TO_RESPAN != true)")
         sys.exit(0)
-    
+
     # Check for required environment variables
     api_key = os.getenv("RESPAN_API_KEY")
     # Default: api.respan.ai | Enterprise: endpoint.respan.ai (set RESPAN_BASE_URL)
     base_url = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
-    
+
     if not api_key:
         log("ERROR", "Respan API key not set (RESPAN_API_KEY)")
         sys.exit(0)
-    
-    # Load state
-    state = load_state()
-    
-    # Find the most recently modified transcript
-    result = find_latest_transcript()
+
+    # Try stdin payload first, fall back to filesystem scan
+    result = read_stdin_payload()
+    if not result:
+        result = find_latest_transcript()
     if not result:
         debug("No transcript file found")
         sys.exit(0)
-    
+
     session_id, transcript_file = result
-    
+
     if not transcript_file:
         debug("No transcript file found")
         sys.exit(0)
-    
+
     debug(f"Processing session: {session_id}")
-    
-    # Process the transcript
+
+    # Process the transcript under file lock
     try:
-        turns = process_transcript(session_id, transcript_file, state, api_key, base_url)
-        
+        with state_lock():
+            state = load_state()
+            turns = process_transcript(session_id, transcript_file, state, api_key, base_url)
+
         # Log execution time
         duration = (datetime.now() - script_start).total_seconds()
         log("INFO", f"Processed {turns} turns in {duration:.1f}s")
-        
+
         if duration > 180:
             log("WARN", f"Hook took {duration:.1f}s (>3min), consider optimizing")
-            
+
     except Exception as e:
         log("ERROR", f"Failed to process transcript: {e}")
         import traceback
         debug(traceback.format_exc())
-    
+
     sys.exit(0)
 
 
