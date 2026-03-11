@@ -8,7 +8,8 @@ load_dotenv(find_dotenv(), override=True)
 # Route Anthropic calls through Respan gateway
 respan_api_key = os.environ["RESPAN_API_KEY"]
 respan_base_url = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
-os.environ["ANTHROPIC_BASE_URL"] = respan_base_url
+# Anthropic SDK appends /v1/messages, so base URL must include /anthropic
+os.environ["ANTHROPIC_BASE_URL"] = f"{respan_base_url}/anthropic"
 os.environ["ANTHROPIC_API_KEY"] = respan_api_key
 
 from pydantic_ai import Agent
