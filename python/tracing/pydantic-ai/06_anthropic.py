@@ -13,23 +13,25 @@ os.environ["ANTHROPIC_BASE_URL"] = f"{respan_base_url}/anthropic"
 os.environ["ANTHROPIC_API_KEY"] = respan_api_key
 
 from pydantic_ai import Agent
-from respan_tracing import RespanTelemetry, Instruments
-from respan_exporter_pydantic_ai import instrument_pydantic_ai
+from respan import Respan
+from respan_instrumentation_pydantic_ai import PydanticAIInstrumentor
 
 
 def main():
-    # 1. Initialize Respan Telemetry
-    telemetry = RespanTelemetry(
+    # 1. Initialize Respan with PydanticAI instrumentation plugin
+    respan = Respan(
         app_name="pydantic-ai-anthropic",
         api_key=respan_api_key,
         base_url=respan_base_url,
-        block_instruments={Instruments.REQUESTS, Instruments.URLLIB3, Instruments.HTTPX},
+        instrumentations=[
+            PydanticAIInstrumentor(
+                include_content=True,
+                include_binary_content=True,
+            ),
+        ],
     )
 
-    # 2. Instrument Pydantic AI
-    instrument_pydantic_ai()
-
-    # 3. Create an Anthropic agent and run it
+    # 2. Create an Anthropic agent and run it
     agent = Agent(
         model="anthropic:claude-sonnet-4-20250514",
         system_prompt="You are a helpful assistant. Keep answers brief.",
@@ -37,7 +39,7 @@ def main():
     result = agent.run_sync("What is the largest ocean on Earth?")
     print("Agent Output:", result.output)
 
-    telemetry.flush()
+    respan.flush()
 
 
 if __name__ == "__main__":

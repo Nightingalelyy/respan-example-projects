@@ -12,15 +12,14 @@ os.environ["OPENAI_BASE_URL"] = respan_base_url
 os.environ["OPENAI_API_KEY"] = respan_api_key
 
 from pydantic_ai import Agent
-from respan_tracing import RespanTelemetry, get_client
-from respan_tracing.decorators import task
-from respan_exporter_pydantic_ai import instrument_pydantic_ai
+from respan import Respan, get_client, task
+from respan_instrumentation_pydantic_ai import PydanticAIInstrumentor
 
 agent = Agent("openai:gpt-4o")
 
+
 @task(name="customer_query")
 def customer_query(query: str):
-    # Set respan_params on the current span
     client = get_client()
     if client:
         client.update_current_span(
@@ -36,22 +35,27 @@ def customer_query(query: str):
     result = agent.run_sync(query)
     return result.output
 
+
 def main():
-    # 1. Initialize Respan Telemetry
-    telemetry = RespanTelemetry(
+    # 1. Initialize Respan with PydanticAI instrumentation plugin
+    respan = Respan(
         app_name="pydantic-ai-params",
         api_key=respan_api_key,
         base_url=respan_base_url,
+        instrumentations=[
+            PydanticAIInstrumentor(
+                include_content=True,
+                include_binary_content=True,
+            ),
+        ],
     )
 
-    # 2. Instrument Pydantic AI
-    instrument_pydantic_ai()
-
-    # 3. Run the task
+    # 2. Run the task
     output = customer_query("Hello, who are you?")
     print("Output:", output)
 
-    telemetry.flush()
+    respan.flush()
+
 
 if __name__ == "__main__":
     main()

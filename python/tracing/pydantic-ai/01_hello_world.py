@@ -12,21 +12,25 @@ os.environ["OPENAI_BASE_URL"] = respan_base_url
 os.environ["OPENAI_API_KEY"] = respan_api_key
 
 from pydantic_ai import Agent
-from respan_tracing import RespanTelemetry
-from respan_exporter_pydantic_ai import instrument_pydantic_ai
+from respan import Respan
+from respan_instrumentation_pydantic_ai import PydanticAIInstrumentor
+
 
 def main():
-    # 1. Initialize Respan Telemetry
-    telemetry = RespanTelemetry(
+    # 1. Initialize Respan with PydanticAI instrumentation plugin
+    respan = Respan(
         app_name="pydantic-ai-hello-world",
         api_key=respan_api_key,
         base_url=respan_base_url,
+        instrumentations=[
+            PydanticAIInstrumentor(
+                include_content=True,
+                include_binary_content=True,
+            ),
+        ],
     )
 
-    # 2. Instrument Pydantic AI
-    instrument_pydantic_ai()
-
-    # 3. Create an agent and run it
+    # 2. Create an agent and run it
     agent = Agent(
         model="openai:gpt-4o",
         system_prompt="You are a helpful assistant.",
@@ -34,7 +38,8 @@ def main():
     result = agent.run_sync("What is the capital of France?")
     print("Agent Output:", result.output)
 
-    telemetry.flush()
+    respan.flush()
+
 
 if __name__ == "__main__":
     main()

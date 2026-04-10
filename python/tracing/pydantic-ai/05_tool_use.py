@@ -16,9 +16,8 @@ os.environ["OPENAI_BASE_URL"] = respan_base_url
 os.environ["OPENAI_API_KEY"] = respan_api_key
 
 from pydantic_ai import Agent
-from respan_tracing import RespanTelemetry
-from respan_tracing.decorators import workflow
-from respan_exporter_pydantic_ai import instrument_pydantic_ai
+from respan import Respan, workflow
+from respan_instrumentation_pydantic_ai import PydanticAIInstrumentor
 
 agent = Agent(
     "openai:gpt-4o",
@@ -27,6 +26,7 @@ agent = Agent(
         "Never compute numbers yourself; always call the add tool when asked to add numbers."
     ),
 )
+
 
 @agent.tool_plain
 def add(a: int, b: int) -> int:
@@ -41,23 +41,26 @@ def run_calculator_agent(prompt: str):
 
 
 def main():
-    # 1. Initialize Respan Telemetry
-    telemetry = RespanTelemetry(
+    # 1. Initialize Respan with PydanticAI instrumentation plugin
+    respan = Respan(
         app_name="pydantic-ai-tool-use",
         api_key=respan_api_key,
         base_url=respan_base_url,
+        instrumentations=[
+            PydanticAIInstrumentor(
+                include_content=True,
+                include_binary_content=True,
+            ),
+        ],
     )
 
-    # 2. Instrument Pydantic AI
-    instrument_pydantic_ai()
-
-    # 3. Run the agent with a prompt that requires a tool call (so the trace contains tool-call spans)
+    # 2. Run the agent with a prompt that requires a tool call
     output = run_calculator_agent(
         "Use your add tool to compute 15 + 27, then reply with the result."
     )
     print("Agent Output:", output)
 
-    telemetry.flush()
+    respan.flush()
 
 
 if __name__ == "__main__":

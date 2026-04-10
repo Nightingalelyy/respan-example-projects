@@ -12,38 +12,44 @@ os.environ["OPENAI_BASE_URL"] = respan_base_url
 os.environ["OPENAI_API_KEY"] = respan_api_key
 
 from pydantic_ai import Agent
-from respan_tracing import RespanTelemetry
-from respan_tracing.decorators import workflow, task
-from respan_exporter_pydantic_ai import instrument_pydantic_ai
+from respan import Respan, workflow, task
+from respan_instrumentation_pydantic_ai import PydanticAIInstrumentor
 
 agent = Agent("openai:gpt-4o", system_prompt="You are a helpful travel assistant.")
+
 
 @task(name="fetch_destination_info")
 def fetch_destination_info(destination: str) -> str:
     result = agent.run_sync(f"Give me a one-sentence summary of {destination}.")
     return result.output
 
+
 @workflow(name="travel_planning_workflow")
 def travel_planning_workflow(destination: str):
     info = fetch_destination_info(destination)
     return info
 
+
 def main():
-    # 1. Initialize Respan Telemetry
-    telemetry = RespanTelemetry(
+    # 1. Initialize Respan with PydanticAI instrumentation plugin
+    respan = Respan(
         app_name="pydantic-ai-tracing",
         api_key=respan_api_key,
         base_url=respan_base_url,
+        instrumentations=[
+            PydanticAIInstrumentor(
+                include_content=True,
+                include_binary_content=True,
+            ),
+        ],
     )
 
-    # 2. Instrument Pydantic AI
-    instrument_pydantic_ai()
-
-    # 3. Run the workflow
+    # 2. Run the workflow
     output = travel_planning_workflow("Paris")
     print("Workflow Output:", output)
 
-    telemetry.flush()
+    respan.flush()
+
 
 if __name__ == "__main__":
     main()
