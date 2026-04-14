@@ -1,0 +1,6 @@
+pipecat-ai[openai]
+openinference-instrumentation-pipecat
+openinference-instrumentation
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

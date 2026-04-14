@@ -1,0 +1,6 @@
+llama-index-core
+llama-index-llms-openai
+openinference-instrumentation-llama-index>=4.0
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

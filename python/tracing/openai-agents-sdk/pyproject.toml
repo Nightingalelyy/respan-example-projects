@@ -7,7 +7,16 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
-respan-exporter-openai-agents = "^0.1.3"
+python-dotenv = "^1.2.2"
+pydantic = "^2.12.5"
+openai = "^2.29.0"
+openai-agents = "^0.13.0"
+respan-ai = {path = "/home/yuyang/KeywordsAI/respan/python-sdks/respan", develop = true}
+respan-instrumentation-openai-agents = {path = "/home/yuyang/KeywordsAI/respan/python-sdks/instrumentations/respan-instrumentation-openai-agents", develop = true}
+respan-tracing = {path = "/home/yuyang/KeywordsAI/respan/python-sdks/respan-tracing", develop = true}
+opentelemetry-semantic-conventions-ai = "0.4.1"
+openinference-semantic-conventions = "^0.1.28"
+respan-sdk = {path = "/home/yuyang/KeywordsAI/respan/python-sdks/respan-sdk", develop = true}
 
 
 [tool.poetry.group.dev.dependencies]

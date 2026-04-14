@@ -1,0 +1,5 @@
+pinecone>=5.1.0,<9
+opentelemetry-instrumentation-pinecone
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

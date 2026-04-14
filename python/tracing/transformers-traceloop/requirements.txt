@@ -1,0 +1,6 @@
+transformers
+torch
+opentelemetry-instrumentation-transformers
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

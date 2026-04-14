@@ -1,0 +1,5 @@
+strands-agents
+openinference-instrumentation-strands-agents
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

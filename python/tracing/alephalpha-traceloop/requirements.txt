@@ -1,0 +1,6 @@
+aleph-alpha-client
+opentelemetry-instrumentation-alephalpha
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

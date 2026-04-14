@@ -1,0 +1,6 @@
+boto3>=1.28.57
+openinference-instrumentation-bedrock
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

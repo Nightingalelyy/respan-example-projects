@@ -1,0 +1,6 @@
+replicate
+opentelemetry-instrumentation-replicate
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

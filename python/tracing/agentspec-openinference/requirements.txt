@@ -1,0 +1,5 @@
+pyagentspec[langgraph]
+openinference-instrumentation-agentspec
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

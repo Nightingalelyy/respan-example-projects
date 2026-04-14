@@ -1,0 +1,6 @@
+boto3
+opentelemetry-instrumentation-sagemaker
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

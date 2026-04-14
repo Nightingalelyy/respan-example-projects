@@ -1,0 +1,6 @@
+google-cloud-aiplatform>=1.49.0
+openinference-instrumentation-vertexai
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

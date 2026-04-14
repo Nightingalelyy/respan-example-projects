@@ -1,0 +1,6 @@
+groq>=0.9.0
+openinference-instrumentation-groq
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

@@ -1,0 +1,6 @@
+ollama
+opentelemetry-instrumentation-ollama
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

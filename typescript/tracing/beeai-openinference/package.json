@@ -1,0 +1,28 @@
+{
+  "name": "beeai-openinference-typescript-example",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "postinstall": "tsc -p node_modules/@respan/respan-sdk/tsconfig.json && tsc -p node_modules/@respan/tracing/tsconfig.json && tsc -p node_modules/@respan/instrumentation-openinference/tsconfig.json && tsc -p node_modules/@respan/respan/tsconfig.json",
+    "example": "tsx beeai_openinference_example.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^1.3.13",
+    "@arizeai/openinference-instrumentation-beeai": "^1.5.10",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-base": "^1.30.1",
+    "@respan/instrumentation-openinference": "file:../../../../respan/javascript-sdks/respan-instrumentation-openinference",
+    "@respan/respan": "file:../../../../respan/javascript-sdks/respan",
+    "@respan/respan-sdk": "file:../../../../respan/javascript-sdks/respan-sdk",
+    "@respan/tracing": "file:../../../../respan/javascript-sdks/respan-tracing",
+    "ai": "^4.3.8",
+    "beeai-framework": "0.1.13",
+    "dotenv": "^16.0.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsx": "^4.20.3",
+    "typescript": "^5.7.0"
+  }
+}

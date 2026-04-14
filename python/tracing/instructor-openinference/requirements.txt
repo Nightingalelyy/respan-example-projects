@@ -1,0 +1,6 @@
+instructor
+openinference-instrumentation-instructor
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+openai

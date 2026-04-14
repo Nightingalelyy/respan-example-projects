@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Complex Edge-Case Tracing Example — stress-tests the Respan OpenAI Agents SDK exporter.
+Complex Edge-Case Tracing Example — stress-tests the Respan OpenAI Agents SDK instrumentation.
 
 Covers EVERY span type (Trace, Agent, Response, Function, Generation, Handoff,
 Custom, Guardrail) and deliberately pushes edge cases that challenge the
@@ -24,11 +24,13 @@ from dotenv import load_dotenv, find_dotenv
 from openai import AsyncOpenAI
 from pydantic import BaseModel, Field
 
+from respan import Respan
+from respan_instrumentation_openai_agents import OpenAIAgentsInstrumentor
 from agents import (
     Agent,
     GuardrailFunctionOutput,
     InputGuardrailTripwireTriggered,
-    OutputGuardrailTripwireTriggered,
+    OutputGuardrailTripwireTriggered,       
     RunContextWrapper,
     Runner,
     TResponseInputItem,
@@ -36,9 +38,8 @@ from agents import (
     input_guardrail,
     output_guardrail,
     set_default_openai_client,
+    trace,
 )
-from agents.tracing import set_trace_processors, trace
-from respan_exporter_openai_agents import RespanTraceProcessor
 
 load_dotenv(find_dotenv(), override=True)
 
@@ -46,18 +47,23 @@ load_dotenv(find_dotenv(), override=True)
 RESPAN_BASE_URL = os.getenv("RESPAN_BASE_URL", "https://api.respan.ai/api")
 RESPAN_API_KEY = os.getenv("RESPAN_API_KEY")
 RESPAN_MODEL = os.getenv("RESPAN_MODEL", "gpt-4o")
+CUSTOMER_IDENTIFIER = "openai-agents-complex-edge-cases"
 
 # ── Gateway: route all OpenAI calls through Respan ─────────────────────────
 client = AsyncOpenAI(api_key=RESPAN_API_KEY, base_url=RESPAN_BASE_URL)
 set_default_openai_client(client)
 
-# ── Tracing: export spans to Respan ────────────────────────────────────────
-set_trace_processors([
-    RespanTraceProcessor(
-        api_key=RESPAN_API_KEY,
-        default_model=RESPAN_MODEL,
-    ),
-])
+# ── Tracing: instrument the OpenAI Agents SDK through Respan ───────────────
+respan = Respan(
+    api_key=RESPAN_API_KEY,
+    base_url=RESPAN_BASE_URL,
+    app_name="openai-agents-complex-edge-cases",
+    instrumentations=[OpenAIAgentsInstrumentor()],
+    metadata={
+        "example_name": "complex_edge_cases_test",
+        "gateway_model": RESPAN_MODEL,
+    },
+)
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -95,7 +101,7 @@ def get_city_stats(city: str) -> str:
 # Tests that the exporter handles empty/blank output without crashing.
 # Some serializers treat "" differently from None.
 @function_tool
-def lookup_internal_notes(topic: str) -> str:
+def lookup_internal_notes( topic: str) -> str:
     """Look up internal notes — always returns empty (no notes found)."""
     return ""
 
@@ -559,78 +565,82 @@ async def main():
     start = time.time()
 
     with trace("Edge Case Stress Test"):
+        with respan.propagate_attributes(
+            customer_identifier=CUSTOMER_IDENTIFIER,
+            metadata={"test_suite": "complex_edge_cases"},
+        ):
 
-        # ── Handoff chain (Handoff + Agent + Response + Generation) ────
-        await run_scenario(
-            "Three-level handoff chain",
-            scenario_handoff_chain(),
-        )
+            # ── Handoff chain (Handoff + Agent + Response + Generation) ────
+            await run_scenario(
+                "Three-level handoff chain",
+                scenario_handoff_chain(),
+            )
 
-        # ── Parallel tools (Function spans) ────────────────────────────
-        await run_scenario(
-            "5 parallel tool calls",
-            scenario_multi_tool_parallel(),
-        )
+            # ── Parallel tools (Function spans) ────────────────────────────
+            await run_scenario(
+                "5 parallel tool calls",
+                scenario_multi_tool_parallel(),
+            )
 
-        # ── Error + slow tools (Function error spans) ──────────────────
-        await run_scenario(
-            "Tool error recovery + slow tool timing",
-            scenario_tool_error_recovery(),
-        )
+            # ── Error + slow tools (Function error spans) ──────────────────
+            await run_scenario(
+                "Tool error recovery + slow tool timing",
+                scenario_tool_error_recovery(),
+            )
 
-        # ── Structured output + guardrail (Guardrail spans) ────────────
-        await run_scenario(
-            "Structured output with output guardrail",
-            scenario_structured_output_with_guardrail(),
-        )
+            # ── Structured output + guardrail (Guardrail spans) ────────────
+            await run_scenario(
+                "Structured output with output guardrail",
+                scenario_structured_output_with_guardrail(),
+            )
 
-        # ── Agents-as-tools (recursive span nesting) ──────────────────
-        await run_scenario(
-            "Agents used as tools (recursive nesting)",
-            scenario_agents_as_tools(),
-        )
+            # ── Agents-as-tools (recursive span nesting) ──────────────────
+            await run_scenario(
+                "Agents used as tools (recursive nesting)",
+                scenario_agents_as_tools(),
+            )
 
-        # ── Large payload ──────────────────────────────────────────────
-        await run_scenario(
-            "~50KB tool output payload",
-            scenario_large_payload(),
-        )
+            # ── Large payload ──────────────────────────────────────────────
+            await run_scenario(
+                "~50KB tool output payload",
+                scenario_large_payload(),
+            )
 
-        # ── Unicode stress ─────────────────────────────────────────────
-        await run_scenario(
-            "Unicode / emoji / special char encoding",
-            scenario_unicode_stress(),
-        )
+            # ── Unicode stress ─────────────────────────────────────────────
+            await run_scenario(
+                "Unicode / emoji / special char encoding",
+                scenario_unicode_stress(),
+            )
 
-        # ── Rapid sequential runs ──────────────────────────────────────
-        await run_scenario(
-            "5 rapid-fire sequential runs (queue pressure)",
-            scenario_rapid_sequential_runs(),
-        )
+            # ── Rapid sequential runs ──────────────────────────────────────
+            await run_scenario(
+                "5 rapid-fire sequential runs (queue pressure)",
+                scenario_rapid_sequential_runs(),
+            )
 
-        # ── Concurrent sub-traces ──────────────────────────────────────
-        await run_scenario(
-            "2 concurrent agent runs (interleaved spans)",
-            scenario_concurrent_sub_traces(),
-        )
+            # ── Concurrent sub-traces ──────────────────────────────────────
+            await run_scenario(
+                "2 concurrent agent runs (interleaved spans)",
+                scenario_concurrent_sub_traces(),
+            )
 
-        # ── Guardrail trip ─────────────────────────────────────────────
-        await run_scenario(
-            "Deliberately trip input guardrail",
-            scenario_guardrail_trip(),
-        )
+            # ── Guardrail trip ─────────────────────────────────────────────
+            await run_scenario(
+                "Deliberately trip input guardrail",
+                scenario_guardrail_trip(),
+            )
 
-        # ── Multi-turn conversation ────────────────────────────────────
-        await run_scenario(
-            "3-turn conversation with tool use",
-            scenario_multi_turn_conversation(),
-        )
+            # ── Multi-turn conversation ────────────────────────────────────
+            await run_scenario(
+                "3-turn conversation with tool use",
+                scenario_multi_turn_conversation(),
+            )
 
-        # ── Zero-duration spans ────────────────────────────────────────
-        await run_scenario(
-            "Near-instant span (sub-ms latency)",
-            scenario_zero_duration_spans(),
-        )
+            # ── Zero-duration spans ────────────────────────────────────────
+            await run_scenario(
+                "Near-instant span (sub-ms latency)",
+                scenario_zero_duration_spans(),
+            )
 
     elapsed = time.time() - start
     print(f"\n{'=' * 60}")
@@ -639,6 +649,7 @@ async def main():
     print(f"{'=' * 60}")
 
     await asyncio.sleep(5)
+    respan.flush()
     print("\n  Done! Check your Respan dashboard for the trace.")
 
 

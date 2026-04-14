@@ -1,0 +1,5 @@
+smolagents
+openinference-instrumentation-smolagents
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

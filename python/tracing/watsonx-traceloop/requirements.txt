@@ -1,0 +1,7 @@
+ibm-watsonx-ai
+opentelemetry-instrumentation-watsonx
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests
+certifi

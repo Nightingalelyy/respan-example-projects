@@ -1,0 +1,5 @@
+marqo
+opentelemetry-instrumentation-marqo
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

@@ -1,0 +1,6 @@
+autogen-agentchat
+autogen-ext[openai]
+openinference-instrumentation-autogen-agentchat
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

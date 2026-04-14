@@ -1,0 +1,6 @@
+together<2
+opentelemetry-instrumentation-together
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

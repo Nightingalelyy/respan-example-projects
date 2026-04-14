@@ -1,0 +1,5 @@
+qdrant-client>=1.7
+opentelemetry-instrumentation-qdrant
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

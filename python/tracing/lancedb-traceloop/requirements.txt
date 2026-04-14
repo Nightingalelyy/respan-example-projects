@@ -1,0 +1,6 @@
+lancedb
+opentelemetry-instrumentation-lancedb
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+numpy

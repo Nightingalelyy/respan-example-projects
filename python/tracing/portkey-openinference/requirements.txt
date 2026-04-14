@@ -1,0 +1,6 @@
+portkey-ai>=0.1.0
+openinference-instrumentation-portkey
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

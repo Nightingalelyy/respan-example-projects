@@ -1,0 +1,6 @@
+haystack-ai>=2.18.0
+openinference-instrumentation-haystack
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+openai

@@ -1,0 +1,5 @@
+google-genai
+openinference-instrumentation-google-genai
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv

@@ -1,0 +1,25 @@
+{
+  "name": "llamaindex-traceloop-typescript-example",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "postinstall": "tsc -p node_modules/@respan/respan-sdk/tsconfig.json && tsc -p node_modules/@respan/tracing/tsconfig.json && tsc -p node_modules/@respan/respan/tsconfig.json",
+    "example": "tsx llamaindex_traceloop_example.ts"
+  },
+  "dependencies": {
+    "llamaindex": "^0.12.1",
+    "@llamaindex/openai": "^0.3.0",
+    "@traceloop/instrumentation-llamaindex": "^0.22.6",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-base": "^1.30.1",
+    "@respan/respan": "file:../../../../respan/javascript-sdks/respan",
+    "@respan/respan-sdk": "file:../../../../respan/javascript-sdks/respan-sdk",
+    "@respan/tracing": "file:../../../../respan/javascript-sdks/respan-tracing",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsx": "^4.20.3",
+    "typescript": "^5.7.0"
+  }
+}

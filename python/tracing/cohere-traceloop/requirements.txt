@@ -1,0 +1,6 @@
+cohere>=4.2.7,<6
+opentelemetry-instrumentation-cohere
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests

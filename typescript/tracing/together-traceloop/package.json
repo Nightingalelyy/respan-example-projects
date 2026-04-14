@@ -1,0 +1,24 @@
+{
+  "name": "together-traceloop-typescript-example",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "postinstall": "tsc -p node_modules/@respan/respan-sdk/tsconfig.json; tsc -p node_modules/@respan/tracing/tsconfig.json; tsc -p node_modules/@respan/respan/tsconfig.json; true",
+    "example": "tsx together_traceloop_example.ts"
+  },
+  "dependencies": {
+    "together-ai": "^0.20.0",
+    "@traceloop/instrumentation-together": "^0.23.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-base": "^1.30.1",
+    "@respan/respan": "file:../../../../respan/javascript-sdks/respan",
+    "@respan/respan-sdk": "file:../../../../respan/javascript-sdks/respan-sdk",
+    "@respan/tracing": "file:../../../../respan/javascript-sdks/respan-tracing",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsx": "^4.20.3",
+    "typescript": "^5.7.0"
+  }
+}

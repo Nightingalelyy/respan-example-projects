@@ -1,0 +1,6 @@
+mistralai
+openinference-instrumentation-mistralai
+respan-tracing
+respan-instrumentation-openinference
+python-dotenv
+requests
