@@ -1,0 +1,26 @@
+{
+  "name": "claude-agent-sdk-typescript-example",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TypeScript examples for Claude Agent SDK with local Respan instrumentation",
+  "type": "module",
+  "scripts": {
+    "basic": "tsx basic_platform_example.ts",
+    "complex": "tsx complex_edge_cases_test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.2.107",
+    "@respan/instrumentation-claude-agent-sdk": "file:../../../../respan/javascript-sdks/instrumentations/respan-instrumentation-claude-agent-sdk",
+    "@respan/respan": "file:../../../../respan/javascript-sdks/respan",
+    "@respan/respan-sdk": "file:../../../../respan/javascript-sdks/respan-sdk",
+    "@respan/tracing": "file:../../../../respan/javascript-sdks/respan-tracing",
+    "dotenv": "^16.4.7",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
