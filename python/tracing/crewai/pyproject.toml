@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "crewai-tracing-example"
+version = "0.1.0"
+description = "CrewAI tracing examples for Respan"
+authors = ["Respan <team@respan.ai>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.14"
+python-dotenv = ">=1.0.0"
+crewai = ">=0.80.0"
+respan-ai = { path = "../../../../respan/python-sdks/respan", develop = true }
+respan-sdk = { path = "../../../../respan/python-sdks/respan-sdk", develop = true }
+respan-tracing = { path = "../../../../respan/python-sdks/respan-tracing", develop = true }
+respan-instrumentation-openinference = { path = "../../../../respan/python-sdks/instrumentations/respan-instrumentation-openinference", develop = true }
+respan-instrumentation-crewai = { path = "../../../../respan/python-sdks/instrumentations/respan-instrumentation-crewai", develop = true }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
