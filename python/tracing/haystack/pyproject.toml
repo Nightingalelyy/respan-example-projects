@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "haystack-tracing-example"
+version = "0.1.0"
+description = "Haystack tracing examples for Respan"
+authors = ["Respan <team@respan.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.14"
+python-dotenv = ">=1.0.0"
+haystack-ai = ">=2.28.0"
+respan-ai = { path = "../../../../respan/python-sdks/respan", develop = true }
+respan-tracing = { path = "../../../../respan/python-sdks/respan-tracing", develop = true }
+respan-instrumentation-haystack = { path = "../../../../respan/python-sdks/instrumentations/respan-instrumentation-haystack", develop = true }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
