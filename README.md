@@ -16,6 +16,7 @@ python/
     langchain/            # LangChain agent example
     cursor-sdk/           # Cursor SDK hook replay tracing examples
   gateway/
+    model-testing/        # Platform Live model availability + separate streaming performance benchmark
     google-genai/         # Google Gemini SDK example
   dev-tools/
     claude-code/          # Claude Code tracing hook
@@ -50,6 +51,15 @@ platform/
 1. Clone this repository
 2. Navigate to the example you want to run
 3. Follow the README in each directory for setup instructions
+
+For availability checks of models listed under Models > Live on the platform, use the
+[model availability checker](python/gateway/model-testing/README.md). It discovers
+models dynamically, calls them with `RESPAN_API_KEY`, and records each result in
+the same format.
+
+For repeatable TTFT and throughput measurements, use the separate
+[performance benchmark](python/gateway/model-testing/BENCHMARK.md), which defaults
+to Prism's DeepSeek V4 Flash and V4.1 Flash models.
 
 ## Documentation
 
