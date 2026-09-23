@@ -1,5 +1,6 @@
 """Exercise latest SDK options, structured output and background-task termination."""
 import asyncio
+import os
 
 from _shared import FakeClaudeTransport, ToolSpec, run_example
 
@@ -15,7 +16,7 @@ class LatestTransport(FakeClaudeTransport):
         })
         await self._queue.put({
             "type": "system", "subtype": "task_updated", "task_id": "fixture-task",
-            "patch": {"status": "completed"}, "uuid": "complete", "session_id": self._session_id,
+            "patch": {"status": os.getenv("CLAUDE_EXAMPLE_TASK_STATUS", "completed")}, "uuid": "complete", "session_id": self._session_id,
         })
         await self._enqueue_final_response()
 
