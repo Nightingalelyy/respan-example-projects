@@ -45,6 +45,7 @@ function ensureTelemetryRegistered() {
   registerTelemetry(new OpenTelemetry({
     embedding: true,
     reranking: true,
+    experimental_evaluation: true,
     providerMetadata: true,
     schema: true,
     toolChoice: true,

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
-import { generateText, rerank, Output, jsonSchema, tool } from "ai";
-import { MockLanguageModelV4, MockRerankingModelV4 } from "ai/test";
+import { generateText, rerank, Output, jsonSchema, tool, experimental_evaluate } from "ai";
+import { MockLanguageModelV4, MockRerankingModelV4, Experimental_EvaluationMockModelV4 } from "ai/test";
+import { OpenTelemetry } from "@ai-sdk/otel";
 import { runVercelCase } from "./vercel-common.mjs";
 
 // SDK test providers make rare content/error/privacy cases deterministic while
@@ -68,6 +69,34 @@ await runVercelCase("latest_features", async ({ runId, telemetry }) => {
     prompt: "PRIVATE_PROMPT_SENTINEL",
     telemetry: { ...telemetry("private"), recordInputs: false, recordOutputs: false },
   });
+
+  await experimental_evaluate({
+    model: new Experimental_EvaluationMockModelV4({ modelId: "respan-evaluate-fixture", doEvaluate: async () => ({ answers: { correct: { type: "boolean", probability: 0.95 } }, warnings: [] }) }),
+    state: `4 is even ${runId}`,
+    questions: { correct: { type: "boolean", instructions: "Is 4 even?" } },
+    telemetry: telemetry("evaluation"),
+  });
+
+  const previousContent = process.env.RESPAN_TRACE_CONTENT;
+  try {
+    process.env.RESPAN_TRACE_CONTENT = "false";
+    await generateText({
+      model: new MockLanguageModelV4({ modelId: "respan-global-private-fixture", doGenerate: response }),
+      prompt: "GLOBAL_PRIVATE_PROMPT_SENTINEL",
+      telemetry: telemetry("global_private"),
+    });
+  } finally {
+    if (previousContent === undefined) delete process.env.RESPAN_TRACE_CONTENT;
+    else process.env.RESPAN_TRACE_CONTENT = previousContent;
+  }
+
+  // Event-contract fixtures replay current workflow/harness operation IDs
+  // through the actual OTel adapter; they do not run a hosted workflow/sandbox.
+  const adapter = new OpenTelemetry();
+  for (const operationId of ["ai.workflowAgent.stream", "ai.harness"]) {
+    adapter.onStart({ callId: operationId, operationId, provider: "fixture", modelId: "respan-agent-fixture", functionId: operationId, messages: [{ role: "user", content: `Agent event fixture ${runId}` }], tools: {}, maxRetries: 0 });
+    adapter.onEnd({ callId: operationId, finishReason: "stop", usage: { inputTokens: 1, outputTokens: 1 }, text: "Agent event fixture answer", finalStep: {}, toolCalls: [], toolResults: [], files: [] });
+  }
 
   await assert.rejects(generateText({
     model: new MockLanguageModelV4({ modelId: "respan-error-fixture", doGenerate: async () => { throw new Error("Expected SDK fixture error"); } }),
