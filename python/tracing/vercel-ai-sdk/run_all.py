@@ -177,6 +177,7 @@ async def durable_replay():
     async with telemetry.use_sink(sink):
         async with telemetry.span("serialized workflow"):
             await text()
+            await operations()
     payload = [span.model_dump(mode="json") for span in sink.finished_spans]
     await telemetry.push_all(payload)
 
