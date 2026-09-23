@@ -221,6 +221,8 @@ async def run_example(
     prompts: Sequence[str],
     tools: Sequence[ToolSpec] = (),
     resume: bool = False,
+    transport_class: type[FakeClaudeTransport] = FakeClaudeTransport,
+    option_overrides: dict[str, Any] | None = None,
 ) -> None:
     import claude_agent_sdk
     from claude_agent_sdk import ClaudeAgentOptions, ResultMessage
@@ -274,7 +276,7 @@ async def run_example(
             },
         ):
             for turn_index, prompt in enumerate(prompts):
-                current_transport = FakeClaudeTransport(
+                current_transport = transport_class(
                     session_id=session_id,
                     prompt_text=prompt,
                     tools=tools if turn_index == 0 else (),
@@ -284,6 +286,7 @@ async def run_example(
                     tools=[tool.name for tool in tools] or None,
                     system_prompt="Return concise deterministic example output.",
                     resume=session_id if resume and turn_index else None,
+                    **(option_overrides or {}),
                 )
                 result = None
                 async for message in claude_agent_sdk.query(
