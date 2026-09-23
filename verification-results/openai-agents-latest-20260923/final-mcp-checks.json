@@ -1,0 +1,131 @@
+{
+  "hosted_python": [
+    {
+      "trace_id": "62350cf20b6192b0ddfa7ff33be5c978",
+      "scenario": "native_hosted",
+      "details": [
+        {
+          "log_id": "bce6217d9f274219acd221b4b7c21a13",
+          "type": "chat",
+          "input": "[{\"content\":\"Hosted fixture\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"queries\\\\\\\":[\\\\\\\"hello\\\\\\\"]}\\\",\\\"name\\\":\\\"file_search_call\\\"},\\\"id\\\":\\\"fs_fixture\\\",\\\"type\\\":\\\"function\\\"},{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"code\\\\\\\":\\\\\\\"print(42)\\\\\\\",\\\\\\\"container_id\\\\\\\":\\\\\\\"c\\\\\\\"}\\\",\\\"name\\\":\\\"code_interpreter_call\\\"},\\\"id\\\":\\\"ci_fixture\\\",\\\"output\\\":[{\\\"logs\\\":\\\"42\\\",\\\"type\\\":\\\"logs\\\"}],\\\"type\\\":\\\"function\\\"},{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"revised_prompt\\\\\\\":\\\\\\\"cat\\\\\\\"}\\\",\\\"name\\\":\\\"image_generation_call\\\"},\\\"id\\\":\\\"img_fixture\\\",\\\"output\\\":\\\"BASE64\\\",\\\"type\\\":\\\"function\\\"}]\"}",
+          "completion": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"function\":{\"arguments\":\"{\\\"queries\\\":[\\\"hello\\\"]}\",\"name\":\"file_search_call\"},\"id\":\"fs_fixture\",\"type\":\"function\"},{\"function\":{\"arguments\":\"{\\\"code\\\":\\\"print(42)\\\",\\\"container_id\\\":\\\"c\\\"}\",\"name\":\"code_interpreter_call\"},\"id\":\"ci_fixture\",\"output\":[{\"logs\":\"42\",\"type\":\"logs\"}],\"type\":\"function\"},{\"function\":{\"arguments\":\"{\\\"revised_prompt\\\":\\\"cat\\\"}\",\"name\":\"image_generation_call\"},\"id\":\"img_fixture\",\"output\":\"BASE64\",\"type\":\"function\"}]"
+          },
+          "prompt": [
+            {
+              "content": "Hosted fixture",
+              "role": "user"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "hosted_javascript": [
+    {
+      "trace_id": "f6143b1de5d53d42b9af4daeeca480f4",
+      "log_id": "fbaaf35f228d4e66a6bfdd31ea028374",
+      "completion": {
+        "content": "",
+        "role": "assistant",
+        "tool_calls": "[{\"id\":\"fs_fixture\",\"type\":\"function\",\"function\":{\"name\":\"file_search_call\",\"arguments\":\"{\\\"queries\\\":[\\\"hello\\\"]}\"},\"openai_agents_type\":\"file_search_call\"},{\"id\":\"ci_fixture\",\"type\":\"function\",\"function\":{\"name\":\"code_interpreter_call\",\"arguments\":\"{\\\"code\\\":\\\"print(42)\\\",\\\"container_id\\\":\\\"c\\\"}\"},\"output\":[{\"type\":\"logs\",\"logs\":\"42\"}],\"openai_agents_type\":\"code_interpreter_call\"},{\"id\":\"img_fixture\",\"type\":\"function\",\"function\":{\"name\":\"image_generation_call\",\"arguments\":\"{\\\"revised_prompt\\\":\\\"cat\\\"}\"},\"output\":\"BASE64\",\"openai_agents_type\":\"image_generation_call\"}]"
+      },
+      "input": "[{\"content\":\"Hosted fixture\",\"role\":\"user\"}]",
+      "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"fs_fixture\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"file_search_call\\\",\\\"arguments\\\":\\\"{\\\\\\\"queries\\\\\\\":[\\\\\\\"hello\\\\\\\"]}\\\"},\\\"openai_agents_type\\\":\\\"file_search_call\\\"},{\\\"id\\\":\\\"ci_fixture\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"code_interpreter_call\\\",\\\"arguments\\\":\\\"{\\\\\\\"code\\\\\\\":\\\\\\\"print(42)\\\\\\\",\\\\\\\"container_id\\\\\\\":\\\\\\\"c\\\\\\\"}\\\"},\\\"output\\\":[{\\\"type\\\":\\\"logs\\\",\\\"logs\\\":\\\"42\\\"}],\\\"openai_agents_type\\\":\\\"code_interpreter_call\\\"},{\\\"id\\\":\\\"img_fixture\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"image_generation_call\\\",\\\"arguments\\\":\\\"{\\\\\\\"revised_prompt\\\\\\\":\\\\\\\"cat\\\\\\\"}\\\"},\\\"output\\\":\\\"BASE64\\\",\\\"openai_agents_type\\\":\\\"image_generation_call\\\"}]\"}"
+    }
+  ],
+  "responses_privacy": [
+    {
+      "trace_id": "0f73642c148eb2a1087643def38e7c0c",
+      "scenario": "privacy_responses_native",
+      "details": [
+        {
+          "log_id": "c88e19a6e4b840b7aeee490a1cbaf8a0",
+          "type": "chat",
+          "input": "",
+          "output": "",
+          "completion": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "prompt": [
+            {
+              "role": "user",
+              "content": "{}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "audio_and_core_privacy": [
+    {
+      "trace_id": "b3a0c10e38bb53abb4f78bc82ec345ee",
+      "details": [
+        {
+          "log_id": "95545541cafb4d1797a91608f301c3d8",
+          "span_id": "97a33036b585d9e6",
+          "type": "tool",
+          "name": "tool.weather.list_tools",
+          "model": "None",
+          "input": "{\"arguments\":{\"server\":\"weather\"},\"name\":\"weather.list_tools\"}",
+          "output": "[\"forecast\"]"
+        },
+        {
+          "log_id": "6a16558a41e74bf0b498eb3646398077",
+          "span_id": "191c5416eea14c2b",
+          "type": "transcription",
+          "name": "transcribe",
+          "model": "None",
+          "input": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+          "output": "\"Hello\""
+        },
+        {
+          "log_id": "ab38916b24fd40b58598dca6c060fc02",
+          "span_id": "7c62cc29cb439b18",
+          "type": "speech",
+          "name": "speech",
+          "model": "None",
+          "input": "\"Hello\"",
+          "output": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}"
+        }
+      ]
+    },
+    {
+      "trace_id": "de6af040512fadbdd07b6384ff894775",
+      "details": [
+        {
+          "log_id": "5a977264dff94880bb4b793125bd5ee8",
+          "span_id": "747b240a9ff41620",
+          "type": "tool",
+          "name": "tool.weather.list_tools",
+          "model": "None",
+          "input": "{\"server\":\"weather\"}",
+          "output": "[\"forecast\"]"
+        },
+        {
+          "log_id": "bf2e7f07695f4d68b4a651512d029a64",
+          "span_id": "246d3a19e1f8cd52",
+          "type": "transcription",
+          "name": "transcribe",
+          "model": "None",
+          "input": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+          "output": "\"Hello\""
+        },
+        {
+          "log_id": "b9c96c6cd57c4c16b82eb63e94c3d5b6",
+          "span_id": "04b4b30f313596a8",
+          "type": "speech",
+          "name": "speech",
+          "model": "None",
+          "input": "\"Hello\"",
+          "output": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}"
+        }
+      ]
+    }
+  ]
+}

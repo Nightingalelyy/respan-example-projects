@@ -14,17 +14,19 @@
     "all": "npm run basic && npm run tools && npm run agent-tool && npm run handoff && npm run guardrails && npm run structured-session && npm run streaming-lifecycle",
     "typecheck": "tsc --noEmit",
     "complex": "tsx complex-edge-cases.ts",
-    "build-check": "tsc --noEmit"
+    "build-check": "tsc --noEmit",
+    "latest-sdk": "node latest-sdk-verification.mjs"
   },
   "dependencies": {
-    "@openai/agents": "0.12.0",
+    "@openai/agents": "0.18.0",
     "@respan/instrumentation-openai-agents": "file:../../../../respan/javascript-sdks/instrumentations/respan-instrumentation-openai-agents",
     "@respan/respan": "file:../../../../respan/javascript-sdks/respan",
     "@respan/respan-sdk": "file:../../../../respan/javascript-sdks/respan-sdk",
     "@respan/tracing": "file:../../../../respan/javascript-sdks/respan-tracing",
     "dotenv": "^16.5.0",
-    "openai": "^5.19.1",
-    "zod": "^4.1.12"
+    "zod": "^4.1.12",
+    "@modelcontextprotocol/server": "2.0.0",
+    "openai": "7.23.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.29",

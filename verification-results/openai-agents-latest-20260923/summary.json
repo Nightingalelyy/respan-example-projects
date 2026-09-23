@@ -1,0 +1,216 @@
+{
+  "date": "2026-09-23",
+  "status": "draft - external acceptance blockers",
+  "versions": {
+    "python": "openai-agents==0.22.3",
+    "python_minimum": "0.20.0",
+    "javascript": "@openai/agents@0.18.0",
+    "python_mcp": "2.2.0",
+    "javascript_mcp_server": "2.0.0"
+  },
+  "tests": {
+    "python_latest": 37,
+    "python_minimum": 37,
+    "javascript": 20
+  },
+  "passed": [
+    "Latest SDK build and package checks",
+    "live Gateway streamed function tools, handoffs, structured sessions, guardrails, approval/resume, deliberate errors",
+    "live SDK-managed MCP2 server discovery and execution in both languages",
+    "all 14 main scenario trace trees: one root, no missing parents",
+    "105 individual log details for main scenarios inspected through Respan MCP",
+    "SDK sensitive-data false suppresses prompt/tool result content",
+    "Respan environment content-off suppresses native MCP/audio payloads",
+    "Python context opt-out regression coverage",
+    "audio model spans preserve speech/transcription types and content; Python semantic name corrected",
+    "Native JavaScript Responses enabled_without_data checked with deterministic model transport and Respan MCP; content absent."
+  ],
+  "blockers": [
+    "OTel error spans retain error_message but are projected as status success and status_code 200 by Respan.",
+    "Canonical completion_message.tool_calls retains JSON tool calls, but the top-level parsed tool_calls array is empty.",
+    "No direct OpenAI API credentials: hosted Responses, realtime audio, provider sandbox features are not live-certified.",
+    "JavaScript Respan({traceContent:false}) is not passed to explicit plugins by the shared core; RESPAN_TRACE_CONTENT=false is honored by this package.",
+    "Respan audio model display remains None despite canonical model attributes; audio types and payloads are retained."
+  ],
+  "trace_indexes": {
+    "python": [
+      {
+        "scenario": "native_voice_mcp",
+        "id": "c4b1f7e6080e2de71f78c021de25f209"
+      },
+      {
+        "scenario": "tool_error",
+        "id": "dc4588a3c633254bc554a1d38df025cc"
+      },
+      {
+        "scenario": "approval",
+        "id": "4388d7ffd40f17a962e0248a90b6ed0f"
+      },
+      {
+        "scenario": "guardrail",
+        "id": "1002a36b77b0b3ab5697b222c25444c1"
+      },
+      {
+        "scenario": "structured_session",
+        "id": "3e74ab53a3b9633764c827e44064c187"
+      },
+      {
+        "scenario": "handoff",
+        "id": "059c120b0154d359385654f5b16bc761"
+      },
+      {
+        "scenario": "tools_stream",
+        "id": "fcf10285cc83af9adeef2357fb281a52"
+      }
+    ],
+    "javascript": [
+      {
+        "scenario": "native_voice_mcp",
+        "id": "fc63210f7e4a9bed6aadab5017b82cdc"
+      },
+      {
+        "scenario": "tool_error",
+        "id": "10e88790dc8b3eaea768463ec0988e2f"
+      },
+      {
+        "scenario": "approval",
+        "id": "04a475f03ba95a815df5558a141041a5"
+      },
+      {
+        "scenario": "guardrail",
+        "id": "e10808dc6425afacb7c91d44ad031b76"
+      },
+      {
+        "scenario": "structured_session",
+        "id": "5e72f4142d90bfb0a35a9ea6c297c098"
+      },
+      {
+        "scenario": "handoff",
+        "id": "9c8cf3f6db2ff400a363b094b6030dc2"
+      },
+      {
+        "scenario": "tools_stream",
+        "id": "6c121365c4e242691aa7e9e6b57363f0"
+      }
+    ]
+  },
+  "additional": [
+    {
+      "id": "ef6f3c12747e270c1dfe9a2478cd6b9e",
+      "marker": "openai-js-latest-20260923-mcp02",
+      "scenario": "mcp"
+    },
+    {
+      "id": "647bba9cd4b85867f73bc6f3c5fc1fed",
+      "marker": "openai-py-latest-20260923-mcp02",
+      "scenario": "mcp"
+    },
+    {
+      "id": "3914932b14b84950e9ddee528fe86b77",
+      "marker": "openai-py-latest-20260923-privacy-sdk",
+      "scenario": "native_voice_mcp"
+    },
+    {
+      "id": "ceba10cb85c4eb23773968770c72a1f2",
+      "marker": "openai-py-latest-20260923-privacy-sdk",
+      "scenario": "privacy_sdk"
+    },
+    {
+      "id": "3269848b5aa9b95c15e442287cccf74b",
+      "marker": "openai-js-latest-20260923-privacy-sdk",
+      "scenario": "native_voice_mcp"
+    },
+    {
+      "id": "06bb608561f5b6e4e80b115152be5180",
+      "marker": "openai-js-latest-20260923-privacy-sdk",
+      "scenario": "privacy_sdk"
+    },
+    {
+      "id": "94f434cbb6014e59472008740dc766c8",
+      "marker": "openai-py-latest-20260923-privacy-off",
+      "scenario": "native_voice_mcp"
+    },
+    {
+      "id": "092b90c42b835fb3a3ad3282940eb9ef",
+      "marker": "openai-js-latest-20260923-privacy-off",
+      "scenario": "native_voice_mcp"
+    }
+  ],
+  "final_audio_and_core_privacy": [
+    {
+      "trace_id": "b3a0c10e38bb53abb4f78bc82ec345ee",
+      "details": [
+        {
+          "log_id": "95545541cafb4d1797a91608f301c3d8",
+          "span_id": "97a33036b585d9e6",
+          "type": "tool",
+          "name": "tool.weather.list_tools",
+          "model": "None",
+          "input": "{\"arguments\":{\"server\":\"weather\"},\"name\":\"weather.list_tools\"}",
+          "output": "[\"forecast\"]"
+        },
+        {
+          "log_id": "6a16558a41e74bf0b498eb3646398077",
+          "span_id": "191c5416eea14c2b",
+          "type": "transcription",
+          "name": "transcribe",
+          "model": "None",
+          "input": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+          "output": "\"Hello\""
+        },
+        {
+          "log_id": "ab38916b24fd40b58598dca6c060fc02",
+          "span_id": "7c62cc29cb439b18",
+          "type": "speech",
+          "name": "speech",
+          "model": "None",
+          "input": "\"Hello\"",
+          "output": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}"
+        }
+      ]
+    },
+    {
+      "trace_id": "de6af040512fadbdd07b6384ff894775",
+      "details": [
+        {
+          "log_id": "5a977264dff94880bb4b793125bd5ee8",
+          "span_id": "747b240a9ff41620",
+          "type": "tool",
+          "name": "tool.weather.list_tools",
+          "model": "None",
+          "input": "{\"server\":\"weather\"}",
+          "output": "[\"forecast\"]"
+        },
+        {
+          "log_id": "bf2e7f07695f4d68b4a651512d029a64",
+          "span_id": "246d3a19e1f8cd52",
+          "type": "transcription",
+          "name": "transcribe",
+          "model": "None",
+          "input": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+          "output": "\"Hello\""
+        },
+        {
+          "log_id": "b9c96c6cd57c4c16b82eb63e94c3d5b6",
+          "span_id": "04b4b30f313596a8",
+          "type": "speech",
+          "name": "speech",
+          "model": "None",
+          "input": "\"Hello\"",
+          "output": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}"
+        }
+      ]
+    }
+  ],
+  "coverage_limits": [
+    "Hosted Responses shell/apply_patch/web-search/file-search/image-generation payload mapping verified with SDK fixtures locally and selected Respan MCP exports; provider-hosted execution needs direct OpenAI credentials.",
+    "Voice tracing APIs exercised with deterministic input/output; no provider audio, Realtime transport, or sandbox runtime certification.",
+    "SDK RunConfig privacy applies only to SDK-managed data; native manual tracing APIs record explicitly supplied fields unless Respan content controls suppress them."
+  ],
+  "reproduction": {
+    "python": "Install this PR's local Python instrumentation and companion requirements. RESPAN_ENV_FILE=/path/to/.env python python/tracing/openai-agents-sdk/latest_sdk_verification.py",
+    "javascript": "Build current local Respan core and this PR instrumentation. Install companion package dependencies and run npm run latest-sdk.",
+    "selection": "RESPAN_SCENARIOS accepts comma-separated scenario names; RESPAN_EXAMPLE_RUN_ID scopes Respan MCP trace lookups.",
+    "privacy": "TRACELOOP_TRACE_CONTENT=false (Python); RESPAN_TRACE_CONTENT=false (JavaScript)."
+  }
+}

@@ -1,0 +1,840 @@
+[
+  {
+    "trace_id": "ef6f3c12747e270c1dfe9a2478cd6b9e",
+    "marker": "openai-js-latest-20260923-mcp02",
+    "scenario": "mcp",
+    "span_count": 10,
+    "details": [
+      {
+        "log_id": "92aaf03b4fc94a84802656c6b14b422f",
+        "span_id": "35a85e22268d541f",
+        "parent_id": "b2d554fff0a7536f",
+        "type": "chat",
+        "name": "llm.gpt-4o-mini",
+        "model": "openai/gpt-4o-mini",
+        "input": "[{\"content\":\"Always call forecast_mcp for Paris then report the result.\",\"role\":\"system\"},{\"content\":\"Use the MCP tool to get weather for Paris.\",\"role\":\"user\"}]",
+        "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_xCjr0DTg4IZ5kHe1OhSpH671\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"forecast_mcp\\\",\\\"arguments\\\":\\\"{\\\\\\\"city\\\\\\\":\\\\\\\"Paris\\\\\\\"}\\\"}}]\"}",
+        "prompt": [
+          {
+            "content": "Always call forecast_mcp for Paris then report the result.",
+            "role": "system"
+          },
+          {
+            "content": "Use the MCP tool to get weather for Paris.",
+            "role": "user"
+          }
+        ],
+        "completion": {
+          "content": "",
+          "role": "assistant",
+          "tool_calls": "[{\"id\":\"call_xCjr0DTg4IZ5kHe1OhSpH671\",\"type\":\"function\",\"function\":{\"name\":\"forecast_mcp\",\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\"}}]"
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "chat",
+          "gen_ai.system": "openai",
+          "llm.usage.cache_read_input_tokens": "0",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "c797e166d0d14485bc2407a172e4c5c8",
+        "span_id": "a557bb49b45e982c",
+        "parent_id": "b2d554fff0a7536f",
+        "type": "tool",
+        "name": "tool.forecast_mcp",
+        "model": "None",
+        "input": "{\"name\":\"forecast_mcp\",\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\"}",
+        "output": "\"{\\\"type\\\":\\\"text\\\",\\\"text\\\":\\\"Sunny in Paris; 22 C.\\\"}\"",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "forecast_mcp",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "7391020dbcb946938edcf3a762809dc2",
+        "span_id": "47cf10ea8997bd18",
+        "parent_id": "b29d285707eecf83",
+        "type": "tool",
+        "name": "tool.verification-weather.list_tools",
+        "model": "None",
+        "input": "{\"server\":\"verification-weather\"}",
+        "output": "[\"forecast_mcp\"]",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "verification-weather.list_tools",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "9faa8e0c6fc34e6b85361a5584f4f190",
+        "span_id": "aac4f892731ca376",
+        "parent_id": "72b1ede0acb5305c",
+        "type": "chat",
+        "name": "llm.gpt-4o-mini",
+        "model": "openai/gpt-4o-mini",
+        "input": "[{\"content\":\"Always call forecast_mcp for Paris then report the result.\",\"role\":\"system\"},{\"content\":\"Use the MCP tool to get weather for Paris.\",\"role\":\"user\"},{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_xCjr0DTg4IZ5kHe1OhSpH671\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"forecast_mcp\\\",\\\"arguments\\\":\\\"{\\\\\\\"city\\\\\\\":\\\\\\\"Paris\\\\\\\"}\\\"}}]\"},{\"content\":\"Sunny in Paris; 22 C.\",\"role\":\"tool\"}]",
+        "output": "{\"content\":\"The weather in Paris is currently sunny with a temperature of 22°C.\",\"role\":\"assistant\"}",
+        "prompt": [
+          {
+            "content": "Always call forecast_mcp for Paris then report the result.",
+            "role": "system"
+          },
+          {
+            "content": "Use the MCP tool to get weather for Paris.",
+            "role": "user"
+          },
+          {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"id\":\"call_xCjr0DTg4IZ5kHe1OhSpH671\",\"type\":\"function\",\"function\":{\"name\":\"forecast_mcp\",\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\"}}]"
+          },
+          {
+            "content": "Sunny in Paris; 22 C.",
+            "role": "tool"
+          }
+        ],
+        "completion": {
+          "content": "The weather in Paris is currently sunny with a temperature of 22°C.",
+          "role": "assistant"
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "chat",
+          "gen_ai.system": "openai",
+          "llm.usage.cache_read_input_tokens": "0",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "f8d7633241b7415f8e614fed7fccb99b",
+        "span_id": "2b9ae76883e2ba20",
+        "parent_id": "b29d285707eecf83",
+        "type": "tool",
+        "name": "tool.verification-weather.list_tools",
+        "model": "None",
+        "input": "{\"server\":\"verification-weather\"}",
+        "output": "[\"forecast_mcp\"]",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "verification-weather.list_tools",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "647bba9cd4b85867f73bc6f3c5fc1fed",
+    "marker": "openai-py-latest-20260923-mcp02",
+    "scenario": "mcp",
+    "span_count": 10,
+    "details": [
+      {
+        "log_id": "cf5b0c5d157c40b9876ccbbaafde6b44",
+        "span_id": "90483eec1ff12548",
+        "parent_id": "c5dccae8278b72f7",
+        "type": "tool",
+        "name": "tool.verification-weather.list_tools",
+        "model": "None",
+        "input": "{\"arguments\":{\"server\":\"verification-weather\"},\"name\":\"verification-weather.list_tools\"}",
+        "output": "[\"forecast_mcp\"]",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "verification-weather.list_tools",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "1ffc594189074668925ca551bbb82efa",
+        "span_id": "5062265b05a303ad",
+        "parent_id": "85a726a7824c43d9",
+        "type": "chat",
+        "name": "llm.gpt-4o-mini",
+        "model": "openai/gpt-4o-mini",
+        "input": "[{\"content\":\"Always call forecast_mcp for Paris then report the result.\",\"role\":\"system\"},{\"content\":\"Use the MCP tool to get weather for Paris.\",\"role\":\"user\"}]",
+        "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"city\\\\\\\":\\\\\\\"Paris\\\\\\\"}\\\",\\\"name\\\":\\\"forecast_mcp\\\"},\\\"id\\\":\\\"call_mzrCplwFiqXc9DmcPO8tKk63\\\",\\\"type\\\":\\\"function\\\"}]\"}",
+        "prompt": [
+          {
+            "content": "Always call forecast_mcp for Paris then report the result.",
+            "role": "system"
+          },
+          {
+            "content": "Use the MCP tool to get weather for Paris.",
+            "role": "user"
+          }
+        ],
+        "completion": {
+          "content": "",
+          "role": "assistant",
+          "tool_calls": "[{\"function\":{\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\",\"name\":\"forecast_mcp\"},\"id\":\"call_mzrCplwFiqXc9DmcPO8tKk63\",\"type\":\"function\"}]"
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "generation",
+          "gen_ai.system": "openai",
+          "llm.request.functions": "[{\"function\":{\"name\":\"forecast_mcp\"},\"type\":\"function\"}]",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "8a21a7ce2cf0485fb47bf8f1273f94af",
+        "span_id": "a421461dddebb14a",
+        "parent_id": "85a726a7824c43d9",
+        "type": "tool",
+        "name": "tool.forecast_mcp",
+        "model": "None",
+        "input": "{\"arguments\":{\"city\":\"Paris\"},\"name\":\"forecast_mcp\"}",
+        "output": "{\"text\":\"Sunny in Paris; 22 C.\",\"type\":\"text\"}",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "forecast_mcp",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "de42e23f6f8f4e54aa17ac07d7991a55",
+        "span_id": "c6e1ab578f8bd37e",
+        "parent_id": "4db2466d35fd42ea",
+        "type": "tool",
+        "name": "tool.verification-weather.list_tools",
+        "model": "None",
+        "input": "{\"arguments\":{\"server\":\"verification-weather\"},\"name\":\"verification-weather.list_tools\"}",
+        "output": "[\"forecast_mcp\"]",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "verification-weather.list_tools",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "7d960955cf7f4006b3ba4e904642403e",
+        "span_id": "e387d7e2a78cb9af",
+        "parent_id": "ed1b295b719c7b41",
+        "type": "chat",
+        "name": "llm.gpt-4o-mini",
+        "model": "openai/gpt-4o-mini",
+        "input": "[{\"content\":\"Always call forecast_mcp for Paris then report the result.\",\"role\":\"system\"},{\"content\":\"Use the MCP tool to get weather for Paris.\",\"role\":\"user\"},{\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"city\\\\\\\":\\\\\\\"Paris\\\\\\\"}\\\",\\\"name\\\":\\\"forecast_mcp\\\"},\\\"id\\\":\\\"call_mzrCplwFiqXc9DmcPO8tKk63\\\",\\\"type\\\":\\\"function\\\"}]\"},{\"content\":[{\"text\":\"Sunny in Paris; 22 C.\",\"type\":\"text\"}],\"role\":\"tool\"}]",
+        "output": "{\"content\":\"The weather in Paris is sunny with a temperature of 22°C.\",\"role\":\"assistant\"}",
+        "prompt": [
+          {
+            "content": "Always call forecast_mcp for Paris then report the result.",
+            "role": "system"
+          },
+          {
+            "content": "Use the MCP tool to get weather for Paris.",
+            "role": "user"
+          },
+          {
+            "role": "assistant",
+            "tool_calls": "[{\"function\":{\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\",\"name\":\"forecast_mcp\"},\"id\":\"call_mzrCplwFiqXc9DmcPO8tKk63\",\"type\":\"function\"}]"
+          },
+          {
+            "content": [
+              {
+                "text": "Sunny in Paris; 22 C.",
+                "type": "text"
+              }
+            ],
+            "role": "tool"
+          }
+        ],
+        "completion": {
+          "content": "The weather in Paris is sunny with a temperature of 22°C.",
+          "role": "assistant"
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-mcp02",
+          "scenario": "mcp",
+          "traceloop.entity.name": "generation",
+          "gen_ai.system": "openai",
+          "llm.request.functions": "[{\"function\":{\"name\":\"forecast_mcp\"},\"type\":\"function\"}]",
+          "service.name": "openai-agents-latest-python"
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "3914932b14b84950e9ddee528fe86b77",
+    "marker": "openai-py-latest-20260923-privacy-sdk",
+    "scenario": "native_voice_mcp",
+    "span_count": 5,
+    "details": [
+      {
+        "log_id": "98de07b359464bef92251cd2a27f556d",
+        "span_id": "cf2a30e2b5e0e851",
+        "parent_id": "e9ddee528fe86b77",
+        "type": "tool",
+        "name": "tool.weather.list_tools",
+        "model": "None",
+        "input": "{\"arguments\":{\"server\":\"weather\"},\"name\":\"weather.list_tools\"}",
+        "output": "[\"forecast\"]",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-sdk",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "weather.list_tools",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "8259fc5c1a764235a1072fc1b21388e8",
+        "span_id": "82ec05440731d48a",
+        "parent_id": "42155893b9e25679",
+        "type": "transcription",
+        "name": "llm.whisper-1",
+        "model": "None",
+        "input": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+        "output": "\"Hello\"",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-sdk",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "transcription",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "371f99b3839c4d0da40c2c9df6e97c6a",
+        "span_id": "9d9e45e4703b8616",
+        "parent_id": "42155893b9e25679",
+        "type": "speech",
+        "name": "llm.tts-1",
+        "model": "None",
+        "input": "\"Hello\"",
+        "output": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-sdk",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "speech",
+          "service.name": "openai-agents-latest-python"
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "ceba10cb85c4eb23773968770c72a1f2",
+    "marker": "openai-py-latest-20260923-privacy-sdk",
+    "scenario": "privacy_sdk",
+    "span_count": 8,
+    "details": [
+      {
+        "log_id": "4ddb6aa4eb164c6abc771ddcc98a9793",
+        "span_id": "9da783144e71dd26",
+        "parent_id": "e221bb2ea96b8edf",
+        "type": "chat",
+        "name": "llm.gpt-4o-mini",
+        "model": "openai/gpt-4o-mini",
+        "input": "",
+        "output": "",
+        "prompt": [
+          {
+            "role": "user",
+            "content": "{}"
+          }
+        ],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-sdk",
+          "scenario": "privacy_sdk",
+          "traceloop.entity.name": "generation",
+          "gen_ai.system": "openai",
+          "llm.request.functions": "[{\"function\":{\"name\":\"forecast\"},\"type\":\"function\"}]",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "bfa5fa5ff6fc4a8fbecc5cc4e071b3ea",
+        "span_id": "3dd2fb746906b3df",
+        "parent_id": "e221bb2ea96b8edf",
+        "type": "tool",
+        "name": "tool.forecast",
+        "model": "None",
+        "input": "{\"arguments\":null,\"name\":\"forecast\"}",
+        "output": "null",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-sdk",
+          "scenario": "privacy_sdk",
+          "traceloop.entity.name": "forecast",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "afa80b6443e840b28fbb300b30064ada",
+        "span_id": "8ee38835efc25403",
+        "parent_id": "ea7cfb2fa1e5921f",
+        "type": "chat",
+        "name": "llm.gpt-4o-mini",
+        "model": "openai/gpt-4o-mini",
+        "input": "",
+        "output": "",
+        "prompt": [
+          {
+            "role": "user",
+            "content": "{}"
+          }
+        ],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-sdk",
+          "scenario": "privacy_sdk",
+          "traceloop.entity.name": "generation",
+          "gen_ai.system": "openai",
+          "llm.request.functions": "[{\"function\":{\"name\":\"forecast\"},\"type\":\"function\"}]",
+          "service.name": "openai-agents-latest-python"
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "3269848b5aa9b95c15e442287cccf74b",
+    "marker": "openai-js-latest-20260923-privacy-sdk",
+    "scenario": "native_voice_mcp",
+    "span_count": 5,
+    "details": [
+      {
+        "log_id": "1b4a8ddc1ec0486dbde28fad19d43b74",
+        "span_id": "12ea978874bdace6",
+        "parent_id": "3269848b5aa9b95c",
+        "type": "tool",
+        "name": "tool.weather.list_tools",
+        "model": "None",
+        "input": "{\"server\":\"weather\"}",
+        "output": "[\"forecast\"]",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-sdk",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "weather.list_tools",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "0de7c7d4977e4b58843b5dcb7baa377b",
+        "span_id": "3b423d12045d263b",
+        "parent_id": "2b76afd981cd2374",
+        "type": "speech",
+        "name": "speech",
+        "model": "None",
+        "input": "\"Hello\"",
+        "output": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-sdk",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "speech",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "e96835cb29c64d12a04bdfd39509e87b",
+        "span_id": "4e28b5086358d0d3",
+        "parent_id": "2b76afd981cd2374",
+        "type": "transcription",
+        "name": "transcribe",
+        "model": "None",
+        "input": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+        "output": "\"Hello\"",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-sdk",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "transcription",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "06bb608561f5b6e4e80b115152be5180",
+    "marker": "openai-js-latest-20260923-privacy-sdk",
+    "scenario": "privacy_sdk",
+    "span_count": 8,
+    "details": [
+      {
+        "log_id": "ea4e50a8487d4762aa6671b0910c9dcc",
+        "span_id": "b8711b86c25b9121",
+        "parent_id": "4c2bcf055245ca11",
+        "type": "chat",
+        "name": "llm.gpt-4o-mini",
+        "model": "openai/gpt-4o-mini",
+        "input": "",
+        "output": "{\"content\":\"\",\"role\":\"assistant\"}",
+        "prompt": [
+          {
+            "role": "user",
+            "content": "{}"
+          }
+        ],
+        "completion": {
+          "content": "",
+          "role": "assistant"
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-sdk",
+          "scenario": "privacy_sdk",
+          "traceloop.entity.name": "chat",
+          "gen_ai.system": "openai",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "28f2922fd14b4e95a702ffe2fbc799a4",
+        "span_id": "76879b6cca03e7c8",
+        "parent_id": "4c2bcf055245ca11",
+        "type": "tool",
+        "name": "tool.forecast",
+        "model": "None",
+        "input": "{\"name\":\"forecast\",\"arguments\":\"\"}",
+        "output": "\"\"",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-sdk",
+          "scenario": "privacy_sdk",
+          "traceloop.entity.name": "forecast",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "f241f741191241d29142c896304c36e7",
+        "span_id": "cf6615de466c6249",
+        "parent_id": "97a34ea99231cdcc",
+        "type": "chat",
+        "name": "llm.gpt-4o-mini",
+        "model": "openai/gpt-4o-mini",
+        "input": "",
+        "output": "{\"content\":\"\",\"role\":\"assistant\"}",
+        "prompt": [
+          {
+            "role": "user",
+            "content": "{}"
+          }
+        ],
+        "completion": {
+          "content": "",
+          "role": "assistant"
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-sdk",
+          "scenario": "privacy_sdk",
+          "traceloop.entity.name": "chat",
+          "gen_ai.system": "openai",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "94f434cbb6014e59472008740dc766c8",
+    "marker": "openai-py-latest-20260923-privacy-off",
+    "scenario": "native_voice_mcp",
+    "span_count": 5,
+    "details": [
+      {
+        "log_id": "953c933634d444eab8ee167ed178a357",
+        "span_id": "7b15e4b9ab6193b8",
+        "parent_id": "472008740dc766c8",
+        "type": "tool",
+        "name": "tool.weather.list_tools",
+        "model": "None",
+        "input": "",
+        "output": "",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-off",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "weather.list_tools",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "4dcf764f1f014bd5849a02f252c63de7",
+        "span_id": "11848790d93adfc6",
+        "parent_id": "1913c32df755e8e7",
+        "type": "transcription",
+        "name": "llm.whisper-1",
+        "model": "None",
+        "input": "",
+        "output": "",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-off",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "transcription",
+          "service.name": "openai-agents-latest-python"
+        }
+      },
+      {
+        "log_id": "7a26d17236f5492cb7bf8c406c160baa",
+        "span_id": "dd857b25b5e584f0",
+        "parent_id": "1913c32df755e8e7",
+        "type": "speech",
+        "name": "llm.tts-1",
+        "model": "None",
+        "input": "",
+        "output": "",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-py-latest-20260923-privacy-off",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "speech",
+          "service.name": "openai-agents-latest-python"
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "092b90c42b835fb3a3ad3282940eb9ef",
+    "marker": "openai-js-latest-20260923-privacy-off",
+    "scenario": "native_voice_mcp",
+    "span_count": 5,
+    "details": [
+      {
+        "log_id": "cda82d1c9eb146a8a6d14e3e90f43ee1",
+        "span_id": "a7dd174f6c9806ae",
+        "parent_id": "092b90c42b835fb3",
+        "type": "tool",
+        "name": "tool.weather.list_tools",
+        "model": "None",
+        "input": "",
+        "output": "",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-off",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "weather.list_tools",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "f93327807c5c49f2b91a515c16c0ab76",
+        "span_id": "a3870ac36308a492",
+        "parent_id": "a9fcb8bac670becd",
+        "type": "speech",
+        "name": "speech",
+        "model": "None",
+        "input": "",
+        "output": "",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-off",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "speech",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      },
+      {
+        "log_id": "fb01a3429aae4c6c952e5c8323e8bd17",
+        "span_id": "f1e543c4e1a9f3ea",
+        "parent_id": "a9fcb8bac670becd",
+        "type": "transcription",
+        "name": "transcribe",
+        "model": "None",
+        "input": "",
+        "output": "",
+        "prompt": [],
+        "completion": {
+          "role": "assistant",
+          "content": "",
+          "_is_placeholder": true
+        },
+        "status": "success",
+        "error_message": "",
+        "metadata": {
+          "run_id": "openai-js-latest-20260923-privacy-off",
+          "scenario": "native_voice_mcp",
+          "traceloop.entity.name": "transcription",
+          "otel.scope.name": "@respan/instrumentation-openai-agents",
+          "otel.scope.version": "1.0.8"
+        }
+      }
+    ]
+  }
+]

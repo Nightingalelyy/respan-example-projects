@@ -1,0 +1,3582 @@
+{
+  "checked_at": "2026-09-23",
+  "python_sdk": "0.22.3",
+  "javascript_sdk": "0.18.0",
+  "python_minimum_tested": "0.20.0",
+  "mcp_tools": [
+    "list_traces",
+    "get_trace_tree",
+    "get_log_detail"
+  ],
+  "acceptance": "blocked",
+  "blockers": [
+    "OTel error spans retain error_message but are projected as status success and status_code 200 by Respan.",
+    "Canonical completion_message.tool_calls retains JSON tool calls, but the top-level parsed tool_calls array is empty.",
+    "No direct OpenAI API credentials: hosted Responses, realtime audio, provider sandbox features are not live-certified."
+  ],
+  "python": [
+    {
+      "language": "python",
+      "scenario": "native_voice_mcp",
+      "trace_id": "c4b1f7e6080e2de71f78c021de25f209",
+      "node_count": 5,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "d3f08d0c1bc7411bb213c77815afcf35",
+          "span_id": "1f78c021de25f209",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"workflow_name\":\"openai-py-latest.native_voice_mcp\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "openai-py-latest.native_voice_mcp",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "50d489fa963d470eb76403105df94c25",
+          "span_id": "7c51b81161e49c18",
+          "parent_id": "1f78c021de25f209",
+          "name": "tool.weather.list_tools",
+          "type": "tool",
+          "input": "{\"arguments\":{\"server\":\"weather\"},\"name\":\"weather.list_tools\"}",
+          "output": "[\"forecast\"]",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "weather.list_tools",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "5c7594c5cc184564b86f4387c8cebb3b",
+          "span_id": "641087c807692c84",
+          "parent_id": "1f78c021de25f209",
+          "name": "task",
+          "type": "task",
+          "input": "\"Hello\"",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "speech_group",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "d81b50afc6244411ac694034a4715473",
+          "span_id": "5d7a415a51c144c5",
+          "parent_id": "641087c807692c84",
+          "name": "transcription",
+          "type": "transcription",
+          "input": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+          "output": "\"Hello\"",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "transcription",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "9b5329f2a97349a59462294d326096d5",
+          "span_id": "3f039852f813e40a",
+          "parent_id": "641087c807692c84",
+          "name": "speech",
+          "type": "speech",
+          "input": "\"Hello\"",
+          "output": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "speech",
+            "service.name": "openai-agents-latest-python"
+          }
+        }
+      ]
+    },
+    {
+      "language": "python",
+      "scenario": "tool_error",
+      "trace_id": "dc4588a3c633254bc554a1d38df025cc",
+      "node_count": 6,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "9e09a87e57dc444dbe3500264d1530e2",
+          "span_id": "c554a1d38df025cc",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"workflow_name\":\"openai-py-latest.tool_error\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "openai-py-latest.tool_error",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "2bb359861c224859b114218b6a06d744",
+          "span_id": "294e666d772bfd13",
+          "parent_id": "c554a1d38df025cc",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "Agent workflow",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "2f7a89eba1724b98a2b74382b1a1f875",
+          "span_id": "72430923a777f781",
+          "parent_id": "294e666d772bfd13",
+          "name": "agent.Failure",
+          "type": "agent",
+          "input": "{\"handoffs\":[],\"name\":\"Failure\",\"output_type\":\"str\",\"tools\":[\"fail\"]}",
+          "output": "{\"error\":{\"message\":\"Error in agent run\",\"status_code\":500}}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error in agent run",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tool_error",
+            "agent_name": "Failure",
+            "traceloop.entity.name": "Failure",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "7622be396af348edab98be56868497d3",
+          "span_id": "057a6495c7d42061",
+          "parent_id": "72430923a777f781",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Failure\",\"turn\":1}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tool_error",
+            "agent_name": "Failure",
+            "traceloop.entity.name": "turn-1",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "e89ded78d75a4b388da80f2c01a3136b",
+          "span_id": "f9afbcced27d1a16",
+          "parent_id": "057a6495c7d42061",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Always call fail.\",\"role\":\"system\"},{\"content\":\"Call fail now.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{}\\\",\\\"name\\\":\\\"fail\\\"},\\\"id\\\":\\\"call_9tHTeNrQjacFhsEe3LUbwu7c\\\",\\\"type\\\":\\\"function\\\"}]\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 44,
+          "completion_tokens": 9,
+          "prompt_messages": [
+            {
+              "content": "Always call fail.",
+              "role": "system"
+            },
+            {
+              "content": "Call fail now.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"function\":{\"arguments\":\"{}\",\"name\":\"fail\"},\"id\":\"call_9tHTeNrQjacFhsEe3LUbwu7c\",\"type\":\"function\"}]"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "llm.request.functions": "[{\"function\":{\"name\":\"fail\"},\"type\":\"function\"}]",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "89c5216dbdf149e0bbc7c1419cc17a22",
+          "span_id": "9424b109555516e4",
+          "parent_id": "057a6495c7d42061",
+          "name": "tool.fail",
+          "type": "tool",
+          "input": "{\"arguments\":{},\"name\":\"fail\"}",
+          "output": "{\"error\":{\"message\":\"Error running tool\",\"status_code\":500}}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error running tool",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "fail",
+            "service.name": "openai-agents-latest-python"
+          }
+        }
+      ]
+    },
+    {
+      "language": "python",
+      "scenario": "approval",
+      "trace_id": "4388d7ffd40f17a962e0248a90b6ed0f",
+      "node_count": 11,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "027ef363e84241ff8dc152f086142ab0",
+          "span_id": "62e0248a90b6ed0f",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"workflow_name\":\"openai-py-latest.approval\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "openai-py-latest.approval",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "691362b731c14284a9df5e74a9b16753",
+          "span_id": "0b96b31d7db00a52",
+          "parent_id": "62e0248a90b6ed0f",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "Agent workflow",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "d04947e9172347a8aa8cf02537203c9f",
+          "span_id": "4ea51df46df64168",
+          "parent_id": "0b96b31d7db00a52",
+          "name": "agent.Approval",
+          "type": "agent",
+          "input": "{\"handoffs\":[],\"name\":\"Approval\",\"output_type\":\"str\",\"tools\":[\"approve_action\"]}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "agent_name": "Approval",
+            "traceloop.entity.name": "Approval",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "d1c9147493074b0dafd5efec1914d3dc",
+          "span_id": "52ef0f79945bcad0",
+          "parent_id": "4ea51df46df64168",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Approval\",\"turn\":1}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "agent_name": "Approval",
+            "traceloop.entity.name": "turn-1",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "f45ea45621c64b95b1ca26558a47bef3",
+          "span_id": "97553de49c9466ab",
+          "parent_id": "52ef0f79945bcad0",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Call approve_action with note verify once, then return the result.\",\"role\":\"system\"},{\"content\":\"Execute the sample action.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"note\\\\\\\":\\\\\\\"verify once\\\\\\\"}\\\",\\\"name\\\":\\\"approve_action\\\"},\\\"id\\\":\\\"call_sUYFIa4oFsYoAZ5wMGYmXpXL\\\",\\\"type\\\":\\\"function\\\"}]\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 70,
+          "completion_tokens": 16,
+          "prompt_messages": [
+            {
+              "content": "Call approve_action with note verify once, then return the result.",
+              "role": "system"
+            },
+            {
+              "content": "Execute the sample action.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"function\":{\"arguments\":\"{\\\"note\\\":\\\"verify once\\\"}\",\"name\":\"approve_action\"},\"id\":\"call_sUYFIa4oFsYoAZ5wMGYmXpXL\",\"type\":\"function\"}]"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "llm.request.functions": "[{\"function\":{\"name\":\"approve_action\"},\"type\":\"function\"}]",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "fea4ad7fcafb451bbf665b7121a3d36b",
+          "span_id": "286177a44eb199ca",
+          "parent_id": "52ef0f79945bcad0",
+          "name": "tool.approve_action",
+          "type": "tool",
+          "input": "{\"arguments\":{\"note\":\"verify once\"},\"name\":\"approve_action\"}",
+          "output": "null",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "approve_action",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "091bea2adb9f4b66947efa61626c6554",
+          "span_id": "e325850c44a3ce41",
+          "parent_id": "62e0248a90b6ed0f",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"openai-py-latest.approval\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "openai-py-latest.approval",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "1ff98f4c1ff94b2d97663a821f9db90b",
+          "span_id": "d6170eef8427c813",
+          "parent_id": "e325850c44a3ce41",
+          "name": "tool.approve_action",
+          "type": "tool",
+          "input": "{\"arguments\":{\"note\":\"verify once\"},\"name\":\"approve_action\"}",
+          "output": "\"Approved: verify once\"",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "approve_action",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "a4c3e83176b14f22b4a860418d3d9c5e",
+          "span_id": "b696ab6b4fbbf17d",
+          "parent_id": "e325850c44a3ce41",
+          "name": "agent.Approval",
+          "type": "agent",
+          "input": "{\"handoffs\":[],\"name\":\"Approval\",\"output_type\":\"str\",\"tools\":[\"approve_action\"]}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "agent_name": "Approval",
+            "traceloop.entity.name": "Approval",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "ad367cfaf80242b88a0a453808992bc9",
+          "span_id": "9404859205de37c8",
+          "parent_id": "b696ab6b4fbbf17d",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Approval\",\"turn\":2}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "agent_name": "Approval",
+            "traceloop.entity.name": "turn-2",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "86e93c41a871441db6deb0b9a3e75ff9",
+          "span_id": "531212f0485aa8b5",
+          "parent_id": "9404859205de37c8",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Call approve_action with note verify once, then return the result.\",\"role\":\"system\"},{\"content\":\"Execute the sample action.\",\"role\":\"user\"},{\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"note\\\\\\\":\\\\\\\"verify once\\\\\\\"}\\\",\\\"name\\\":\\\"approve_action\\\"},\\\"id\\\":\\\"call_sUYFIa4oFsYoAZ5wMGYmXpXL\\\",\\\"type\\\":\\\"function\\\"}]\"},{\"content\":\"Approved: verify once\",\"role\":\"tool\"}]",
+          "output": "{\"content\":\"The sample action has been approved with the note: \\\"verify once\\\".\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 98,
+          "completion_tokens": 15,
+          "prompt_messages": [
+            {
+              "content": "Call approve_action with note verify once, then return the result.",
+              "role": "system"
+            },
+            {
+              "content": "Execute the sample action.",
+              "role": "user"
+            },
+            {
+              "role": "assistant",
+              "tool_calls": "[{\"function\":{\"arguments\":\"{\\\"note\\\":\\\"verify once\\\"}\",\"name\":\"approve_action\"},\"id\":\"call_sUYFIa4oFsYoAZ5wMGYmXpXL\",\"type\":\"function\"}]"
+            },
+            {
+              "content": "Approved: verify once",
+              "role": "tool"
+            }
+          ],
+          "completion_message": {
+            "content": "The sample action has been approved with the note: \"verify once\".",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "llm.request.functions": "[{\"function\":{\"name\":\"approve_action\"},\"type\":\"function\"}]",
+            "service.name": "openai-agents-latest-python"
+          }
+        }
+      ]
+    },
+    {
+      "language": "python",
+      "scenario": "guardrail",
+      "trace_id": "1002a36b77b0b3ab5697b222c25444c1",
+      "node_count": 5,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "73e580549d314007b01c7fa06d3b2293",
+          "span_id": "5697b222c25444c1",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"workflow_name\":\"openai-py-latest.guardrail\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "guardrail",
+            "traceloop.entity.name": "openai-py-latest.guardrail",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "1c655849523c4dc89723b8de8752dbe1",
+          "span_id": "5714ab6671722151",
+          "parent_id": "5697b222c25444c1",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "guardrail",
+            "traceloop.entity.name": "Agent workflow",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "454478bf8b6d41819f49cc916c14ed9f",
+          "span_id": "c92010d399ca61f8",
+          "parent_id": "5714ab6671722151",
+          "name": "agent.Blocked",
+          "type": "agent",
+          "input": "{\"handoffs\":[],\"name\":\"Blocked\",\"output_type\":\"str\",\"tools\":[]}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "guardrail",
+            "agent_name": "Blocked",
+            "traceloop.entity.name": "Blocked",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "9c1c2597bfd043909fbba3503bb8b5f1",
+          "span_id": "a8a252d35fca9850",
+          "parent_id": "c92010d399ca61f8",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Blocked\",\"turn\":1}",
+          "output": "{\"error\":{\"message\":\"Guardrail tripwire triggered\",\"status_code\":500}}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Guardrail tripwire triggered",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "guardrail",
+            "agent_name": "Blocked",
+            "traceloop.entity.name": "turn-1",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "fca8cdc541ec42a2b3e4e43b009ef73c",
+          "span_id": "3cd6b925c2bc074b",
+          "parent_id": "a8a252d35fca9850",
+          "name": "guardrail",
+          "type": "guardrail",
+          "input": "{\"name\":\"block\"}",
+          "output": "{\"triggered\":true}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "guardrail",
+            "guardrail_name": "block",
+            "triggered": "True",
+            "traceloop.entity.name": "block",
+            "service.name": "openai-agents-latest-python"
+          }
+        }
+      ]
+    },
+    {
+      "language": "python",
+      "scenario": "structured_session",
+      "trace_id": "3e74ab53a3b9633764c827e44064c187",
+      "node_count": 9,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "51139b77a43943cfbda28ff267a4f964",
+          "span_id": "64c827e44064c187",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"workflow_name\":\"openai-py-latest.structured_session\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "openai-py-latest.structured_session",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "e936ba7cd7ff4ead8d7d65ee55a1c290",
+          "span_id": "af05a217d15edd32",
+          "parent_id": "64c827e44064c187",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "Agent workflow",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "93b84e38dc1a426ba8d47e7f1377fdcd",
+          "span_id": "da8954c31f8adcf0",
+          "parent_id": "af05a217d15edd32",
+          "name": "agent.Structured",
+          "type": "agent",
+          "input": "{\"handoffs\":[],\"name\":\"Structured\",\"output_type\":\"Answer\",\"tools\":[]}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "agent_name": "Structured",
+            "traceloop.entity.name": "Structured",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "eda17a80fb7c44d98e28a0b9cff8c00a",
+          "span_id": "e15a24ec6b751520",
+          "parent_id": "da8954c31f8adcf0",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Structured\",\"turn\":1}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "agent_name": "Structured",
+            "traceloop.entity.name": "turn-1",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "928bca02341b43a5bf450e92a75a4c21",
+          "span_id": "40e62ecd16f18ac6",
+          "parent_id": "e15a24ec6b751520",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Remember the city Paris and sunny weather.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"{\\\"city\\\":\\\"Paris\\\",\\\"weather\\\":\\\"sunny\\\"}\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 64,
+          "completion_tokens": 10,
+          "prompt_messages": [
+            {
+              "content": "Remember the city Paris and sunny weather.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "{\"city\":\"Paris\",\"weather\":\"sunny\"}",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "71802d3210874401a2fe682dc6adb7bf",
+          "span_id": "576cb949854b793b",
+          "parent_id": "64c827e44064c187",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "Agent workflow",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "697f398b45e1428cb714ea9b3b029783",
+          "span_id": "63f9cf0a7cd9cad6",
+          "parent_id": "576cb949854b793b",
+          "name": "agent.Structured",
+          "type": "agent",
+          "input": "{\"handoffs\":[],\"name\":\"Structured\",\"output_type\":\"Answer\",\"tools\":[]}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "agent_name": "Structured",
+            "traceloop.entity.name": "Structured",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "230826ba527f4b02ac709bf7800acffc",
+          "span_id": "dcd8e833026effc1",
+          "parent_id": "63f9cf0a7cd9cad6",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Structured\",\"turn\":1}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "agent_name": "Structured",
+            "traceloop.entity.name": "turn-1",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "7fb81edf70304c7981d719a61f779196",
+          "span_id": "136e535af465fb13",
+          "parent_id": "dcd8e833026effc1",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Remember the city Paris and sunny weather.\",\"role\":\"user\"},{\"content\":\"{\\\"city\\\":\\\"Paris\\\",\\\"weather\\\":\\\"sunny\\\"}\",\"role\":\"assistant\"},{\"content\":\"Repeat the city and weather from before.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"{\\\"city\\\":\\\"Paris\\\",\\\"weather\\\":\\\"sunny\\\"}\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 94,
+          "completion_tokens": 10,
+          "prompt_messages": [
+            {
+              "content": "Remember the city Paris and sunny weather.",
+              "role": "user"
+            },
+            {
+              "content": "{\"city\":\"Paris\",\"weather\":\"sunny\"}",
+              "role": "assistant"
+            },
+            {
+              "content": "Repeat the city and weather from before.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "{\"city\":\"Paris\",\"weather\":\"sunny\"}",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "service.name": "openai-agents-latest-python"
+          }
+        }
+      ]
+    },
+    {
+      "language": "python",
+      "scenario": "handoff",
+      "trace_id": "059c120b0154d359385654f5b16bc761",
+      "node_count": 9,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "de7f13c4d9c74464aa13f65b0a73c70f",
+          "span_id": "385654f5b16bc761",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"workflow_name\":\"openai-py-latest.handoff\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "openai-py-latest.handoff",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "7c9fd11607c14a2b9048e0045cd316d5",
+          "span_id": "8314b69b554447c0",
+          "parent_id": "385654f5b16bc761",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "Agent workflow",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "93270e36da39444286ef4abca30b92e0",
+          "span_id": "8a24d1f419651408",
+          "parent_id": "8314b69b554447c0",
+          "name": "agent.Triage",
+          "type": "agent",
+          "input": "{\"handoffs\":[\"Specialist\"],\"name\":\"Triage\",\"output_type\":\"str\",\"tools\":[]}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "agent_name": "Triage",
+            "traceloop.entity.name": "Triage",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "a45e1cddb5db4c77b14248d9b941d7a2",
+          "span_id": "b9a2434a11e07c75",
+          "parent_id": "8a24d1f419651408",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Triage\",\"turn\":1}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "agent_name": "Triage",
+            "traceloop.entity.name": "turn-1",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "de41bc1588e2430da408841e3ec85407",
+          "span_id": "4173e1bf2b311bc2",
+          "parent_id": "b9a2434a11e07c75",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Always transfer to Specialist immediately.\",\"role\":\"system\"},{\"content\":\"Transfer to Specialist.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{}\\\",\\\"name\\\":\\\"transfer_to_specialist\\\"},\\\"id\\\":\\\"call_QFAsHEaR8kRXVlCItNfoPOsy\\\",\\\"type\\\":\\\"function\\\"}]\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 54,
+          "completion_tokens": 12,
+          "prompt_messages": [
+            {
+              "content": "Always transfer to Specialist immediately.",
+              "role": "system"
+            },
+            {
+              "content": "Transfer to Specialist.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"function\":{\"arguments\":\"{}\",\"name\":\"transfer_to_specialist\"},\"id\":\"call_QFAsHEaR8kRXVlCItNfoPOsy\",\"type\":\"function\"}]"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "c254e0e13dcf474ea87018b274c0803c",
+          "span_id": "f0757444b4ac5e67",
+          "parent_id": "b9a2434a11e07c75",
+          "name": "handoff.Triage_to_Specialist",
+          "type": "handoff",
+          "input": "{\"from_agent\":\"Triage\"}",
+          "output": "{\"to_agent\":\"Specialist\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "from_agent": "Triage",
+            "to_agent": "Specialist",
+            "traceloop.entity.name": "handoff",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "0e7a2396e9f24ebd960e5aa33de87faf",
+          "span_id": "824ad443c4387877",
+          "parent_id": "8314b69b554447c0",
+          "name": "agent.Specialist",
+          "type": "agent",
+          "input": "{\"handoffs\":[],\"name\":\"Specialist\",\"output_type\":\"str\",\"tools\":[]}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "agent_name": "Specialist",
+            "traceloop.entity.name": "Specialist",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "a2e2743c536a43c1a2dc5a85c34972f8",
+          "span_id": "8586d0fa72b99401",
+          "parent_id": "824ad443c4387877",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Specialist\",\"turn\":2}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "agent_name": "Specialist",
+            "traceloop.entity.name": "turn-2",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "90344d7a8a98424d834edc6a3884bfe3",
+          "span_id": "a2d24ee1e0c18f7c",
+          "parent_id": "8586d0fa72b99401",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Reply: specialist verified.\",\"role\":\"system\"},{\"content\":\"Transfer to Specialist.\",\"role\":\"user\"},{\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{}\\\",\\\"name\\\":\\\"transfer_to_specialist\\\"},\\\"id\\\":\\\"call_QFAsHEaR8kRXVlCItNfoPOsy\\\",\\\"type\\\":\\\"function\\\"}]\"},{\"content\":\"{\\\"assistant\\\": \\\"Specialist\\\"}\",\"role\":\"tool\"}]",
+          "output": "{\"content\":\"You have been transferred to a specialist. How can they assist you today?\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 49,
+          "completion_tokens": 15,
+          "prompt_messages": [
+            {
+              "content": "Reply: specialist verified.",
+              "role": "system"
+            },
+            {
+              "content": "Transfer to Specialist.",
+              "role": "user"
+            },
+            {
+              "role": "assistant",
+              "tool_calls": "[{\"function\":{\"arguments\":\"{}\",\"name\":\"transfer_to_specialist\"},\"id\":\"call_QFAsHEaR8kRXVlCItNfoPOsy\",\"type\":\"function\"}]"
+            },
+            {
+              "content": "{\"assistant\": \"Specialist\"}",
+              "role": "tool"
+            }
+          ],
+          "completion_message": {
+            "content": "You have been transferred to a specialist. How can they assist you today?",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "service.name": "openai-agents-latest-python"
+          }
+        }
+      ]
+    },
+    {
+      "language": "python",
+      "scenario": "tools_stream",
+      "trace_id": "fcf10285cc83af9adeef2357fb281a52",
+      "node_count": 8,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "9e81df6ebc0c401b815aacb78d54f862",
+          "span_id": "deef2357fb281a52",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"workflow_name\":\"openai-py-latest.tools_stream\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "openai-py-latest.tools_stream",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "e640e76cb975417880c0877e14fa0e9a",
+          "span_id": "9cfa2ab578220a92",
+          "parent_id": "deef2357fb281a52",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "Agent workflow",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "3eb694a90386439fbfdbd35d9c998111",
+          "span_id": "0a803811c2ab07bb",
+          "parent_id": "9cfa2ab578220a92",
+          "name": "agent.Weather",
+          "type": "agent",
+          "input": "{\"handoffs\":[],\"name\":\"Weather\",\"output_type\":\"str\",\"tools\":[\"forecast\"]}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tools_stream",
+            "agent_name": "Weather",
+            "traceloop.entity.name": "Weather",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "3b8b5c2bae14469c90496ee35f6604d6",
+          "span_id": "352e7dca8cd129fa",
+          "parent_id": "0a803811c2ab07bb",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Weather\",\"turn\":1}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tools_stream",
+            "agent_name": "Weather",
+            "traceloop.entity.name": "turn-1",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "1ce52152fefe4e2c85af327cba47c85d",
+          "span_id": "5f14df28cae64fe0",
+          "parent_id": "352e7dca8cd129fa",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Always call forecast for Paris then report the result.\",\"role\":\"system\"},{\"content\":\"What is the weather in Paris?\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"city\\\\\\\":\\\\\\\"Paris\\\\\\\"}\\\",\\\"name\\\":\\\"forecast\\\"},\\\"id\\\":\\\"call_yIccxa9NBHir496aP774wffG\\\",\\\"type\\\":\\\"function\\\"}]\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": true,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 68,
+          "completion_tokens": 14,
+          "prompt_messages": [
+            {
+              "content": "Always call forecast for Paris then report the result.",
+              "role": "system"
+            },
+            {
+              "content": "What is the weather in Paris?",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"function\":{\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\",\"name\":\"forecast\"},\"id\":\"call_yIccxa9NBHir496aP774wffG\",\"type\":\"function\"}]"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "llm.request.functions": "[{\"function\":{\"name\":\"forecast\"},\"type\":\"function\"}]",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "8501a5c0fe0e4be6890c941df93af718",
+          "span_id": "bb2a446f0c1efd37",
+          "parent_id": "352e7dca8cd129fa",
+          "name": "tool.forecast",
+          "type": "tool",
+          "input": "{\"arguments\":{\"city\":\"Paris\"},\"name\":\"forecast\"}",
+          "output": "\"Sunny in Paris; 22 C.\"",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "forecast",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "926e5075b4834d4ead446cd8175abd8d",
+          "span_id": "fd786c3e0136921d",
+          "parent_id": "0a803811c2ab07bb",
+          "name": "task",
+          "type": "task",
+          "input": "{\"agent_name\":\"Weather\",\"turn\":2}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tools_stream",
+            "agent_name": "Weather",
+            "traceloop.entity.name": "turn-2",
+            "service.name": "openai-agents-latest-python"
+          }
+        },
+        {
+          "log_id": "426068fe268549f29944f1354743adb3",
+          "span_id": "77b281ed7694fa9e",
+          "parent_id": "fd786c3e0136921d",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Always call forecast for Paris then report the result.\",\"role\":\"system\"},{\"content\":\"What is the weather in Paris?\",\"role\":\"user\"},{\"role\":\"assistant\",\"tool_calls\":\"[{\\\"function\\\":{\\\"arguments\\\":\\\"{\\\\\\\"city\\\\\\\":\\\\\\\"Paris\\\\\\\"}\\\",\\\"name\\\":\\\"forecast\\\"},\\\"id\\\":\\\"call_yIccxa9NBHir496aP774wffG\\\",\\\"type\\\":\\\"function\\\"}]\"},{\"content\":\"Sunny in Paris; 22 C.\",\"role\":\"tool\"}]",
+          "output": "{\"content\":\"The weather in Paris is sunny with a temperature of 22°C.\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": true,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 97,
+          "completion_tokens": 15,
+          "prompt_messages": [
+            {
+              "content": "Always call forecast for Paris then report the result.",
+              "role": "system"
+            },
+            {
+              "content": "What is the weather in Paris?",
+              "role": "user"
+            },
+            {
+              "role": "assistant",
+              "tool_calls": "[{\"function\":{\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\",\"name\":\"forecast\"},\"id\":\"call_yIccxa9NBHir496aP774wffG\",\"type\":\"function\"}]"
+            },
+            {
+              "content": "Sunny in Paris; 22 C.",
+              "role": "tool"
+            }
+          ],
+          "completion_message": {
+            "content": "The weather in Paris is sunny with a temperature of 22°C.",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-py-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "generation",
+            "gen_ai.system": "openai",
+            "llm.request.functions": "[{\"function\":{\"name\":\"forecast\"},\"type\":\"function\"}]",
+            "service.name": "openai-agents-latest-python"
+          }
+        }
+      ]
+    }
+  ],
+  "javascript": [
+    {
+      "language": "javascript",
+      "scenario": "native_voice_mcp",
+      "trace_id": "fc63210f7e4a9bed6aadab5017b82cdc",
+      "node_count": 5,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "c1dff72554f44c46895d2da983af1e90",
+          "span_id": "fc63210f7e4a9bed",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "openai-js-latest.native_voice_mcp",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "0cdb36620728414582304a5ab8522482",
+          "span_id": "bd3b19ee0d41b3ed",
+          "parent_id": "fc63210f7e4a9bed",
+          "name": "task",
+          "type": "task",
+          "input": "\"Hello\"",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "speech_group",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "21ef8474165c44a4a806aa7627c61a7f",
+          "span_id": "35d2960e3a928097",
+          "parent_id": "bd3b19ee0d41b3ed",
+          "name": "speech",
+          "type": "speech",
+          "input": "\"Hello\"",
+          "output": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "speech",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "fb726f6bf7894310be39f6aa927c757c",
+          "span_id": "2796582b7266c74c",
+          "parent_id": "bd3b19ee0d41b3ed",
+          "name": "transcribe",
+          "type": "transcription",
+          "input": "{\"data\":\"YXVkaW8=\",\"format\":\"pcm\"}",
+          "output": "\"Hello\"",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "transcription",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "439db9e2bbf24b208f91a357de908c9f",
+          "span_id": "7ea3eb20cba90cce",
+          "parent_id": "fc63210f7e4a9bed",
+          "name": "tool.weather.list_tools",
+          "type": "tool",
+          "input": "{\"server\":\"weather\"}",
+          "output": "[\"forecast\"]",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "native_voice_mcp",
+            "traceloop.entity.name": "weather.list_tools",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        }
+      ]
+    },
+    {
+      "language": "javascript",
+      "scenario": "tool_error",
+      "trace_id": "10e88790dc8b3eaea768463ec0988e2f",
+      "node_count": 6,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "e5f494ab1af84d499c7297efbb348e06",
+          "span_id": "10e88790dc8b3eae",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "openai-js-latest.tool_error",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "eb4ce22e92374efd928b9584f12fa321",
+          "span_id": "3cee0e77046cbb85",
+          "parent_id": "10e88790dc8b3eae",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error in agent run",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "openai_agents.usage": "{\"input_tokens\":44,\"output_tokens\":9,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"requests\":1,\"total_tokens\":53}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "Agent workflow",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "3c36288eccaf493db56cc3ec403e7aef",
+          "span_id": "1863a87a524b9364",
+          "parent_id": "3cee0e77046cbb85",
+          "name": "agent.Failure",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error in agent run",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Failure",
+            "openai_agents.agent_configuration.tools": "[\"fail\"]",
+            "openai_agents.agent_configuration.handoffs": "[]",
+            "openai_agents.agent_configuration.output_type": "text",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "Failure",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "ade2d61056dc4d48b62907ac34265d01",
+          "span_id": "58e0e47f7589aaf7",
+          "parent_id": "1863a87a524b9364",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":1,\"agent_name\":\"Failure\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error in agent run",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Failure",
+            "openai_agents.usage": "{\"input_tokens\":44,\"output_tokens\":9,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "turn-1",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "24009b2bef754340a4dedab4cdf31825",
+          "span_id": "f426cef45f795665",
+          "parent_id": "58e0e47f7589aaf7",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Always call fail.\",\"role\":\"system\"},{\"content\":\"Call fail now.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_83ZIfDSRW9EEqatD73KmPNF7\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"fail\\\",\\\"arguments\\\":\\\"{}\\\"}}]\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 44,
+          "completion_tokens": 9,
+          "prompt_messages": [
+            {
+              "content": "Always call fail.",
+              "role": "system"
+            },
+            {
+              "content": "Call fail now.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"id\":\"call_83ZIfDSRW9EEqatD73KmPNF7\",\"type\":\"function\",\"function\":{\"name\":\"fail\",\"arguments\":\"{}\"}}]"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "24436b8ba715453c9cba22714cf38edb",
+          "span_id": "b1503f0d5669ca3f",
+          "parent_id": "58e0e47f7589aaf7",
+          "name": "tool.fail",
+          "type": "tool",
+          "input": "{\"name\":\"fail\",\"arguments\":\"{}\"}",
+          "output": "\"\"",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error running tool",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tool_error",
+            "traceloop.entity.name": "fail",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        }
+      ]
+    },
+    {
+      "language": "javascript",
+      "scenario": "approval",
+      "trace_id": "04a475f03ba95a815df5558a141041a5",
+      "node_count": 10,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "15d10f343975402aac8ce712eabd2474",
+          "span_id": "04a475f03ba95a81",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "openai-js-latest.approval",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "1201ade04863431c8a129536d206ebbc",
+          "span_id": "07578d872a4f9a73",
+          "parent_id": "04a475f03ba95a81",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "openai_agents.usage": "{\"input_tokens\":61,\"output_tokens\":16,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"requests\":1,\"total_tokens\":77}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "Agent workflow",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "c5b70a978cd94396a7acf74c55d41f54",
+          "span_id": "d27045db07f1d440",
+          "parent_id": "07578d872a4f9a73",
+          "name": "agent.Approval",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Approval",
+            "openai_agents.agent_configuration.tools": "[\"approve_action\"]",
+            "openai_agents.agent_configuration.handoffs": "[]",
+            "openai_agents.agent_configuration.output_type": "text",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "Approval",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "6197bdfd5634489cbdb5a8ec0cbca433",
+          "span_id": "ab0601b1d51825da",
+          "parent_id": "d27045db07f1d440",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":1,\"agent_name\":\"Approval\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Approval",
+            "openai_agents.usage": "{\"input_tokens\":61,\"output_tokens\":16,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "turn-1",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "1c6444bfe0f64e1dba7529d01b168f4f",
+          "span_id": "3c6eca8b5948aa05",
+          "parent_id": "ab0601b1d51825da",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Call approve_action with note verify once, then return the result.\",\"role\":\"system\"},{\"content\":\"Execute the sample action.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_nSCjnvt591jdvY6dW2qDwF44\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"approve_action\\\",\\\"arguments\\\":\\\"{\\\\\\\"note\\\\\\\":\\\\\\\"verify once\\\\\\\"}\\\"}}]\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 61,
+          "completion_tokens": 16,
+          "prompt_messages": [
+            {
+              "content": "Call approve_action with note verify once, then return the result.",
+              "role": "system"
+            },
+            {
+              "content": "Execute the sample action.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"id\":\"call_nSCjnvt591jdvY6dW2qDwF44\",\"type\":\"function\",\"function\":{\"name\":\"approve_action\",\"arguments\":\"{\\\"note\\\":\\\"verify once\\\"}\"}}]"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "19c611f7f2c948b6b06edd33df0c4d16",
+          "span_id": "484ed8d5d4547d95",
+          "parent_id": "04a475f03ba95a81",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"openai-js-latest.approval\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "openai_agents.usage": "{\"input_tokens\":89,\"output_tokens\":15,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"requests\":1,\"total_tokens\":104}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "openai-js-latest.approval",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "21165946c2c9497cabf97fa81cd751e1",
+          "span_id": "2b6682d93da7c25a",
+          "parent_id": "484ed8d5d4547d95",
+          "name": "agent.Approval",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Approval",
+            "openai_agents.agent_configuration.tools": "[\"approve_action\"]",
+            "openai_agents.agent_configuration.handoffs": "[]",
+            "openai_agents.agent_configuration.output_type": "text",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "Approval",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "9bb483b23ba84aacbf8eb780c64801e2",
+          "span_id": "d51fcf3363808a43",
+          "parent_id": "2b6682d93da7c25a",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":1,\"agent_name\":\"Approval\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Approval",
+            "openai_agents.usage": "{\"input_tokens\":89,\"output_tokens\":15,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "turn-1",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "8cebb8e82b8e46399a5981cb34803eef",
+          "span_id": "6a36fc29e35135b8",
+          "parent_id": "d51fcf3363808a43",
+          "name": "tool.approve_action",
+          "type": "tool",
+          "input": "{\"name\":\"approve_action\",\"arguments\":\"{\\\"note\\\":\\\"verify once\\\"}\"}",
+          "output": "\"Approved: verify once\"",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "approve_action",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "c15a07bffbf24995baac55925b51ab93",
+          "span_id": "75f7169d02920b0a",
+          "parent_id": "d51fcf3363808a43",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Call approve_action with note verify once, then return the result.\",\"role\":\"system\"},{\"content\":\"Execute the sample action.\",\"role\":\"user\"},{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_nSCjnvt591jdvY6dW2qDwF44\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"approve_action\\\",\\\"arguments\\\":\\\"{\\\\\\\"note\\\\\\\":\\\\\\\"verify once\\\\\\\"}\\\"}}]\"},{\"content\":\"Approved: verify once\",\"role\":\"tool\"}]",
+          "output": "{\"content\":\"The sample action has been executed successfully with the note \\\"verify once.\\\"\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 89,
+          "completion_tokens": 15,
+          "prompt_messages": [
+            {
+              "content": "Call approve_action with note verify once, then return the result.",
+              "role": "system"
+            },
+            {
+              "content": "Execute the sample action.",
+              "role": "user"
+            },
+            {
+              "content": "",
+              "role": "assistant",
+              "tool_calls": "[{\"id\":\"call_nSCjnvt591jdvY6dW2qDwF44\",\"type\":\"function\",\"function\":{\"name\":\"approve_action\",\"arguments\":\"{\\\"note\\\":\\\"verify once\\\"}\"}}]"
+            },
+            {
+              "content": "Approved: verify once",
+              "role": "tool"
+            }
+          ],
+          "completion_message": {
+            "content": "The sample action has been executed successfully with the note \"verify once.\"",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "approval",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        }
+      ]
+    },
+    {
+      "language": "javascript",
+      "scenario": "guardrail",
+      "trace_id": "e10808dc6425afacb7c91d44ad031b76",
+      "node_count": 5,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "fed430a9e69f41cbb69cea0f91f82c10",
+          "span_id": "e10808dc6425afac",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "guardrail",
+            "traceloop.entity.name": "openai-js-latest.guardrail",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "1edb37acaa9945b1bdf8ecbca34ff678",
+          "span_id": "1f149d3d194dcf72",
+          "parent_id": "e10808dc6425afac",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error in agent run",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "guardrail",
+            "traceloop.entity.name": "Agent workflow",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "1a8ec4554646429ba6007f6bd6df53d5",
+          "span_id": "f49e98abab3b7948",
+          "parent_id": "1f149d3d194dcf72",
+          "name": "agent.Blocked",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error in agent run",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Blocked",
+            "openai_agents.agent_configuration.tools": "[]",
+            "openai_agents.agent_configuration.handoffs": "[]",
+            "openai_agents.agent_configuration.output_type": "text",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "guardrail",
+            "traceloop.entity.name": "Blocked",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "e4c3ec21224b4746bf32aedc8040ab9f",
+          "span_id": "ee5166dbbf61ec3f",
+          "parent_id": "f49e98abab3b7948",
+          "name": "guardrail",
+          "type": "guardrail",
+          "input": "{\"name\":\"block\"}",
+          "output": "{\"triggered\":true}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "guardrail_name": "block",
+            "triggered": "true",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "guardrail",
+            "traceloop.entity.name": "guardrail:block",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "2c4f193466dc409c9a2633d445d0a09a",
+          "span_id": "bc6f48c85a7c43aa",
+          "parent_id": "f49e98abab3b7948",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":1,\"agent_name\":\"Blocked\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "Error in agent run",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Blocked",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "guardrail",
+            "traceloop.entity.name": "turn-1",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        }
+      ]
+    },
+    {
+      "language": "javascript",
+      "scenario": "structured_session",
+      "trace_id": "5e72f4142d90bfb0a35a9ea6c297c098",
+      "node_count": 9,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "e5e7d603d0094324a9cc23ae7a83ed9a",
+          "span_id": "5e72f4142d90bfb0",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "openai-js-latest.structured_session",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "edcb60ab034043869dd4a8eafac8e455",
+          "span_id": "b0489f9880dbfb42",
+          "parent_id": "5e72f4142d90bfb0",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "openai_agents.usage": "{\"input_tokens\":50,\"output_tokens\":10,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"requests\":1,\"total_tokens\":60}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "Agent workflow",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "2740da16099841779f66fd083b408252",
+          "span_id": "9921917dbcb2e933",
+          "parent_id": "b0489f9880dbfb42",
+          "name": "agent.Structured",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Structured",
+            "openai_agents.agent_configuration.tools": "[]",
+            "openai_agents.agent_configuration.handoffs": "[]",
+            "openai_agents.agent_configuration.output_type": "ZodOutput",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "Structured",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "46a75ef32e824ae8930a40a7790ca61f",
+          "span_id": "ee51ef2ebe5ea477",
+          "parent_id": "9921917dbcb2e933",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":1,\"agent_name\":\"Structured\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Structured",
+            "openai_agents.usage": "{\"input_tokens\":50,\"output_tokens\":10,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "turn-1",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "88ed6429a86246459808f4bf1c3fe80a",
+          "span_id": "76dd1e7ca8e6bbb1",
+          "parent_id": "ee51ef2ebe5ea477",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Remember the city Paris and sunny weather.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"{\\\"city\\\":\\\"Paris\\\",\\\"weather\\\":\\\"sunny\\\"}\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 50,
+          "completion_tokens": 10,
+          "prompt_messages": [
+            {
+              "content": "Remember the city Paris and sunny weather.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "{\"city\":\"Paris\",\"weather\":\"sunny\"}",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "6cdae4bb780845c5a8f4df7853293c59",
+          "span_id": "4ffc6861dbdb003c",
+          "parent_id": "5e72f4142d90bfb0",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "openai_agents.usage": "{\"input_tokens\":79,\"output_tokens\":10,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"requests\":1,\"total_tokens\":89}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "Agent workflow",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "65fc58b300664f8db9a6e47aabd6b467",
+          "span_id": "02d06e46ae90f171",
+          "parent_id": "4ffc6861dbdb003c",
+          "name": "agent.Structured",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Structured",
+            "openai_agents.agent_configuration.tools": "[]",
+            "openai_agents.agent_configuration.handoffs": "[]",
+            "openai_agents.agent_configuration.output_type": "ZodOutput",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "Structured",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "bfcd649f11c24df09d75f2d53c59a6cd",
+          "span_id": "a24c1846b11c9d70",
+          "parent_id": "02d06e46ae90f171",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":1,\"agent_name\":\"Structured\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Structured",
+            "openai_agents.usage": "{\"input_tokens\":79,\"output_tokens\":10,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "turn-1",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "fa6a39d7be4a46fe8c2577ce99a69f32",
+          "span_id": "f69ab432ececd4eb",
+          "parent_id": "a24c1846b11c9d70",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Remember the city Paris and sunny weather.\",\"role\":\"user\"},{\"content\":\"{\\\"city\\\":\\\"Paris\\\",\\\"weather\\\":\\\"sunny\\\"}\",\"role\":\"assistant\"},{\"content\":\"Repeat the city and weather from before.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"{\\\"city\\\":\\\"Paris\\\",\\\"weather\\\":\\\"sunny\\\"}\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 79,
+          "completion_tokens": 10,
+          "prompt_messages": [
+            {
+              "content": "Remember the city Paris and sunny weather.",
+              "role": "user"
+            },
+            {
+              "content": "{\"city\":\"Paris\",\"weather\":\"sunny\"}",
+              "role": "assistant"
+            },
+            {
+              "content": "Repeat the city and weather from before.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "{\"city\":\"Paris\",\"weather\":\"sunny\"}",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "structured_session",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        }
+      ]
+    },
+    {
+      "language": "javascript",
+      "scenario": "handoff",
+      "trace_id": "9c8cf3f6db2ff400a363b094b6030dc2",
+      "node_count": 9,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "d4d537fef60948f8b445c773f07e3c26",
+          "span_id": "9c8cf3f6db2ff400",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "openai-js-latest.handoff",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "56d543e0c23c48cdb3e8bc50af63b472",
+          "span_id": "2dc969806a87c4a7",
+          "parent_id": "9c8cf3f6db2ff400",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "openai_agents.usage": "{\"input_tokens\":105,\"output_tokens\":28,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"requests\":2,\"total_tokens\":133}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "Agent workflow",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "d6d4dbd92c8243f0804249849d42b4c7",
+          "span_id": "f0f34469f289cfb0",
+          "parent_id": "2dc969806a87c4a7",
+          "name": "agent.Triage",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Triage",
+            "openai_agents.agent_configuration.tools": "[]",
+            "openai_agents.agent_configuration.handoffs": "[\"Specialist\"]",
+            "openai_agents.agent_configuration.output_type": "text",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "Triage",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "da382646bf054f81acde9936c8075732",
+          "span_id": "4a032d0639c859bd",
+          "parent_id": "f0f34469f289cfb0",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":1,\"agent_name\":\"Triage\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Triage",
+            "openai_agents.usage": "{\"input_tokens\":55,\"output_tokens\":13,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "turn-1",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "82964fc92dc248c0a54153977e497d5b",
+          "span_id": "bf64f1363b6c9489",
+          "parent_id": "4a032d0639c859bd",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Always transfer to Specialist immediately.\",\"role\":\"system\"},{\"content\":\"Transfer to Specialist.\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_TH1Hr5cqcTNOgV2D5Qdg9qw9\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"transfer_to_Specialist\\\",\\\"arguments\\\":\\\"{}\\\"}}]\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 55,
+          "completion_tokens": 13,
+          "prompt_messages": [
+            {
+              "content": "Always transfer to Specialist immediately.",
+              "role": "system"
+            },
+            {
+              "content": "Transfer to Specialist.",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"id\":\"call_TH1Hr5cqcTNOgV2D5Qdg9qw9\",\"type\":\"function\",\"function\":{\"name\":\"transfer_to_Specialist\",\"arguments\":\"{}\"}}]"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "61d973fb191949838970a82c084d5284",
+          "span_id": "c7f6562228c1cfdd",
+          "parent_id": "4a032d0639c859bd",
+          "name": "task",
+          "type": "task",
+          "input": "{\"from_agent\":\"Triage\"}",
+          "output": "{\"to_agent\":\"Specialist\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "from_agent": "Triage",
+            "to_agent": "Specialist",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "handoff",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "e7bd0ea5bd914a8588e35725e2c0540a",
+          "span_id": "a53a8003893803e3",
+          "parent_id": "2dc969806a87c4a7",
+          "name": "agent.Specialist",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Specialist",
+            "openai_agents.agent_configuration.tools": "[]",
+            "openai_agents.agent_configuration.handoffs": "[]",
+            "openai_agents.agent_configuration.output_type": "text",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "Specialist",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "76e456255c954199b87c3b7b5d0804ab",
+          "span_id": "a44ecb3146ebf800",
+          "parent_id": "a53a8003893803e3",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":2,\"agent_name\":\"Specialist\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Specialist",
+            "openai_agents.usage": "{\"input_tokens\":50,\"output_tokens\":15,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "turn-2",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "4ddfbfde6f7142bdb3bbab7dff96a9a6",
+          "span_id": "752d690394b0d009",
+          "parent_id": "a44ecb3146ebf800",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Reply: specialist verified.\",\"role\":\"system\"},{\"content\":\"Transfer to Specialist.\",\"role\":\"user\"},{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_TH1Hr5cqcTNOgV2D5Qdg9qw9\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"transfer_to_Specialist\\\",\\\"arguments\\\":\\\"{}\\\"}}]\"},{\"content\":\"{\\\"assistant\\\":\\\"Specialist\\\"}\",\"role\":\"tool\"}]",
+          "output": "{\"content\":\"You have been transferred to a specialist. How can I assist you today?\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 50,
+          "completion_tokens": 15,
+          "prompt_messages": [
+            {
+              "content": "Reply: specialist verified.",
+              "role": "system"
+            },
+            {
+              "content": "Transfer to Specialist.",
+              "role": "user"
+            },
+            {
+              "content": "",
+              "role": "assistant",
+              "tool_calls": "[{\"id\":\"call_TH1Hr5cqcTNOgV2D5Qdg9qw9\",\"type\":\"function\",\"function\":{\"name\":\"transfer_to_Specialist\",\"arguments\":\"{}\"}}]"
+            },
+            {
+              "content": "{\"assistant\":\"Specialist\"}",
+              "role": "tool"
+            }
+          ],
+          "completion_message": {
+            "content": "You have been transferred to a specialist. How can I assist you today?",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "handoff",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        }
+      ]
+    },
+    {
+      "language": "javascript",
+      "scenario": "tools_stream",
+      "trace_id": "6c121365c4e242691aa7e9e6b57363f0",
+      "node_count": 8,
+      "roots": 1,
+      "missing_parents": [],
+      "nodes": [
+        {
+          "log_id": "38f10890021942a6b1f659a3114d2e98",
+          "span_id": "6c121365c4e24269",
+          "parent_id": "",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "openai-js-latest.tools_stream",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "4ea6f5650b974635abbec457e43ccc44",
+          "span_id": "704903e80e65a098",
+          "parent_id": "6c121365c4e24269",
+          "name": "workflow",
+          "type": "workflow",
+          "input": "{\"name\":\"Agent workflow\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "openai_agents.usage": "{\"input_tokens\":149,\"output_tokens\":29,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"requests\":2,\"total_tokens\":178}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "Agent workflow",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "8a98d8a0f7214814be584ec6d813de4b",
+          "span_id": "a15d80326896a2c5",
+          "parent_id": "704903e80e65a098",
+          "name": "agent.Weather",
+          "type": "agent",
+          "input": "",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "unknown-model",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Weather",
+            "openai_agents.agent_configuration.tools": "[\"forecast\"]",
+            "openai_agents.agent_configuration.handoffs": "[]",
+            "openai_agents.agent_configuration.output_type": "text",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "Weather",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "909723cbafa2436d88aee12320bfa5b3",
+          "span_id": "9a2c8014f63c1e6a",
+          "parent_id": "a15d80326896a2c5",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":1,\"agent_name\":\"Weather\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Weather",
+            "openai_agents.usage": "{\"input_tokens\":60,\"output_tokens\":14,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "turn-1",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "3de48b9143b2498880e0a0ae4e186de6",
+          "span_id": "943c33b0f97ba1d6",
+          "parent_id": "9a2c8014f63c1e6a",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Always call forecast for Paris then report the result.\",\"role\":\"system\"},{\"content\":\"What is the weather in Paris?\",\"role\":\"user\"}]",
+          "output": "{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_N5Q9GmPYpF3wxO93zzjANuiA\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"forecast\\\",\\\"arguments\\\":\\\"{\\\\\\\"city\\\\\\\":\\\\\\\"Paris\\\\\\\"}\\\"}}]\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": true,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 60,
+          "completion_tokens": 14,
+          "prompt_messages": [
+            {
+              "content": "Always call forecast for Paris then report the result.",
+              "role": "system"
+            },
+            {
+              "content": "What is the weather in Paris?",
+              "role": "user"
+            }
+          ],
+          "completion_message": {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": "[{\"id\":\"call_N5Q9GmPYpF3wxO93zzjANuiA\",\"type\":\"function\",\"function\":{\"name\":\"forecast\",\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\"}}]"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "659ecbb36adb43b58d36366f59676a75",
+          "span_id": "ef2cfbd1f0dae645",
+          "parent_id": "9a2c8014f63c1e6a",
+          "name": "tool.forecast",
+          "type": "tool",
+          "input": "{\"name\":\"forecast\",\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\"}",
+          "output": "\"Sunny in Paris; 22 C.\"",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "forecast",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "1953bf3839a04023b8676fd7b18e85ba",
+          "span_id": "3904f66e9fb9f908",
+          "parent_id": "a15d80326896a2c5",
+          "name": "task",
+          "type": "task",
+          "input": "{\"turn\":2,\"agent_name\":\"Weather\"}",
+          "output": "",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": false,
+          "model": "None",
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_messages": [],
+          "completion_message": {
+            "role": "assistant",
+            "content": "",
+            "_is_placeholder": true
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "agent_name": "Weather",
+            "openai_agents.usage": "{\"input_tokens\":89,\"output_tokens\":15,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0}",
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "turn-2",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        },
+        {
+          "log_id": "b7570044360047cd9eecd8fd59ca8c9b",
+          "span_id": "6eb8e505393d6d93",
+          "parent_id": "3904f66e9fb9f908",
+          "name": "llm.gpt-4o-mini",
+          "type": "chat",
+          "input": "[{\"content\":\"Always call forecast for Paris then report the result.\",\"role\":\"system\"},{\"content\":\"What is the weather in Paris?\",\"role\":\"user\"},{\"content\":\"\",\"role\":\"assistant\",\"tool_calls\":\"[{\\\"id\\\":\\\"call_N5Q9GmPYpF3wxO93zzjANuiA\\\",\\\"type\\\":\\\"function\\\",\\\"function\\\":{\\\"name\\\":\\\"forecast\\\",\\\"arguments\\\":\\\"{\\\\\\\"city\\\\\\\":\\\\\\\"Paris\\\\\\\"}\\\"}}]\"},{\"content\":\"Sunny in Paris; 22 C.\",\"role\":\"tool\"}]",
+          "output": "{\"content\":\"The weather in Paris is sunny with a temperature of 22°C.\",\"role\":\"assistant\"}",
+          "status": "success",
+          "status_code": 200,
+          "error_message": "",
+          "stream": true,
+          "model": "openai/gpt-4o-mini",
+          "prompt_tokens": 89,
+          "completion_tokens": 15,
+          "prompt_messages": [
+            {
+              "content": "Always call forecast for Paris then report the result.",
+              "role": "system"
+            },
+            {
+              "content": "What is the weather in Paris?",
+              "role": "user"
+            },
+            {
+              "content": "",
+              "role": "assistant",
+              "tool_calls": "[{\"id\":\"call_N5Q9GmPYpF3wxO93zzjANuiA\",\"type\":\"function\",\"function\":{\"name\":\"forecast\",\"arguments\":\"{\\\"city\\\":\\\"Paris\\\"}\"}}]"
+            },
+            {
+              "content": "Sunny in Paris; 22 C.",
+              "role": "tool"
+            }
+          ],
+          "completion_message": {
+            "content": "The weather in Paris is sunny with a temperature of 22°C.",
+            "role": "assistant"
+          },
+          "parsed_tool_calls": [],
+          "metadata": {
+            "run_id": "openai-js-latest-20260923-03",
+            "scenario": "tools_stream",
+            "traceloop.entity.name": "chat",
+            "gen_ai.system": "openai",
+            "llm.usage.cache_read_input_tokens": "0",
+            "otel.scope.name": "@respan/instrumentation-openai-agents",
+            "otel.scope.version": "1.0.8"
+          }
+        }
+      ]
+    }
+  ]
+}
