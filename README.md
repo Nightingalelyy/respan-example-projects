@@ -8,6 +8,7 @@ Example projects demonstrating [Respan](https://respan.ai) tracing, observabilit
 python/
   tracing/
     respan-tracing-sdk/   # Core respan-tracing SDK examples (basic usage, span operations, multi-provider)
+    openai-sdk/           # OpenAI 7.x feature suite with deterministic HTTP and opt-in live validation
     openai-agents-sdk/    # OpenAI Agents SDK with Respan tracing (basic, patterns, handoffs, tools, research bot)
     claude-agent-sdk/     # Claude Agent SDK with Respan tracing
     dspy/                 # DSPy native instrumentation examples

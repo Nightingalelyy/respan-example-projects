@@ -9,6 +9,8 @@ from pathlib import Path
 EXAMPLE_DIR = Path(__file__).resolve().parent
 EXAMPLES = [
     "hello_world.py",
+    "stream_helpers.py",
+    "async_stream_helpers.py",
     "async_parallel.py",
     "attributes.py",
     "batch.py",
@@ -37,10 +39,15 @@ def marker() -> str:
 
 
 def main() -> int:
+    if os.getenv("RESPAN_OPENAI_LIVE", "").lower() in {"1", "true", "yes"}:
+        raise RuntimeError(
+            "run_all.py is deterministic; run live_provider.py for live validation"
+        )
     shared_marker = marker()
     environment = os.environ.copy()
     environment["RESPAN_EXAMPLE_RUN_ID"] = shared_marker
     environment["PYTHONDONTWRITEBYTECODE"] = "1"
+    environment["RESPAN_OPENAI_LIVE"] = "0"
     failures: list[str] = []
 
     print(f"RESPAN_EXAMPLE_RUN_ID={shared_marker}", flush=True)
