@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {
   createClient,
   createRespan,
+  initializeRespan,
   MODEL,
   RUN_ID,
   scenario,
@@ -13,7 +14,7 @@ async function main(): Promise<void> {
     );
   const client = createClient(true);
   const respan = createRespan();
-  await respan.initialize();
+  await initializeRespan(respan);
   try {
     const result = await scenario(respan, "live_provider", async () =>
       client.chat.completions.create({

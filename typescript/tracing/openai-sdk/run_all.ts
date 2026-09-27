@@ -5,6 +5,7 @@ import { z } from "zod";
 import {
   createClient,
   createRespan,
+  initializeRespan,
   MODEL,
   RUN_ID,
   scenario,
@@ -27,7 +28,7 @@ async function main(): Promise<void> {
   const respan = createRespan();
   const failures: string[] = [];
   let completed = 0;
-  await respan.initialize();
+  await initializeRespan(respan);
   const client = createClient();
   const cases: Array<[string, () => Promise<unknown>]> = [
     [

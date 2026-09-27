@@ -30,6 +30,12 @@ propagates the exact run marker as metadata and in `custom_identifier`.
 `npm run all` always uses fixtures and attempts every scenario before reporting
 failures. It flushes and shuts down tracing even after a failure.
 
+For optional local evidence, set `RESPAN_EXAMPLE_SPANS_PATH` to an absolute
+JSONL path. The additional local exporter records transformed span attributes,
+status, and the same OTLP JSON serialization used by the trace exporter. It
+records example inputs and outputs, without credential headers; keep the file
+outside the repository. Default Respan export remains enabled.
+
 ## Opt-in live provider
 
 The separate live script sends one real Chat request. It does not run fixture

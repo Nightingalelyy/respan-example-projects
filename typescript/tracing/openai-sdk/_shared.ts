@@ -1,4 +1,7 @@
 import { trace } from "@opentelemetry/api";
+import { ExportResultCode } from "@opentelemetry/core";
+import { JsonTraceSerializer } from "@opentelemetry/otlp-transformer";
+import { appendFileSync } from "node:fs";
 import { OpenAIInstrumentor } from "@respan/instrumentation-openai";
 import { Respan } from "@respan/respan";
 import dotenv from "dotenv";
@@ -31,6 +34,46 @@ export function createRespan(): Respan {
     silenceInitializationMessage: true,
   });
 }
+export async function initializeRespan(respan: Respan): Promise<void> {
+  await respan.initialize();
+  const localDump = process.env.RESPAN_EXAMPLE_SPANS_PATH;
+  if (!localDump) return;
+  respan.addProcessor({
+    name: "local-evidence",
+    filter: () => true,
+    disableBatch: true,
+    exporter: {
+      export(spans, callback) {
+        try {
+          // Observe the same transformed spans and JSON serializer as the
+          // default OTLP exporter, without recording its credential headers.
+          const serialized = JsonTraceSerializer.serializeRequest(spans);
+          appendFileSync(
+            localDump,
+            JSON.stringify({
+              run_id: RUN_ID,
+              spans: spans.map((span) => ({
+                name: span.name,
+                trace_id: span.spanContext().traceId,
+                span_id: span.spanContext().spanId,
+                status: span.status,
+                attributes: span.attributes,
+              })),
+              otlp: serialized
+                ? JSON.parse(new TextDecoder().decode(serialized))
+                : null,
+            }) + "\n",
+          );
+          callback({ code: ExportResultCode.SUCCESS });
+        } catch (error) {
+          callback({ code: ExportResultCode.FAILED, error: error as Error });
+        }
+      },
+      async shutdown() {},
+    },
+  });
+}
+
 export function createClient(live = false): OpenAI {
   if (live) {
     if (!process.env.OPENAI_API_KEY)
