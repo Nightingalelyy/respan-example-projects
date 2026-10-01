@@ -10,6 +10,8 @@ from uuid import uuid4
 import httpx2
 from dotenv import load_dotenv
 from openai import AsyncOpenAI, OpenAI
+from opentelemetry import trace
+from opentelemetry.sdk.trace import SpanProcessor
 from respan import Respan, propagate_attributes
 from respan_instrumentation_openai import OpenAIInstrumentor
 
@@ -53,9 +55,38 @@ def workflow_name(example_name: str) -> str:
     return f"openai_{example_name.replace('-', '_')}"
 
 
+class _TraceIdReporter(SpanProcessor):
+    def on_end(self, span) -> None:
+        local_dump = os.getenv("RESPAN_EXAMPLE_SPANS_PATH")
+        if local_dump:
+            with Path(local_dump).open("a") as destination:
+                destination.write(
+                    json.dumps(
+                        {
+                            "name": span.name,
+                            "trace_id": format(span.context.trace_id, "032x"),
+                            "span_id": format(span.context.span_id, "016x"),
+                            "attributes": dict(span.attributes),
+                        },
+                        default=str,
+                    )
+                    + "\n"
+                )
+        if span.parent is None:
+            print(
+                json.dumps(
+                    {
+                        "run_id": run_id(),
+                        "trace_id": format(span.context.trace_id, "032x"),
+                        "root_span": span.name,
+                    }
+                )
+            )
+
+
 def make_respan(example_name: str) -> Respan:
     marker = run_id()
-    return Respan(
+    respan = Respan(
         api_key=require_respan_api_key(),
         base_url=respan_base_url(),
         app_name="openai-sdk-examples",
@@ -65,8 +96,12 @@ def make_respan(example_name: str) -> Respan:
             "integration": "openai",
             "example": example_name,
             "example_run_id": marker,
+            "run_id": marker,
         },
     )
+
+    trace.get_tracer_provider().add_span_processor(_TraceIdReporter())
+    return respan
 
 
 @contextmanager
@@ -80,6 +115,7 @@ def example_attributes(example_name: str):
             "integration": "openai",
             "example": example_name,
             "example_run_id": marker,
+            "run_id": marker,
             "workflow_name": current_workflow,
         },
     ):
@@ -377,29 +413,63 @@ def _chat_stream_response(body: dict[str, Any]) -> httpx2.Response:
 def _responses_stream_response(body: dict[str, Any]) -> httpx2.Response:
     final_response = _responses_response(body)
     final_response["output"] = [_response_message("Streaming Responses output.")]
+    message = final_response["output"][0]
+    part = message["content"][0]
     events = [
         {
+            "type": "response.created",
+            "response": {
+                **final_response,
+                "status": "in_progress",
+                "output": [],
+                "usage": None,
+            },
+        },
+        {
+            "type": "response.output_item.added",
+            "output_index": 0,
+            "item": {**message, "status": "in_progress", "content": []},
+        },
+        {
+            "type": "response.content_part.added",
+            "item_id": message["id"],
+            "output_index": 0,
+            "content_index": 0,
+            "part": {**part, "text": ""},
+        },
+        {
             "type": "response.output_text.delta",
-            "sequence_number": 0,
-            "item_id": "msg_deterministic",
+            "item_id": message["id"],
             "output_index": 0,
             "content_index": 0,
             "delta": "Streaming ",
         },
         {
             "type": "response.output_text.delta",
-            "sequence_number": 1,
-            "item_id": "msg_deterministic",
+            "item_id": message["id"],
             "output_index": 0,
             "content_index": 0,
             "delta": "Responses output.",
         },
         {
-            "type": "response.completed",
-            "sequence_number": 2,
-            "response": final_response,
+            "type": "response.output_text.done",
+            "item_id": message["id"],
+            "output_index": 0,
+            "content_index": 0,
+            "text": part["text"],
         },
+        {
+            "type": "response.content_part.done",
+            "item_id": message["id"],
+            "output_index": 0,
+            "content_index": 0,
+            "part": part,
+        },
+        {"type": "response.output_item.done", "output_index": 0, "item": message},
+        {"type": "response.completed", "response": final_response},
     ]
+    for sequence_number, event in enumerate(events):
+        event["sequence_number"] = sequence_number
     payload = "".join(
         f"event: {event['type']}\ndata: {json.dumps(event)}\n\n" for event in events
     )

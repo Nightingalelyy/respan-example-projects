@@ -11,7 +11,7 @@ PUBLIC_EXAMPLES = {
     path.name
     for path in EXAMPLE_DIR.glob("*.py")
     if not path.name.startswith("_")
-    and path.name not in {"run_all.py", "test_example_contract.py"}
+    and path.name not in {"run_all.py", "test_example_contract.py", "live_provider.py"}
 }
 CLIENT_EXAMPLES = {
     path.name
@@ -46,7 +46,7 @@ def test_run_all_lists_every_public_example_once() -> None:
         )
     )
     listed = ast.literal_eval(assignment.value)
-    assert len(listed) == 18
+    assert len(listed) == 20
     assert len(set(listed)) == len(listed)
     assert set(listed) == PUBLIC_EXAMPLES
 
@@ -80,7 +80,7 @@ def test_client_examples_always_close_before_respan_shutdown() -> None:
     for script_name in CLIENT_EXAMPLES:
         module = ast.parse((EXAMPLE_DIR / script_name).read_text())
         scope = module.body
-        if script_name == "async_parallel.py":
+        if script_name in {"async_parallel.py", "async_stream_helpers.py"}:
             main = next(
                 node
                 for node in module.body
@@ -144,3 +144,4 @@ def test_run_all_disables_child_bytecode_caches(monkeypatch) -> None:
     monkeypatch.setattr(runner.subprocess, "run", fake_run)
     assert runner.main() == 0
     assert captured_environment["PYTHONDONTWRITEBYTECODE"] == "1"
+    assert captured_environment["RESPAN_OPENAI_LIVE"] == "0"
