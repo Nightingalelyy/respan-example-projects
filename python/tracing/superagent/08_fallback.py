@@ -1,4 +1,4 @@
-"""Released Superagent SDK scenario: guard."""
+"""Released Superagent SDK scenario: fallback."""
 
 import asyncio
 from pathlib import Path
@@ -10,16 +10,15 @@ SCRIPT_NAME = Path(__file__).name
 
 
 @workflow(name=SCRIPT_NAME)
-async def run_guard(text: str):
-    with client_context() as client:
+async def run_fallback(text: str):
+    with client_context(retry=True) as client:
         result = await client.guard(
             input=text,
-            model="openai/gpt-4o-mini",
-            chunk_size=6,
-            system_prompt="fixture guard instructions",
+            model="openai/fixture-primary",
+            fallback_model="openai/gpt-4o-mini",
         )
-    assert result.classification == "block" and result.usage.prompt_tokens == 0
-    return {"classification": result.classification, "usage": vars(result.usage)}
+    assert result.classification == "pass"
+    return {"classification": result.classification}
 
 
 async def main():
@@ -35,7 +34,7 @@ async def main():
                 "example": SCRIPT_NAME,
             },
         ):
-            result = await run_guard("safe block safe")
+            result = await run_fallback("safe")
             print(result)
     finally:
         finish_respan(respan)

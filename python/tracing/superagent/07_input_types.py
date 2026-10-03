@@ -1,4 +1,4 @@
-"""Released Superagent SDK scenario: guard."""
+"""Released Superagent SDK scenario: input_types."""
 
 import asyncio
 from pathlib import Path
@@ -10,16 +10,14 @@ SCRIPT_NAME = Path(__file__).name
 
 
 @workflow(name=SCRIPT_NAME)
-async def run_guard(text: str):
+async def run_input_types(url: str):
     with client_context() as client:
-        result = await client.guard(
-            input=text,
-            model="openai/gpt-4o-mini",
-            chunk_size=6,
-            system_prompt="fixture guard instructions",
+        image = await client.guard(
+            input=b"\x89PNG\r\n\x1a\nfixture image", model="openai/gpt-4o-mini"
         )
-    assert result.classification == "block" and result.usage.prompt_tokens == 0
-    return {"classification": result.classification, "usage": vars(result.usage)}
+        remote = await client.guard(input=url, model="openai/gpt-4o-mini")
+    assert image.classification == remote.classification == "pass"
+    return {"bytes": "pass", "url": "pass"}
 
 
 async def main():
@@ -35,7 +33,7 @@ async def main():
                 "example": SCRIPT_NAME,
             },
         ):
-            result = await run_guard("safe block safe")
+            result = await run_input_types("https://example.com/fixture.txt")
             print(result)
     finally:
         finish_respan(respan)
