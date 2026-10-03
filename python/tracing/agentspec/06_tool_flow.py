@@ -40,8 +40,8 @@ async def main():
             asynchronous = await graph().ainvoke(
                 {"inputs": {"left": 5.0, "right": 2.0}}
             )
-            assert sync and asynchronous
-            assert "3.0" in str(sync) and "3.0" in str(asynchronous)
+            assert sync["outputs"] == {"difference": 3.0}
+            assert asynchronous["outputs"] == {"difference": 3.0}
             print({"sync_result": sync, "async_result": asynchronous})
         finally:
             respan.shutdown()
