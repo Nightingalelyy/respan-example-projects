@@ -20,6 +20,11 @@ def main():
                 assert error.code == 503
             else:
                 raise AssertionError("expected native Google error")
+            blocked = generate("blocked")
+            assert (
+                not blocked.candidates
+                and blocked._raw_response.prompt_feedback.block_reason
+            )
         print("expected-error: native ServiceUnavailable preserved")
     finally:
         native.close()
