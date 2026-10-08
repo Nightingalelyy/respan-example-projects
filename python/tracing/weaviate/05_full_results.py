@@ -17,6 +17,7 @@ def scenario():
             result.objects[0].properties["flag"] is False
             and result.objects[0].properties["zero"] == 0
         )
+        assert str(result.objects[0].uuid) == "00000000-0000-0000-0000-000000000000"
         return {"rows": 75, "dimensions": 5001, "native_type": type(result).__name__}
 
 
