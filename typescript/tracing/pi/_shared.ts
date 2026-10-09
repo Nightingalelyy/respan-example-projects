@@ -5,6 +5,7 @@ import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import { AsyncLocalStorageContextManager } from "@opentelemetry/context-async-hooks";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { PiInstrumentor } from "@respan/instrumentation-pi";
+import { transformReadableSpanBatch } from "@respan/tracing";
 import { nativeFixture } from "./_fixture.mjs";
 
 export { assert, context, trace, nativeFixture, PiInstrumentor };
@@ -73,6 +74,16 @@ export async function scenario(
 export const byType = (spans: any[], kind: string) =>
   spans.filter((span) => span.attributes["respan.entity.log_type"] === kind);
 export async function finish() {
+  const exported = transformReadableSpanBatch(captured, "semantic");
+  assert.equal(exported.length, captured.length);
+  for (const span of exported) {
+    assert.ok(
+      !Object.keys(span.attributes).some((key) =>
+        key.startsWith("respan.internal."),
+      ),
+      "Internal SDK hints must not cross the wire",
+    );
+  }
   if (process.env.RESPAN_EXAMPLE_EXPORT === "1") {
     const base = (process.env.RESPAN_BASE_URL ?? "https://api.respan.ai")
       .replace(/\/+$/, "")
@@ -85,7 +96,7 @@ export async function finish() {
       timeoutMillis: 60000,
     });
     await new Promise<void>((resolve, reject) =>
-      exporter.export(captured, (result) =>
+      exporter.export(exported, (result) =>
         result.code === 0
           ? resolve()
           : reject(result.error ?? new Error("Trace export failed")),

@@ -25,3 +25,5 @@ The checked-in lock uses `install-links=true` so npm copies the built target pac
 `run_all.ts` runs every entry point. The live case is skipped unless `RESPAN_PI_LIVE=1`, `OPENAI_API_KEY` and `PI_CHAT_MODEL` are set. The model must exist in Pi's official catalog.
 
 Local checks emit no external traces. To export controlled traces, set `RESPAN_EXAMPLE_EXPORT=1`, `RESPAN_API_KEY`, `RESPAN_BASE_URL` and an exact `RESPAN_EXAMPLE_RUN_ID`. The SDK normalizes a trailing `/api` before appending `/api/v2/traces`. `RESPAN_EXAMPLE_TRACE_URL` can point to an OTLP collector. Inspect stored spans by the exact run marker and exported trace/span IDs; a successful export alone does not prove stored-body fidelity.
+
+Before OTLP export, these examples apply the released Respan tracing package's public `transformReadableSpanBatch` helper in semantic mode. It assigns the shared display names and removes internal naming hints. The capture processor, sampling decisions, and native span/parent IDs remain unchanged. The examples pin tracing 1.6.1, which exports this helper from its public entrypoint.
