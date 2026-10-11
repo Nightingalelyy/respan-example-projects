@@ -2,6 +2,12 @@ import * as genai from "@google/genai";
 import * as legacy from "@google-cloud/vertexai";
 import { VertexAIInstrumentor } from "@respan/instrumentation-vertexai";
 import { setup, actualTool, assert, live } from "./_runtime.js";
+function requireLiveProject(): string {
+  const project = process.env.GOOGLE_CLOUD_PROJECT;
+  if (!project)
+    throw new Error("Live Vertex examples require GOOGLE_CLOUD_PROJECT.");
+  return project;
+}
 const authClient = {
   async getAccessToken() {
     return { token: "fixture-only" };
@@ -122,7 +128,7 @@ export async function runExample(scenario: number) {
     live
       ? {
           vertexai: true,
-          project: process.env.GOOGLE_CLOUD_PROJECT,
+          project: requireLiveProject(),
           location: process.env.GOOGLE_CLOUD_LOCATION ?? "us-central1",
         }
       : {
@@ -295,7 +301,7 @@ export async function runExample(scenario: number) {
         const vertex = new legacy.VertexAI(
           live
             ? {
-                project: process.env.GOOGLE_CLOUD_PROJECT,
+                project: requireLiveProject(),
                 location: process.env.GOOGLE_CLOUD_LOCATION ?? "us-central1",
               }
             : {
